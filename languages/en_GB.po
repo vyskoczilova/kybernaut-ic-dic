@@ -1,0 +1,105 @@
+# Translation of Development (trunk) in English (UK)
+# This file is distributed under the same license as the Development (trunk) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Development (trunk)\n"
+"POT-Creation-Date: 2016-09-04 18:45+0200\n"
+"PO-Revision-Date: 2016-09-04 18:46+0200\n"
+"Last-Translator: Karolína Vyskočilová <karolina@kybernaut.cz>\n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: includes/filters-actions.php:12 includes/filters-actions.php:81
+#: includes/filters-actions.php:94
+msgid "IČO"
+msgstr "BI"
+
+#: includes/filters-actions.php:13
+msgctxt "placeholder"
+msgid "IČO"
+msgstr "BI"
+
+#: includes/filters-actions.php:20 includes/filters-actions.php:85
+#: includes/filters-actions.php:98
+msgid "DIČ"
+msgstr "VAT No."
+
+#: includes/filters-actions.php:21
+msgctxt "placeholder"
+msgid "DIČ"
+msgstr "VAT No."
+
+#: includes/filters-actions.php:37
+msgid "Zadejte platnou hodnotu IČO."
+msgstr "Enter a valid Czech Company number."
+
+#: includes/filters-actions.php:42
+msgid "Zadejte platnou hodnotu DIČ."
+msgstr "Enter a valid Czech VAT number."
+
+#: includes/filters-actions.php:64 includes/filters-actions.php:66
+msgid "IČO: "
+msgstr "BI:"
+
+#: includes/filters-actions.php:65 includes/filters-actions.php:67
+msgid "DIČ: "
+msgstr "VAT No."
+
+#: woolab-ic-dic.php:38
+msgid "Woolab IČ DIČ"
+msgstr "WooLab Czech Company & VAT number"
+
+#: woolab-ic-dic.php:39
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: woolab-ic-dic.php:42
+#, php-format
+msgid ""
+"%1$s vyžaduje %2$s, aby mohl fungovat. Prosím aktivujte %2$s předtím, než "
+"aktivujete %1$s. Tento plugin byl prozatím deaktivován."
+msgstr ""
+"%1$s requires %2$s to function. Please activate '%2$s before you activate"
+"%1$s. This plugin has been deactivated."
+
+#. Plugin Name of the plugin/theme
+msgid "Kybernaut IC DIC"
+msgstr "Kybernaut IC DIC"
+
+#. Plugin URI of the plugin/theme
+msgid "http://kybernaut.cz/pluginy/kybernaut-ic-dic"
+msgstr "http://kybernaut.cz/pluginy/kybernaut-ic-dic"
+
+#. Description of the plugin/theme
+msgid ""
+"Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou "
+"ověří, jestli jsou zadané hodnoty skutečné."
+msgstr ""
+"Adds Czech IČO - Company number, DIČ - VAT number and validates their "
+"value."
+
+#. Author of the plugin/theme
+msgid "Karolína Vyskočilová"
+msgstr "Karolina Vyskocilova"
+
+#. Author URI of the plugin/theme
+msgid "http://www.kybernaut.cz"
+msgstr "http://www.kybernaut.cz"
+
+#~ msgid "WooLab IC DIC"
+#~ msgstr "WooLab Czech Company & VAT number"
+
+#~ msgctxt "placeholder"
+#~ msgid "IČ"
+#~ msgstr "BI"
+
+#~ msgid "IČ: "
+#~ msgstr "BI:"
+
+#~ msgid "http://woolab.cz/woolab-ic-dic"
+#~ msgstr "http://woolab.cz/woolab-ic-dic"
