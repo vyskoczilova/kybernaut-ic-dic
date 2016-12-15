@@ -1,5 +1,6 @@
 # Kybernaut IC DIC (WordPress plugin)
 Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou ověří, jestli jsou zadané hodnoty skutečné.
+Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Description
 = CZ =
