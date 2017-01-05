@@ -5,6 +5,14 @@ function  woolab_icdic_load_plugin_textdomain() {
     load_plugin_textdomain( 'woolab-ic-dic', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
+// add plugin links
+public function woolab_icdic_plugin_action_links( $links ) {
+	$settings_link = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'aryo-activity-log' ) );
+	array_unshift( $links, $settings_link );
+
+	return $links;
+}
+
 // add checkout fields
 function woolab_icdic_checkout_fields( $fields ) {
 	
