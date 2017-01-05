@@ -39,6 +39,10 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Changelog
 
+= future update =
+* přidán odkaz na GitHub ve výpisech pluginů
+* added plugin link to GitHub
+
 = 1.0.2 (2016-12-15) =
 * Vytvořen repozitář GIT
 * Created the GIT repository
