@@ -61,7 +61,8 @@ function woolab_icdic_init() {
 		add_filter( 'woocommerce_formatted_address_replacements', 'woolab_icdic_formatted_address_replacements', 10, 2 );
 		add_filter( 'woocommerce_order_formatted_billing_address', 'woolab_icdic_order_formatted_billing_address', 10, 2 );
 		add_filter( 'woocommerce_customer_meta_fields', 'woolab_icdic_customer_meta_fields' );
-		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );		
+		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );
+		add_filter( 'plugin_action_links_woolab_ic_dic', 'woolab_icdic_plugin_action_links' );
 		
 	}
 }
