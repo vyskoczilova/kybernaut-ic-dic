@@ -54,8 +54,9 @@ function woolab_icdic_init() {
 		require_once('includes/filters-actions.php');
 		
 		add_action( 'plugins_loaded', 'woolab_icdic_load_plugin_textdomain' );
+		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
-		add_action('woocommerce_checkout_process', 'woolab_icdic_checkout_field_process', 10, 2);	
+		add_action( 'woocommerce_checkout_process', 'woolab_icdic_checkout_field_process', 10, 2);	
 		add_filter( 'woocommerce_my_account_my_address_formatted_address', 'woolab_icdic_my_address_formatted_address', 10, 3 );
 		add_filter( 'woocommerce_localisation_address_formats', 'woolab_icdic_localisation_address_formats' );		
 		add_filter( 'woocommerce_formatted_address_replacements', 'woolab_icdic_formatted_address_replacements', 10, 2 );

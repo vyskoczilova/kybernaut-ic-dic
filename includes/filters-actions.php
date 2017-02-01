@@ -6,8 +6,8 @@ function  woolab_icdic_load_plugin_textdomain() {
 }
 
 // add plugin links
-public function woolab_icdic_plugin_action_links( $links ) {
-	$settings_link = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'aryo-activity-log' ) );
+function woolab_icdic_plugin_action_links( $links ) {
+	$settings_link = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'woolab-ic-dic' ) );
 	array_unshift( $links, $settings_link );
 
 	return $links;
@@ -17,16 +17,16 @@ public function woolab_icdic_plugin_action_links( $links ) {
 function woolab_icdic_checkout_fields( $fields ) {
 	
 	 $fields['billing']['billing_ic'] = array(
-		'label'     => __('IČO', 'woocommerce'),
-		'placeholder'   => _x('IČO', 'placeholder', 'woocommerce'),
+		'label'     => __('IČO', 'woolab-ic-dic'),
+		'placeholder'   => _x('IČO', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
 		'class'     => array('form-row-wide'),
 		'clear'     => true
 	 );
  
 	 $fields['billing']['billing_dic'] = array(
-		'label'     => __('DIČ', 'woocommerce'),
-		'placeholder'   => _x('DIČ', 'placeholder', 'woocommerce'),
+		'label'     => __('DIČ', 'woolab-ic-dic'),
+		'placeholder'   => _x('DIČ', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
 		'class'     => array('form-row-wide'),
 		'clear'     => true
@@ -34,7 +34,28 @@ function woolab_icdic_checkout_fields( $fields ) {
 
 	return $fields;
 
-}		 
+}
+
+function woolab_icdic_billing_fields( $fields, $country ) {
+		
+		 $fields['billing_ic'] = array(
+			'label'     => __('IČO', 'woolab-ic-dic'),
+			'placeholder'   => _x('IČO', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => array('form-row-wide'),
+			'clear'     => true
+		);
+	
+		$fields['billing_dic'] = array(
+			'label'     => __('DIČ', 'woolab-ic-dic'),
+			'placeholder'   => _x('DIČ', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => array('form-row-wide'),
+			'clear'     => true
+		);
+		
+		return $fields;
+	}		 
 			
 // check field on checkout
 function woolab_icdic_checkout_field_process() {
@@ -61,6 +82,7 @@ function woolab_icdic_my_address_formatted_address( $fields, $customer_id, $name
 		'billing_dic' => get_user_meta( $customer_id, $name . '_dic', true )
 	);
 }
+
 function woolab_icdic_localisation_address_formats($address_formats) {
 	$address_formats['CZ'] .= "\n{billing_ic}\n{billing_dic}";		
 	return $address_formats;
