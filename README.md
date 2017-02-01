@@ -47,7 +47,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * EN - Fix display fields in My Acoount frontend page.
 * EN - Add support for WooCommerce PDF Invoices & Packing Slips.
 
-= 1.0.2 (2016-12-15) =
+= 1.0.21 (2016-12-15) =
 * Vytvořen repozitář GIT
 * Created the GIT repository
 
