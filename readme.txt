@@ -56,7 +56,7 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 = 1.0.3 (2017-02-1) =
 * CZ - Opraveno zobrazování polí v "Můj účet" (frontendová editace účtu zákazníkem).
 * CZ - Podpora pro WooCommerce PDF Invoices & Packing Slips.
-* EN - Fix display fields in My Acoount frontend page.
+* EN - Fix display fields in My Account frontend page.
 * EN - Add support for WooCommerce PDF Invoices & Packing Slips.
 
 = 1.0.2.1 (2016-12-15) =
