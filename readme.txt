@@ -59,7 +59,7 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 * EN - Fix display fields in My Acoount frontend page.
 * EN - Add support for WooCommerce PDF Invoices & Packing Slips.
 
-= 1.0.21 (2016-12-15) =
+= 1.0.2.1 (2016-12-15) =
 * CZ - Vytvořen repozitář GIT
 * EN - Created the GIT repository
 
