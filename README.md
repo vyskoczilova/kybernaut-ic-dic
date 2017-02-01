@@ -10,6 +10,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 * přidává **políčka pro IČO a DIČ** do fakturační adresy WooCommerce
 * pokud je IČO anebo DIČ zadáno a je fakturováno do ČR, tak **ověří jejich správnost** (algoritmem)
+* **kompatibilita s pluginem [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
 * **kompatibilita s pluginy Vladislava Musílka (Toret)** - Woo Doprava, Woo GoPay apod.
 * možnost editace IČO a DIČ i z administrace:
   * `Uživatelé -> Jan Novák (Upravit) -> Fakturační adresa zákazníka`
@@ -19,6 +20,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 * adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
 * **validates its value** if added and billing country is set to CZ
+* **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
 * **compatible with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
 * support for editing IČO, DIČ in the administration (backend): 
   * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
@@ -39,13 +41,15 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Changelog
 
-= future update =
-* přidán odkaz na GitHub ve výpisech pluginů
-* added plugin link to GitHub
+= 1.0.3 (2017-02-1) =
+* CZ - Opraveno zobrazování polí v "Můj účet" (frontendová editace účtu zákazníkem).
+* CZ - Podpora pro WooCommerce PDF Invoices & Packing Slips.
+* EN - Fix display fields in My Account frontend page.
+* EN - Add support for WooCommerce PDF Invoices & Packing Slips.
 
-= 1.0.2 (2016-12-15) =
-* Vytvořen repozitář GIT
-* Created the GIT repository
+= 1.0.2.1 (2016-12-15) =
+* CZ - Vytvořen repozitář GIT
+* EN - Created the GIT repository
 
 = 1.0.2 (2016-09-05) =
 * CZ - Opraveno "IČ" na "IČO.
