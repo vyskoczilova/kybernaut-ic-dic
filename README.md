@@ -8,20 +8,24 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 ## Description
 = CZ =
 
+* podpora WooCommerce 3.0
 * přidává **políčka pro IČO a DIČ** do fakturační adresy WooCommerce
 * pokud je IČO anebo DIČ zadáno a je fakturováno do ČR, tak **ověří jejich správnost** (algoritmem)
 * **kompatibilita s pluginem [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
 * **kompatibilita s pluginy Vladislava Musílka (Toret)** - Woo Doprava, Woo GoPay apod.
+* přístup k editaci IČO a DIČ v rámci frontendu "Můj účet"
 * možnost editace IČO a DIČ i z administrace:
   * `Uživatelé -> Jan Novák (Upravit) -> Fakturační adresa zákazníka`
   * `E-shop-WooCommerce -> Objednávky -> Objednávka (zobrazit(upravit)) -> Fakturační údaje (editace)`
 
 = EN =
 
+* supports WooCommerce 3.0
 * adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
 * **validates its value** if added and billing country is set to CZ
 * **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
 * **compatible with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
+* possible edit of IČO and DIČ at "My Account" page.
 * support for editing IČO, DIČ in the administration (backend): 
   * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
@@ -40,6 +44,10 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 1. Done!
 
 ## Changelog
+
+= 1.1.0 = (2017-04-05) =
+* CZ - Opraveno "Order properties should not be accessed directly." Podpora WooCommerce 3.0.
+* EN - Fixed "Order properties should not be accessed directly." Added support for WooCommerce 3.0.
 
 = 1.0.3 (2017-02-1) =
 * CZ - Opraveno zobrazování polí v "Můj účet" (frontendová editace účtu zákazníkem).

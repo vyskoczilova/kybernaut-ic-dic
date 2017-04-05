@@ -3,7 +3,7 @@
  * Plugin Name:       Kybernaut IC DIC
  * Plugin URI:		  http://kybernaut.cz/pluginy/kybernaut-ic-dic
  * Description:       Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou ověří, jestli jsou zadané hodnoty skutečné.
- * Version:           1.0.3
+ * Version:           1.1.0
  * Author:            Karolína Vyskočilová
  * Author URI:        http://www.kybernaut.cz
  * Text Domain:       woolab-ic-dic
@@ -11,8 +11,6 @@
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Domain Path:       /languages
  */
-
-
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -64,7 +62,8 @@ function woolab_icdic_init() {
 		add_filter( 'woocommerce_customer_meta_fields', 'woolab_icdic_customer_meta_fields' );
 		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );
 		add_filter( 'plugin_action_links_woolab_ic_dic', 'woolab_icdic_plugin_action_links' );
-		
+		//add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_checkout_fields' , 10, 2 );?
+
 	}
 }
 add_action( 'plugins_loaded', 'woolab_icdic_init' );    

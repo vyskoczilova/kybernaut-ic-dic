@@ -99,9 +99,19 @@ function woolab_icdic_formatted_address_replacements( $replace, $args) {
 }
 
 function woolab_icdic_order_formatted_billing_address($address, $order) {
-	return $address += array(
+	
+	if ( version_compare( WC_VERSION, '2.7', '<' )) { 
+		return $address += array(
 				'billing_ic'	=> $order->billing_ic,
-				'billing_dic'	=> $order->billing_dic);
+				'billing_dic'	=> $order->billing_dic
+				);
+	} else { 
+		return $address += array(
+				'billing_ic'	=> $order->get_meta('_billing_ic'),
+				'billing_dic'	=> $order->get_meta('_billing_dic')
+				);
+	} 
+
 }
 
 // admin
@@ -130,3 +140,23 @@ function woolab_icdic_admin_billing_fields ($fields) {
 		) );
 			
 }
+
+// TO DO
+// Fix edit fields in admin
+// https://www.jnorton.co.uk/woocommerce-custom-fields
+// Support for < 2.7
+/* add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_custom_fields_to_admin_order', 10, 1 );
+function woolab_icdic_custom_fields_to_admin_order($customer_data){
+	$user_id = $_POST['user_id'];
+	$customer_data['billing_ic'] = get_user_meta( $user_id, 'billing_ic', true );
+	$customer_data['billing_dic'] = get_user_meta( $user_id, 'billing_dic', true );
+	return $customer_data;
+}
+// Doesnt work for 3.0
+//apply_filters( 'woocommerce_ajax_get_customer_details', $data, $customer, $user_id );
+add_filter( 'woocommerce_ajax_get_customer_details', 'woolab_icdic_ajax_get_customer_details', 10, 3 );
+function woolab_icdic_ajax_get_customer_details($data, $customer, $user_id){
+	$data['billing_ic'] = get_user_meta( $user_id, '_billing_ic', true );
+	$data['billing_dic'] = get_user_meta( $user_id, '_billing_ic', true );
+	return $data;
+}*/
