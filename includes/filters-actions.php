@@ -105,14 +105,14 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 	
 	if ( version_compare( WC_VERSION, '2.7', '<' )) { 
 		return $address += array(
-				'billing_ic'	=> $order->billing_ic,
-				'billing_dic'	=> $order->billing_dic
-				);
+			'billing_ic'	=> $order->billing_ic,
+			'billing_dic'	=> $order->billing_dic
+			);
 	} else { 
 		return $address += array(
-				'billing_ic'	=> $order->get_meta('_billing_ic'),
-				'billing_dic'	=> $order->get_meta('_billing_dic')
-				);
+			'billing_ic'	=> $order->get_meta('_billing_ic'),
+			'billing_dic'	=> $order->get_meta('_billing_dic')
+			);
 	} 
 
 }
