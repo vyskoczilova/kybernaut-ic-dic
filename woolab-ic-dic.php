@@ -48,11 +48,15 @@ function woolab_icdic_init() {
 		
 	} else {
 			
+		$basename = plugin_basename( __FILE__ );
+		$prefix = is_network_admin() ? 'network_admin_' : '';
+
 		// load additional sources
 		require_once('includes/helpers.php');
 		require_once('includes/filters-actions.php');
 		
 		add_action( 'plugins_loaded', 'woolab_icdic_load_plugin_textdomain' );
+		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
 		add_action( 'woocommerce_checkout_process', 'woolab_icdic_checkout_field_process', 10, 2);	
@@ -63,15 +67,8 @@ function woolab_icdic_init() {
 		add_filter( 'woocommerce_customer_meta_fields', 'woolab_icdic_customer_meta_fields' );
 		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );		
 		//add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_checkout_fields' , 10, 2 );?
-
-		$basename = plugin_basename( __FILE__ );
-		$prefix = is_network_admin() ? 'network_admin_' : '';
-		add_filter( 
-			"{$prefix}plugin_action_links_$basename", 
-			'woolab_icdic_plugin_action_links', 
-			10,
-			4 
-		);		
+		
+		add_filter( "{$prefix}plugin_action_links_$basename", 'woolab_icdic_plugin_action_links', 10, 4 );		
 
 	}
 }
