@@ -2,14 +2,15 @@
 /**
  * Plugin Name:       Kybernaut IC DIC
  * Plugin URI:		  http://kybernaut.cz/pluginy/kybernaut-ic-dic
- * Description:       Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou ověří, jestli jsou zadané hodnoty skutečné.
- * Version:           1.1.0
+ * Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
+ * Version:           1.1.1alpha
  * Author:            Karolína Vyskočilová
  * Author URI:        http://www.kybernaut.cz
  * Text Domain:       woolab-ic-dic
  * License:           GPLv3
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Domain Path:       /languages
+ * Donate link: 	  https://paypal.me/KarolinaVyskocilova/
  */
 
 // If this file is called directly, abort.
@@ -33,11 +34,11 @@ function woolab_icdic_init() {
 		
 		// Throw an Alert to tell the Admin why it didn't activate
 		function woolab_icdic_plugin_admin_notice() {
-			$dpa_child_plugin = __( 'Woolab IČ DIČ', 'woolab-ic-dic' );
+			$dpa_child_plugin = __( 'Kybernaut IČ DIČ', 'woolab-ic-dic' );
             $dpa_parent_plugin = __( 'WooCommerce', 'woolab-ic-dic' );
             		
-            		echo '<div class="error"><p>'
-                		. sprintf( __( '%1$s vyžaduje %2$s, aby mohl fungovat. Prosím aktivujte %2$s předtím, než aktivujete %1$s. Tento plugin byl prozatím deaktivován.', 'woolab-ic-dic' ), '<strong>' . esc_html( $dpa_child_plugin ) . '</strong>', '<strong>' . esc_html( $dpa_parent_plugin ) . '</strong>' )
+            		echo '<div class="error"><p>'					
+                		. sprintf( __( '%1$s requires %2$s to function. Please activate %2$s before you activate %1$s. This plugin has been deactivated.', 'woolab-ic-dic' ), '<strong>' . esc_html( $dpa_child_plugin ) . '</strong>', '<strong>' . esc_html( $dpa_parent_plugin ) . '</strong>' )
                 		. '</p></div>';
                 
 		   if ( isset( $_GET['activate'] ) ) {
@@ -60,9 +61,17 @@ function woolab_icdic_init() {
 		add_filter( 'woocommerce_formatted_address_replacements', 'woolab_icdic_formatted_address_replacements', 10, 2 );
 		add_filter( 'woocommerce_order_formatted_billing_address', 'woolab_icdic_order_formatted_billing_address', 10, 2 );
 		add_filter( 'woocommerce_customer_meta_fields', 'woolab_icdic_customer_meta_fields' );
-		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );
-		add_filter( 'plugin_action_links_woolab_ic_dic', 'woolab_icdic_plugin_action_links' );
+		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );		
 		//add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_checkout_fields' , 10, 2 );?
+
+		$basename = plugin_basename( __FILE__ );
+		$prefix = is_network_admin() ? 'network_admin_' : '';
+		add_filter( 
+			"{$prefix}plugin_action_links_$basename", 
+			'woolab_icdic_plugin_action_links', 
+			10,
+			4 
+		);		
 
 	}
 }

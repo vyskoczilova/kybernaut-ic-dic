@@ -7,24 +7,10 @@ Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou ověří, jestli jsou zadané hodnoty skutečné.
+Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
+
 
 == Description ==
-= CZ =
-
-* podpora WooCommerce 3.0
-* přidává **políčka pro IČO a DIČ** do fakturační adresy WooCommerce
-* pokud je IČO anebo DIČ zadáno a je fakturováno do ČR, tak **ověří jejich správnost** (algoritmem)
-* **kompatibilita s pluginem [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
-* **kompatibilita s pluginy Vladislava Musílka (Toret)** - Woo Doprava, Woo GoPay apod.
-* přístup k editaci IČO a DIČ v rámci frontendu "Můj účet"
-* možnost editace IČO a DIČ i z administrace:
-  * `Uživatelé -> Jan Novák (Upravit) -> Fakturační adresa zákazníka`
-  * `E-shop-WooCommerce -> Objednávky -> Objednávka (zobrazit(upravit)) -> Fakturační údaje (editace)`
-
-Pokud mi chcete pomoci, přidejte se na [GitHubu](https://github.com/vyskoczilova/kybernaut-ic-dic).
-
-= EN =
 
 * supports WooCommerce 3.0
 * adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
@@ -38,47 +24,67 @@ Pokud mi chcete pomoci, přidejte se na [GitHubu](https://github.com/vyskoczilov
 
 If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut-ic-dic).
 
-== Installation ==
-= CZ =
-1. Stáhněte si poslední verzi a rozbalte ji do adresáře /wp-content/plugins/, nebo plugin nainstalujte přes menu Pluginy -> Instalace pluginů v administraci.
-1. Ověřte, že máte nainstalované a aktivované WooCommerce
-1. Aktivujte plugin přes menu Pluginy v administraci WordPressu.
-1. Hotovo!
 
-= EN =
+== Installation ==
+
+Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
+
 1. Upload the plugin to your web site or install via plugin management.
 1. Check whether the WooCommerce plugin is installed and active.
 1. Activate the plugin through the \'Plugins\' menu in WordPress administration
 1. Done!
 
+
+== Frequently asked questions ==
+
+= I want to use the latest files. How can I do this? =
+
+Use the GitHub Repo rather than the WordPress Plugin. Do as follows:
+
+1. If you haven't already done: [Install git](https://help.github.com/articles/set-up-git)
+
+2. in the console cd into Your 'wp-content/plugins´ directory
+
+3. type `git clone https://github.com/vyskoczilova/kybernaut-ic-dic` or better type `git fork https://github.com/vyskoczilova/kybernaut-ic-dic`
+
+4. If you want to update to the latest files (be careful, might be untested on Your WP-Version) type `git pull´.
+
+= I found a bug. Where should I post it? =
+
+I personally prefer GitHub, to keep things straight. The plugin code is here: [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic)
+But you may use the WordPress Forum as well.
+
+= I found a bug and fixed it. How can I contribute? =
+
+Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or—if you are working on a cloned repository—send me a pull request.
+
+
 == Screenshots ==
 
 1. Checkout validation of ICO.
 
+
+
 == Changelog ==
 
+= Unreleased =
+* texts in plugin only in English (Czech as a translation)
+
 = 1.1.0 = (2017-04-05) =
-* CZ - Opraveno "Order properties should not be accessed directly." Podpora WooCommerce 3.0.
-* EN - Fixed "Order properties should not be accessed directly." Added support for WooCommerce 3.0.
+* Fix: "Order properties should not be accessed directly." Added support for WooCommerce 3.0.
 
 = 1.0.3 (2017-02-1) =
-* CZ - Opraveno zobrazování polí v "Můj účet" (frontendová editace účtu zákazníkem).
-* CZ - Podpora pro WooCommerce PDF Invoices & Packing Slips.
-* EN - Fix display fields in My Account frontend page.
-* EN - Add support for WooCommerce PDF Invoices & Packing Slips.
+* Fix: display fields in My Account frontend page.
+* Add: support for WooCommerce PDF Invoices & Packing Slips.
 
 = 1.0.2.1 (2016-12-15) =
-* CZ - Vytvořen repozitář GIT
-* EN - Created the GIT repository
+* Feature: Created the GIT repository
 
 = 1.0.2 (2016-09-05) =
-* CZ - Opraveno "IČ" na "IČO.
-* EN - Fixed the term "IČ" to "IČO".
+* Fix: the term "IČ" to "IČO".
 
 = 1.0.1 (2016-07-18) =
-* CZ - Ověří fakturační zemi a validuje IČO a DIČ pouze, když je nastaveno CZ
-* EN - Checks billing country and validates IC & DIC if is set to CZ
+* Feature: Checks billing country and validates IC & DIC if is set to CZ
 
 = 1.0.0 (2016-07-16) =
-* CZ - První vydání
-* EN - Initial version
+* Initial release

@@ -6,11 +6,14 @@ function  woolab_icdic_load_plugin_textdomain() {
 }
 
 // add plugin links
-function woolab_icdic_plugin_action_links( $links ) {
-	$settings_link = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'woolab-ic-dic' ) );
-	array_unshift( $links, $settings_link );
+function woolab_icdic_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
-	return $links;
+	$custom_actions = array(
+		'github'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'woolab-ic-dic' ) ),
+		'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woolab-ic-dic', __( 'Write a Review', 'woolab-ic-dic' ) ),
+	);
+	return array_merge( $custom_actions, $actions );
+
 }
 
 // add checkout fields
