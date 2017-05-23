@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 // load locale
 function  woolab_icdic_load_plugin_textdomain() {
     load_plugin_textdomain( 'woolab-ic-dic', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
@@ -66,7 +71,7 @@ function woolab_icdic_checkout_field_process() {
 		if ( $_POST['billing_country'] == "CZ" ) {
 			if ( $_POST['billing_ic'] ) {		
 				if ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {		
-					wc_add_notice( __( '"Enter a valid Company number (BI)', 'woolab-ic-dic'  ), 'error' );
+					wc_add_notice( __( 'Enter a valid Company number (BI)', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
 			if ( $_POST['billing_dic'] ) {						

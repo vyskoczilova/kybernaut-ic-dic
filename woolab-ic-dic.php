@@ -18,6 +18,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Localize
+add_action( 'init', 'woolab_icdic_load_plugin_textdomain' );
+
 // Check if WooCommerce active
 function woolab_icdic_init() {
 	
@@ -54,8 +57,6 @@ function woolab_icdic_init() {
 		// load additional sources
 		require_once('includes/helpers.php');
 		require_once('includes/filters-actions.php');
-		
-		add_action( 'plugins_loaded', 'woolab_icdic_load_plugin_textdomain' );
 		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
