@@ -18,14 +18,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Localize
-add_action( 'plugins_loaded', 'woolab_icdic_load_plugin_textdomain' );
-function woolab_icdic_load_plugin_textdomain() {
-    load_plugin_textdomain( 'woolab-ic-dic', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-}
-
 // Check if WooCommerce active
 function woolab_icdic_init() {
+
+	// Localize
+	load_plugin_textdomain( 'woolab-ic-dic', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 	
 	// If Parent Plugin is NOT active
 	if ( current_user_can( 'activate_plugins' ) && !class_exists( 'woocommerce' ) ) {
