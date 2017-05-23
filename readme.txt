@@ -31,11 +31,27 @@ Just follow the standard [WordPress plugin installation procedere](http://codex.
 
 1. Upload the plugin to your web site or install via plugin management.
 1. Check whether the WooCommerce plugin is installed and active.
-1. Activate the plugin through the \'Plugins\' menu in WordPress administration
+1. Activate the plugin through the `/Plugins/` menu in WordPress administration
 1. Done!
 
 
 == Frequently asked questions ==
+
+= I want to display fields in the same row, one besides other =
+
+You can use this snippet to modify the classes of outputed fileds, just add them to your functions.php
+
+`/
+add_filter( 'woolab_icdic_class_billing_ic', 'my_theme_class_billing_ic', 10, 1 );
+function my_theme_class_billing_ic ( $class ) {
+	return array('form-row-first');
+}
+
+add_filter( 'woolab_icdic_class_billing_dic', 'my_theme_class_billing_dic', 10, 1 );
+function my_theme_class_billing_dic ( $class ) {
+	return array('form-row-last');
+}
+/`
 
 = I want to use the latest files. How can I do this? =
 
@@ -66,9 +82,6 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 
 == Changelog ==
-
-= Unreleased =
-* texts in plugin only in English (Czech as a translation)
 
 = 1.1.0 = (2017-04-05) =
 * Fix: "Order properties should not be accessed directly." Added support for WooCommerce 3.0.

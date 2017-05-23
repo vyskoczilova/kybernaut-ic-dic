@@ -23,7 +23,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 		'label'     => __('BI', 'woolab-ic-dic'),
 		'placeholder'   => _x('BI', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
-		'class'     => array('form-row-wide'),
+		'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
 		'clear'     => true
 	 );
  
@@ -31,7 +31,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 		'label'     => __('VAT No.', 'woolab-ic-dic'),
 		'placeholder'   => _x('VAT No.', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
-		'class'     => array('form-row-wide'),
+		'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
 		'clear'     => true
 	 );
 
@@ -45,7 +45,7 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'label'     => __('BI', 'woolab-ic-dic'),
 			'placeholder'   => _x('BI', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => array('form-row-wide'),
+			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),		
 			'clear'     => true
 		);
 	
@@ -53,7 +53,7 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'label'     => __('VAT No.', 'woolab-ic-dic'),
 			'placeholder'   => _x('VAT No.', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => array('form-row-wide'),
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
 			'clear'     => true
 		);
 		

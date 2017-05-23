@@ -51,3 +51,19 @@ Pokud mi chcete pomoci, přidejte se na [GitHubu](https://github.com/vyskoczilov
 = 1.0.0 (2016-07-16) =
 * CZ - První vydání
 * EN - Initial version
+
+=== github
+
+= CZ =
+
+* podpora WooCommerce 3.0
+* přidává **políčka pro IČO a DIČ** do fakturační adresy WooCommerce
+* pokud je IČO anebo DIČ zadáno a je fakturováno do ČR, tak **ověří jejich správnost** (algoritmem)
+* **kompatibilita s pluginem [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
+* **kompatibilita s pluginy Vladislava Musílka (Toret)** - Woo Doprava, Woo GoPay apod.
+* přístup k editaci IČO a DIČ v rámci frontendu "Můj účet"
+* možnost editace IČO a DIČ i z administrace:
+  * `Uživatelé -> Jan Novák (Upravit) -> Fakturační adresa zákazníka`
+  * `E-shop-WooCommerce -> Objednávky -> Objednávka (zobrazit(upravit)) -> Fakturační údaje (editace)`
+
+= EN =
