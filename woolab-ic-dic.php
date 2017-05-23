@@ -20,6 +20,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 // Localize
 add_action( 'init', 'woolab_icdic_load_plugin_textdomain' );
+function woolab_icdic_load_plugin_textdomain() {
+    load_plugin_textdomain( 'woolab-ic-dic', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+
 
 // Check if WooCommerce active
 function woolab_icdic_init() {

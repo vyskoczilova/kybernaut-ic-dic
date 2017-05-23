@@ -5,11 +5,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// load locale
-function  woolab_icdic_load_plugin_textdomain() {
-    load_plugin_textdomain( 'woolab-ic-dic', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-}
-
 // add plugin links
 function woolab_icdic_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 
