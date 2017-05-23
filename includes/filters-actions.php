@@ -20,16 +20,16 @@ function woolab_icdic_plugin_action_links( $actions, $plugin_file, $plugin_data,
 function woolab_icdic_checkout_fields( $fields ) {
 	
 	 $fields['billing']['billing_ic'] = array(
-		'label'     => __('IČO', 'woolab-ic-dic'),
-		'placeholder'   => _x('IČO', 'placeholder', 'woolab-ic-dic'),
+		'label'     => __('BI', 'woolab-ic-dic'),
+		'placeholder'   => _x('BI', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
 		'class'     => array('form-row-wide'),
 		'clear'     => true
 	 );
  
 	 $fields['billing']['billing_dic'] = array(
-		'label'     => __('DIČ', 'woolab-ic-dic'),
-		'placeholder'   => _x('DIČ', 'placeholder', 'woolab-ic-dic'),
+		'label'     => __('VAT No.', 'woolab-ic-dic'),
+		'placeholder'   => _x('VAT No.', 'placeholder', 'woolab-ic-dic'),
 		'required'  => false,
 		'class'     => array('form-row-wide'),
 		'clear'     => true
@@ -42,16 +42,16 @@ function woolab_icdic_checkout_fields( $fields ) {
 function woolab_icdic_billing_fields( $fields, $country ) {
 		
 		 $fields['billing_ic'] = array(
-			'label'     => __('IČO', 'woolab-ic-dic'),
-			'placeholder'   => _x('IČO', 'placeholder', 'woolab-ic-dic'),
+			'label'     => __('BI', 'woolab-ic-dic'),
+			'placeholder'   => _x('BI', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => array('form-row-wide'),
 			'clear'     => true
 		);
 	
 		$fields['billing_dic'] = array(
-			'label'     => __('DIČ', 'woolab-ic-dic'),
-			'placeholder'   => _x('DIČ', 'placeholder', 'woolab-ic-dic'),
+			'label'     => __('VAT No.', 'woolab-ic-dic'),
+			'placeholder'   => _x('VAT No.', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => array('form-row-wide'),
 			'clear'     => true
@@ -66,12 +66,12 @@ function woolab_icdic_checkout_field_process() {
 		if ( $_POST['billing_country'] == "CZ" ) {
 			if ( $_POST['billing_ic'] ) {		
 				if ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {		
-					wc_add_notice( __( 'Zadejte platnou hodnotu IČO.', 'woolab-ic-dic'  ), 'error' );
+					wc_add_notice( __( '"Enter a valid Company number (BI)', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
 			if ( $_POST['billing_dic'] ) {						
 				if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic'],2) ) ) || substr($_POST['billing_dic'],0,2) != "CZ") {		
-					wc_add_notice( __( 'Zadejte platnou hodnotu DIČ.', 'woolab-ic-dic' ), 'error' );
+					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 				}
 			}
 		}
@@ -94,10 +94,10 @@ function woolab_icdic_localisation_address_formats($address_formats) {
 // formatting
 function woolab_icdic_formatted_address_replacements( $replace, $args) {
 	return $replace += array(
-		'{billing_ic}' => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('IČO: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
-		'{billing_dic}' => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('DIČ: ', 'woolab-ic-dic') . $args['billing_dic'] : '',				
-		'{billing_ic_upper}' => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('IČO: ', 'woolab-ic-dic') . $args['billing_ic_upper'] : '' ),
-		'{billing_dic_upper}' => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('DIČ: ', 'woolab-ic-dic') . $args['billing_dic_upper'] : ''),
+		'{billing_ic}' => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('BI: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
+		'{billing_dic}' => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('VAT No.: ', 'woolab-ic-dic') . $args['billing_dic'] : '',				
+		'{billing_ic_upper}' => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('BI: ', 'woolab-ic-dic') . $args['billing_ic_upper'] : '' ),
+		'{billing_dic_upper}' => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('VAT No.: ', 'woolab-ic-dic') . $args['billing_dic_upper'] : ''),
 	);
 }
 
@@ -121,11 +121,11 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 function woolab_icdic_customer_meta_fields($fields) {
 	$fields['billing']['fields'] += array(
 		'billing_ic' => array(
-			'label' => __('IČO', 'woolab-ic-dic'),
+			'label' => __('BI', 'woolab-ic-dic'),
 			'description' => ''
 		),	
 		'billing_dic' => array(
-			'label' => __('DIČ', 'woolab-ic-dic'),
+			'label' => __('VAT No.', 'woolab-ic-dic'),
 			'description' => ''
 		));
 	return $fields;
@@ -134,11 +134,11 @@ function woolab_icdic_customer_meta_fields($fields) {
 function woolab_icdic_admin_billing_fields ($fields) {
 	return $fields += array(
 		'billing_ic' => array(
-			'label'     => __('IČO', 'woolab-ic-dic'),
+			'label'     => __('BI', 'woolab-ic-dic'),
 			'show'   => false
 		),
 		'billing_dic' => array(
-			'label'     => __('DIČ', 'woolab-ic-dic'),
+			'label'     => __('VAT No.', 'woolab-ic-dic'),
 			'show'   => false
 		) );
 			
