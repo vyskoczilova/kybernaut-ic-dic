@@ -173,7 +173,6 @@ function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
 }
 
 // Save meta data / custom fields when editing order in admin screen
-// TODO FIX THIS
 add_action( 'woocommerce_process_shop_order_meta', 'woocommerce_process_shop_order', 10, 2 );
 function woocommerce_process_shop_order ( $post_id, $post ) {
 
@@ -185,11 +184,15 @@ function woocommerce_process_shop_order ( $post_id, $post ) {
 		return;
 	}
 
+	// TODO přidat hook jestli se má upravovat uživatelské údaje anebo ne, ověrit vůči WooCommerce jako takovému
+
 	if(isset($_POST['_billing_billing_ic'])){
-		update_user_meta( $_POST['user_ID'], 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) );
+		update_post_meta( $post_id, '_billing_ic', wc_clean( $_POST[ '_billing_billing_ic' ] ) );
+		update_user_meta( $_POST['user_ID'], 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) ); //updated user meta, works, WooDefault false
 	}
 	if(isset($_POST['_billing_billing_dic'])){
-		update_user_meta( $_POST['user_ID'], 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
+		update_post_meta( $post_id, '_billing_dic', wc_clean( $_POST[ '_billing_billing_dic' ] ) );
+		update_user_meta( $_POST['user_ID'], 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) ); //updated usermeta, works
 	}
 
 }
