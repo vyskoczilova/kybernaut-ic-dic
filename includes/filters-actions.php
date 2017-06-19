@@ -6,9 +6,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // add plugin links
-function woolab_plugin_row_meta( $links, $file ) {
+function woolab_icdic_plugin_row_meta( $links, $file ) {
 		
-	if ( WOOLAB_PLUGIN_BASENAME == $file ) {
+	if ( WOOLAB_IC_DIC_PLUGIN_BASENAME == $file ) {
 		
 		$row_meta = array(
 			'github'    => '<a href="https://github.com/vyskoczilova/kybernaut-ic-dic" target="_blank" aria-label="' . esc_attr__( 'View GitHub', 'woolab-ic-dic' ) . '">' . esc_html__( 'GitHub', 'woolab-ic-dic' ) . '</a>',
@@ -178,7 +178,7 @@ function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
 }
 
 // Save meta data / custom fields when editing order in admin screen
-function woolab_process_shop_order ( $post_id, $post ) {
+function woolab_icdic_process_shop_order ( $post_id, $post ) {
 
 	if ( empty( $_POST['woocommerce_meta_nonce'] ) ) {
 		return;
