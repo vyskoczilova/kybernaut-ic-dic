@@ -130,36 +130,66 @@ function woolab_icdic_customer_meta_fields($fields) {
 		));
 	return $fields;
 }
-		
-function woolab_icdic_admin_billing_fields ($fields) {
+
+// Add custom user fields to admin order screen	
+function woolab_icdic_admin_billing_fields ( $fields ) {
+	
+	global $post;
+
+	$order = new WC_Order($post->ID);
+	$order_id = trim( str_replace( '#', '', $order->get_order_number() ) );
+
 	return $fields += array(
 		'billing_ic' => array(
 			'label'     => __('BI', 'woolab-ic-dic'),
-			'show'   => false
+			'show'   => false,
+			'value'=> get_post_meta( $order_id, '_billing_ic', true ),
 		),
 		'billing_dic' => array(
 			'label'     => __('VAT No.', 'woolab-ic-dic'),
-			'show'   => false
-		) );
+			'show'   => false,
+			'value'=> get_post_meta( $order_id, '_billing_dic', true ),
+		) 
+	);
 			
 }
 
-// TO DO
-// Fix edit fields in admin
+// Load customer user fields via ajax on admin order screen from a customer record
 // https://www.jnorton.co.uk/woocommerce-custom-fields
-// Support for < 2.7
-/* add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_custom_fields_to_admin_order', 10, 1 );
-function woolab_icdic_custom_fields_to_admin_order($customer_data){
+function woolab_icdic_ajax_get_customer_details_old_woo ( $customer_data ){
+
 	$user_id = $_POST['user_id'];
 	$customer_data['billing_ic'] = get_user_meta( $user_id, 'billing_ic', true );
 	$customer_data['billing_dic'] = get_user_meta( $user_id, 'billing_dic', true );
 	return $customer_data;
+
 }
-// Doesnt work for 3.0
-//apply_filters( 'woocommerce_ajax_get_customer_details', $data, $customer, $user_id );
-add_filter( 'woocommerce_ajax_get_customer_details', 'woolab_icdic_ajax_get_customer_details', 10, 3 );
-function woolab_icdic_ajax_get_customer_details($data, $customer, $user_id){
-	$data['billing_ic'] = get_user_meta( $user_id, '_billing_ic', true );
-	$data['billing_dic'] = get_user_meta( $user_id, '_billing_ic', true );
+function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
+
+	$data['billing']['billing_ic'] = get_user_meta( $user_id,  'billing_ic', true );
+	$data['billing']['billing_dic'] = get_user_meta( $user_id,  'billing_dic', true );
 	return $data;
-}*/
+
+}
+
+// Save meta data / custom fields when editing order in admin screen
+// TODO FIX THIS
+add_action( 'woocommerce_process_shop_order_meta', 'woocommerce_process_shop_order', 10, 2 );
+function woocommerce_process_shop_order ( $post_id, $post ) {
+
+	if ( empty( $_POST['woocommerce_meta_nonce'] ) ) {
+		return;
+	}
+
+	if(!wp_verify_nonce( $_POST['woocommerce_meta_nonce'], 'woocommerce_save_data' )){
+		return;
+	}
+
+	if(isset($_POST['_billing_billing_ic'])){
+		update_user_meta( $_POST['user_ID'], 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) );
+	}
+	if(isset($_POST['_billing_billing_dic'])){
+		update_user_meta( $_POST['user_ID'], 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
+	}
+
+}

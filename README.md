@@ -6,7 +6,7 @@ Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovno
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Description
-* supports WooCommerce 3.0
+* supports WooCommerce 3.0+
 * adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
 * **validates its value** if added and billing country is set to CZ
 * **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
@@ -18,14 +18,14 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 
 ## Unreleased changes
-* texts in plugin only in English (Czech as a translation)
-* Feature: Added filters for class of displayed fields
+* Texts in plugin only in English (Czech as a translation)
+* Feature: Added `woolab_icdic_class_{field_name}` filters to customize class of added billing input fields
 
 
 ## Filters
 
 ### Custom class for fields: `woolab_icdic_class_{field_name}`
-If you need to modify class of outputed fields. For example you want to have billing_ic and billing_dic in one row.
+If you need to modify class of outputed fields. For example you want to have *billing_ic* and *billing_dic* in one row.
 
 
 *Example:*

@@ -2,7 +2,7 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 4.7.5
+Tested up to: 4.8
 Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,7 +37,7 @@ Just follow the standard [WordPress plugin installation procedere](http://codex.
 
 == Frequently asked questions ==
 
-= I want to display fields in the same row, one besides other =
+= I want to display fields in the same row, one besides other (half width) =
 
 You can use this snippet to modify the classes of outputed fileds, just add them to your functions.php
 
