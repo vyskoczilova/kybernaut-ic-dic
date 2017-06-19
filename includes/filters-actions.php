@@ -6,14 +6,19 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // add plugin links
-function woolab_icdic_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+function woolab_plugin_row_meta( $links, $file ) {
+		
+	if ( WOOLAB_PLUGIN_BASENAME == $file ) {
+		
+		$row_meta = array(
+			'github'    => '<a href="https://github.com/vyskoczilova/kybernaut-ic-dic" target="_blank" aria-label="' . esc_attr__( 'View GitHub', 'woolab-ic-dic' ) . '">' . esc_html__( 'GitHub', 'woolab-ic-dic' ) . '</a>',
+			'review' => '<a href="http://wordpress.org/support/view/plugin-reviews/woolab-ic-dic" target="_blank" aria-label="' . esc_attr__( 'Write a Review', 'woolab-ic-dic' ) . '">' . esc_html__( 'Write a Review', 'woolab-ic-dic' ) . '</a>',				
+		);
 
-	$custom_actions = array(
-		'github'      => sprintf( '<a href="%s" target="_blank">%s</a>', 'https://github.com/vyskoczilova/kybernaut-ic-dic', __( 'GitHub', 'woolab-ic-dic' ) ),
-		'review'    => sprintf( '<a href="%s" target="_blank">%s</a>', 'http://wordpress.org/support/view/plugin-reviews/woolab-ic-dic', __( 'Write a Review', 'woolab-ic-dic' ) ),
-	);
-	return array_merge( $custom_actions, $actions );
+		return array_merge( $links, $row_meta );
+	}
 
+	return (array) $links;
 }
 
 // add checkout fields
@@ -173,8 +178,7 @@ function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
 }
 
 // Save meta data / custom fields when editing order in admin screen
-add_action( 'woocommerce_process_shop_order_meta', 'woocommerce_process_shop_order', 10, 2 );
-function woocommerce_process_shop_order ( $post_id, $post ) {
+function woolab_process_shop_order ( $post_id, $post ) {
 
 	if ( empty( $_POST['woocommerce_meta_nonce'] ) ) {
 		return;

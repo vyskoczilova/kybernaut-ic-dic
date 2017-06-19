@@ -18,6 +18,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define( 'WOOLAB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
 // Check if WooCommerce active
 function woolab_icdic_init() {
 
@@ -67,7 +69,7 @@ function woolab_icdic_init() {
 		add_filter( 'woocommerce_order_formatted_billing_address', 'woolab_icdic_order_formatted_billing_address', 10, 2 );
 		add_filter( 'woocommerce_customer_meta_fields', 'woolab_icdic_customer_meta_fields' );
 		add_filter( 'woocommerce_admin_billing_fields', 'woolab_icdic_admin_billing_fields' );		
-		//add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_checkout_fields' , 10, 2 );?
+		add_action( 'woocommerce_process_shop_order_meta', 'woolab_process_shop_order', 10, 2 );
 		
 		if ( version_compare( WC_VERSION, '2.7', '<' )) { 
 			add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_ajax_get_customer_details_old_woo', 10, 1 );
@@ -75,7 +77,7 @@ function woolab_icdic_init() {
 			add_filter( 'woocommerce_ajax_get_customer_details', 'woolab_icdic_ajax_get_customer_details', 10, 3 );
 		} 
 		
-		add_filter( "{$prefix}plugin_action_links_$basename", 'woolab_icdic_plugin_action_links', 10, 4 );		
+		add_filter( "plugin_row_meta", 'woolab_plugin_row_meta', 10, 2 );
 
 	}
 }
