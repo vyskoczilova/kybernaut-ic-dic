@@ -21,8 +21,8 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * Fixed: Editing BI and VAT values within order in admin backend
 * Feature: Texts in plugin only in English (Czech as a translation)
 * Feature: Added `woolab_icdic_class_{field_name}` filters to customize class of added billing input fields
-* Feature: added `woolab_icdic_update_user_meta` filter to enable updating user meta on order details edit
-* Added: links to GitHub and Write a review to plugins page.
+* Feature: Added `woolab_icdic_update_user_meta` filter to enable updating user meta on order details edit
+* Added: Links to GitHub and Write a review to plugins page.
 
 
 ## Filters
