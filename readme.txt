@@ -53,6 +53,14 @@ function my_theme_class_billing_dic ( $class ) {
 }
 /`
 
+= I want to update customers meta when I change ICO or DIC value within order edit. =
+
+You can use this snippet to update customers data when you edit order, just add them to your functions.php
+
+`/
+add_filter( 'woolab_icdic_update_user_meta', '__return_true' );
+/`
+
 = I want to use the latest files. How can I do this? =
 
 Use the GitHub Repo rather than the WordPress Plugin. Do as follows:
