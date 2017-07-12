@@ -79,20 +79,47 @@ function woolab_icdic_checkout_field_process() {
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 				}
 			}
+		} elseif ( $_POST['billing_country'] == "SK" ) {
+			if ( $_POST['billing_ic'] ) {		
+				// TODO verification
+				if ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {		
+					wc_add_notice( __( 'Enter a valid Company number (BI)', 'woolab-ic-dic'  ), 'error' );
+				}
+			}
+			if ( $_POST['billing_dic'] ) {	
+				// TODO verification					
+				if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic'],2) ) ) || substr($_POST['billing_dic'],0,2) != "CZ") {		
+					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+				}
+			}
+			if ( $_POST['billing_dic_dph'] ) {	
+				// TODO verification					
+				if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic_dph'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic_dph'],2) ) ) || substr($_POST['billing_dic_dph'],0,2) != "CZ") {		
+					wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
+				}
+			}
 		}
 	}
 }
 
 // my address formatted
 function woolab_icdic_my_address_formatted_address( $fields, $customer_id, $name ) {
-	return $fields += array(
+	$fields += array(
 		'billing_ic' => get_user_meta( $customer_id, $name . '_ic', true ),
 		'billing_dic' => get_user_meta( $customer_id, $name . '_dic', true )
 	);
+	if ( get_user_meta( $customer_id, $name . '_country', '' ) == 'SK' ) {
+		$fields += array(
+			'billing_dic_dph' => get_user_meta( $customer_id, $name . '_dic_dph', true )
+		);
+	}
+
+	return $fields;
 }
 
 function woolab_icdic_localisation_address_formats($address_formats) {
-	$address_formats['CZ'] .= "\n{billing_ic}\n{billing_dic}";		
+	$address_formats['CZ'] .= "\n{billing_ic}\n{billing_dic}";	
+	$address_formats['SK'] .= "\n{billing_ic}\n{billing_dic}\n{billing_dic_dph}";	
 	return $address_formats;
 }
 
@@ -101,8 +128,10 @@ function woolab_icdic_formatted_address_replacements( $replace, $args) {
 	return $replace += array(
 		'{billing_ic}' => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('BI: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
 		'{billing_dic}' => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('VAT No.: ', 'woolab-ic-dic') . $args['billing_dic'] : '',				
+		'{billing_dic_dph}' => (isset($args['billing_dic_dph']) && $args['billing_dic_dph'] != '') ?  __('VAT DPH No.: ', 'woolab-ic-dic') . $args['billing_dic_dph'] : '',				
 		'{billing_ic_upper}' => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('BI: ', 'woolab-ic-dic') . $args['billing_ic_upper'] : '' ),
 		'{billing_dic_upper}' => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('VAT No.: ', 'woolab-ic-dic') . $args['billing_dic_upper'] : ''),
+		'{billing_dic_dph_upper}' => strtoupper((isset($args['billing_dic_dph_upper']) && $args['billing_dic_dph_upper'] != '') ? __('VAT DPH No.: ', 'woolab-ic-dic') . $args['billing_dic_dph_upper'] : ''),
 	);
 }
 
@@ -111,18 +140,21 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 	if ( version_compare( WC_VERSION, '2.7', '<' )) { 
 		return $address += array(
 			'billing_ic'	=> $order->billing_ic,
-			'billing_dic'	=> $order->billing_dic
+			'billing_dic'	=> $order->billing_dic,
+			'billing_dic_dph'	=> $order->billing_dic_dph
 			);
 	} else { 
 		return $address += array(
 			'billing_ic'	=> $order->get_meta('_billing_ic'),
-			'billing_dic'	=> $order->get_meta('_billing_dic')
+			'billing_dic'	=> $order->get_meta('_billing_dic'),
+			'billing_dic_dph'	=> $order->get_meta('_billing_dic_dph')
 			);
 	} 
 
 }
 
 // admin
+// todo add SK
 function woolab_icdic_customer_meta_fields($fields) {
 	$fields['billing']['fields'] += array(
 		'billing_ic' => array(
@@ -143,8 +175,9 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 
 	$order = new WC_Order($post->ID);
 	$order_id = trim( str_replace( '#', '', $order->get_order_number() ) );
+	$country = get_post_meta( $order_id, '_country', true );
 
-	return $fields += array(
+	$fields += array(
 		'billing_ic' => array(
 			'label'     => __('BI', 'woolab-ic-dic'),
 			'show'   => false,
@@ -156,6 +189,18 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 			'value'=> get_post_meta( $order_id, '_billing_dic', true ),
 		) 
 	);
+
+	if ( $country == 'SK' ) {
+		$fields += array(			
+			'billing_dic_dph' => array(
+				'label'     => __('VAT DPH No.', 'woolab-ic-dic'),
+				'show'   => false,
+				'value'=> get_post_meta( $order_id, '_billing_dic_dph', true ),
+			) 
+		);
+	}
+
+	return $fields;
 			
 }
 
@@ -164,15 +209,27 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 function woolab_icdic_ajax_get_customer_details_old_woo ( $customer_data ){
 
 	$user_id = $_POST['user_id'];
+	$country = get_user_meta( $user_id, 'billing_country', true );
+
 	$customer_data['billing_ic'] = get_user_meta( $user_id, 'billing_ic', true );
 	$customer_data['billing_dic'] = get_user_meta( $user_id, 'billing_dic', true );
+	
+	if ( $country == 'SK' ) {
+		$customer_data['billing_dic_dph'] = get_user_meta( $user_id, 'billing_dic_dph', true );
+	}
+	
 	return $customer_data;
 
 }
 function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
 
+	$country = get_user_meta( $user_id, 'billing_country', true );
 	$data['billing']['billing_ic'] = get_user_meta( $user_id,  'billing_ic', true );
 	$data['billing']['billing_dic'] = get_user_meta( $user_id,  'billing_dic', true );
+	if ( $country == 'SK' ) {
+		$data['billing']['billing_dic_dph']  = get_user_meta( $user_id, 'billing_dic_dph', true );
+	}
+
 	return $data;
 
 }
@@ -200,6 +257,12 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 		update_post_meta( $post_id, '_billing_dic', wc_clean( $_POST[ '_billing_billing_dic' ] ) );
 		if ( $update_user_meta ) {
 			update_user_meta( $_POST['user_ID'], 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
+		}
+	}
+	if(isset($_POST['_billing_billing_dic_dph'])){
+		update_post_meta( $post_id, '_billing_dic_dph', wc_clean( $_POST[ '_billing_billing_dic_dph' ] ) );
+		if ( $update_user_meta ) {
+			update_user_meta( $_POST['user_ID'], 'billing_dic_dph', sanitize_text_field( $_POST['_billing_billing_dic_dph'] ) );
 		}
 	}
 

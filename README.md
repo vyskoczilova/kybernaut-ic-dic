@@ -23,7 +23,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * Feature: Added `woolab_icdic_class_{field_name}` filters to customize class of added billing input fields
 * Feature: Added `woolab_icdic_update_user_meta` filter to enable updating user meta on order details edit
 * Added: Links to GitHub and Write a review to plugins page.
-
+https://podnikam.webnoviny.sk/ico-dic-ic-dph-co-znamenaju-tieto-skratky-a-kde-ich-hladat/
 
 ## Filters
 
