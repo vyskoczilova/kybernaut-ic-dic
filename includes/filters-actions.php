@@ -40,6 +40,14 @@ function woolab_icdic_checkout_fields( $fields ) {
 		'clear'     => true
 	 );
 
+	 $fields['billing']['billing_dic_dph'] = array(
+		'label'     => __('VAT DPH No.', 'woolab-ic-dic'),
+		'placeholder'   => _x('VAT DPH No.', 'placeholder', 'woolab-ic-dic'),
+		'required'  => false,
+		'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+		'clear'     => true
+	 );
+
 	return $fields;
 
 }
@@ -61,6 +69,16 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
 			'clear'     => true
 		);
+
+		if ( $country == 'SK' ) {
+			$fields['billing_dic_dph'] = array(
+				'label'     => __('VAT DPH No.', 'woolab-ic-dic'),
+				'placeholder'   => _x('VAT DPH No.', 'placeholder', 'woolab-ic-dic'),
+				'required'  => false,
+				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+				'clear'     => true
+			);
+		}
 		
 		return $fields;
 	}		 
@@ -154,7 +172,6 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 }
 
 // admin
-// todo add SK
 function woolab_icdic_customer_meta_fields($fields) {
 	$fields['billing']['fields'] += array(
 		'billing_ic' => array(
@@ -164,7 +181,12 @@ function woolab_icdic_customer_meta_fields($fields) {
 		'billing_dic' => array(
 			'label' => __('VAT No.', 'woolab-ic-dic'),
 			'description' => ''
-		));
+		),
+		'billing_dic_dph' => array(
+			'label' => __('VAT DPH No.', 'woolab-ic-dic'),
+			'description' => ''
+		)
+		);
 	return $fields;
 }
 

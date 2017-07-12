@@ -43,6 +43,11 @@ If you need to modify class of outputed fields. For example you want to have *bi
       return array('form-row-last');
     }
 
+    add_filter( 'woolab_icdic_class_billing_dic_dph', 'my_theme_class_billing_dic_dph', 10, 1 );
+    function my_theme_class_billing_dic_dph ( $class ) {
+      return array('form-row-last');
+    }
+
 ### Update user meta while edition order details: `woolab_icdic_update_user_meta`
 By default, if you edit order details, user profile is not touched. If you want to update user details when you add or edit ICO or DIC value, use this filter.
 
