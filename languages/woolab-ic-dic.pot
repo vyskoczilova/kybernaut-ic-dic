@@ -30,26 +30,26 @@ msgstr ""
 
 #: includes/filters-actions.php:23 includes/filters-actions.php:45
 #: includes/filters-actions.php:124 includes/filters-actions.php:137
-msgid "BI"
+msgid "Business ID"
 msgstr ""
 
 #: includes/filters-actions.php:24 includes/filters-actions.php:46
 msgctxt "placeholder"
-msgid "BI"
+msgid "Business ID"
 msgstr ""
 
 #: includes/filters-actions.php:31 includes/filters-actions.php:53
 #: includes/filters-actions.php:128 includes/filters-actions.php:141
-msgid "VAT No."
+msgid "Tax ID"
 msgstr ""
 
 #: includes/filters-actions.php:32 includes/filters-actions.php:54
 msgctxt "placeholder"
-msgid "VAT No."
+msgid "Tax ID"
 msgstr ""
 
 #: includes/filters-actions.php:69
-msgid "Enter a valid Company number (BI)"
+msgid "Enter a valid Company number (Business ID)"
 msgstr ""
 
 #: includes/filters-actions.php:74
@@ -57,11 +57,11 @@ msgid "Enter a valid VAT number"
 msgstr ""
 
 #: includes/filters-actions.php:97 includes/filters-actions.php:99
-msgid "BI: "
+msgid "Business ID: "
 msgstr ""
 
 #: includes/filters-actions.php:98 includes/filters-actions.php:100
-msgid "VAT No.: "
+msgid "Tax ID: "
 msgstr ""
 
 #: woolab-ic-dic.php:37
