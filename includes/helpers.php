@@ -71,3 +71,48 @@ function woolab_icdic_verify_ic($ic)
 
     return (int) $ic[7] === $c;
 }
+
+function woolab_icdic_verify_ic_sk( $ic ){
+
+    // be liberal in what you receive
+    $ic = preg_replace('#\s+#', '', $ic);
+
+    // check required format
+    if (!preg_match('#^\d{8}$#', $ic)) {
+        return FALSE;
+    }
+
+    // TODO check the sum for Slovak IC
+
+    return (int) $ic;
+}
+
+function woolab_icdic_verify_dic_sk( $dic ){
+
+    // be liberal in what you receive
+    $dic = preg_replace('#\s+#', '', $dic);
+
+    // check required format
+    if (!preg_match('#^\d{10}$#', $dic)) {
+        return FALSE;
+    }
+
+    // TODO check the sum for Slovak DIC
+
+    return (int) $dic;
+}
+
+function woolab_icdic_verify_dic_dph_sk( $dic_dph ){
+
+    // be liberal in what you receive
+    $dic_dph = preg_replace('#\s+#', '', $dic_dph);
+
+    // check required format
+    if (!preg_match('#^SK\d{10}$#', $dic_dph)) {
+        return FALSE;
+    }
+
+    // TODO check the sum for Slovak DIC
+
+    return (string) $dic_dph;
+}

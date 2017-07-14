@@ -99,21 +99,23 @@ function woolab_icdic_checkout_field_process() {
 			}
 		} elseif ( $_POST['billing_country'] == "SK" ) {
 			if ( $_POST['billing_ic'] ) {		
-				// TODO verification
-				if ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {		
+				if ( ! woolab_icdic_verify_ic_sk($_POST['billing_ic'])) {		
 					wc_add_notice( __( 'Enter a valid Company number (BI)', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
-			if ( $_POST['billing_dic'] ) {	
-				// TODO verification					
-				if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic'],2) ) ) || substr($_POST['billing_dic'],0,2) != "CZ") {		
+			if ( $_POST['billing_dic'] ) {					
+				if ( ! woolab_icdic_verify_dic_sk( $_POST['billing_dic'] ) ) {		
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 				}
 			}
-			if ( $_POST['billing_dic_dph'] ) {	
-				// TODO verification					
-				if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic_dph'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic_dph'],2) ) ) || substr($_POST['billing_dic_dph'],0,2) != "CZ") {		
+			if ( $_POST['billing_dic_dph'] ) {						
+				if ( ! woolab_icdic_verify_dic_dph_sk( $_POST['billing_dic_dph'] ) ) {		
 					wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
+				}
+			}
+			if ( $_POST['billing_dic_dph'] && $_POST['billing_dic'] ) {						
+				if ( $_POST['billing_dic'] != substr( $_POST['billing_dic_dph'], 2) ) {		
+					wc_add_notice( __( 'VAT number and VAT DPH number doesn\'t match', 'woolab-ic-dic' ), 'error' );
 				}
 			}
 		}
