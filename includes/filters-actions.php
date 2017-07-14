@@ -89,7 +89,7 @@ function woolab_icdic_checkout_field_process() {
 		if ( $_POST['billing_country'] == "CZ" ) {
 			if ( $_POST['billing_ic'] ) {		
 				if ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {		
-					wc_add_notice( __( 'Enter a valid Company number (Business ID)', 'woolab-ic-dic'  ), 'error' );
+					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
 			if ( $_POST['billing_dic'] ) {						
@@ -100,7 +100,7 @@ function woolab_icdic_checkout_field_process() {
 		} elseif ( $_POST['billing_country'] == "SK" ) {
 			if ( $_POST['billing_ic'] ) {		
 				if ( ! woolab_icdic_verify_ic_sk($_POST['billing_ic'])) {		
-					wc_add_notice( __( 'Enter a valid Company number (Business ID)', 'woolab-ic-dic'  ), 'error' );
+					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
 			if ( $_POST['billing_dic'] ) {					
