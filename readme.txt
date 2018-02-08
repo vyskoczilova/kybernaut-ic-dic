@@ -22,9 +22,9 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
 
 === Compatibility ==
-* supports both WooCommerce 2.6 & 3.0+
-* **with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
-* **with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
+* both WooCommerce 2.6 & 3.0+
+* with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
+* with plugins of Vladislav Musilek (Toret) - Woo Doprava, Woo GoPay etc.
 
 
 If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut-ic-dic).
