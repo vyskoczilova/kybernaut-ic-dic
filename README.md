@@ -2,20 +2,8 @@
 
 [![plugin version](https://img.shields.io/wordpress/plugin/v/woolab-ic-dic.svg)](https://wordpress.org/plugins/woolab-ic-dic)
 
-Přidá IČO a DIČ do formuláře s fakturační adresou ve WooCommerce a rovnou ověří, jestli jsou zadané hodnoty skutečné.
+Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
-
-## Description
-* supports WooCommerce 3.0+
-* adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
-* **validates its value** if added and billing country is set to CZ
-* **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
-* **compatible with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
-* possible edit of IČO and DIČ at "My Account" page.
-* support for editing IČO, DIČ in the administration (backend): 
-  * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
-  * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
-
 
 ## Unreleased changes
 * Fixed: Editing Business ID and VAT values within order in admin backend

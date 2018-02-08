@@ -2,7 +2,7 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 4.8
+Tested up to: 4.9.4
 Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and
 
 == Description ==
 
-* supports WooCommerce 3.0
+* supports WooCommerce 3.0+
 * adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
 * **validates its value** if added and billing country is set to CZ
 * **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
@@ -28,11 +28,6 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 == Installation ==
 
 Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
-
-1. Upload the plugin to your web site or install via plugin management.
-1. Check whether the WooCommerce plugin is installed and active.
-1. Activate the plugin through the `/Plugins/` menu in WordPress administration
-1. Done!
 
 
 == Frequently asked questions ==
@@ -53,7 +48,7 @@ function my_theme_class_billing_dic ( $class ) {
 }
 /`
 
-= I want to update customers meta when I change ICO or DIC value within order edit. =
+= I want to update customers meta when I change IČO or DIČ value within order edit. =
 
 You can use this snippet to update customers data when you edit order, just add them to your functions.php
 
@@ -85,13 +80,15 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Screenshots ==
 
-1. Checkout validation of ICO.
+1. Checkout validation of IČO.
 
 
 
 == Changelog ==
 
-= 1.1.0 = (2017-04-05) =
+= 1.2.0 (TODO DATE)
+
+= 1.1.0 (2017-04-05) =
 * Fix: "Order properties should not be accessed directly." Added support for WooCommerce 3.0.
 
 = 1.0.3 (2017-02-1) =
