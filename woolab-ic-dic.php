@@ -28,6 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
+define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_VERSION', '1.2.0' );
 
 // Check if WooCommerce active
@@ -86,6 +87,14 @@ function woolab_icdic_init() {
 		
 		add_filter( "plugin_row_meta", 'woolab_icdic_plugin_row_meta', 10, 2 );
 
+		add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );		
+
 	}
 }
 add_action( 'plugins_loaded', 'woolab_icdic_init' );    
+
+function woolab_icdic_enqueue_scripts() {
+	if( is_checkout() ){
+		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_VERSION );
+	}
+}
