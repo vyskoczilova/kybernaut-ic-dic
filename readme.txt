@@ -41,8 +41,7 @@ Just follow the standard [WordPress plugin installation procedere](http://codex.
 
 You can use this snippet to modify the classes of outputed fileds, just add them to your functions.php
 
-`/
-add_filter( 'woolab_icdic_class_billing_ic', 'my_theme_class_billing_ic', 10, 1 );
+`add_filter( 'woolab_icdic_class_billing_ic', 'my_theme_class_billing_ic', 10, 1 );
 function my_theme_class_billing_ic ( $class ) {
 	return array('form-row-first');
 }
@@ -50,16 +49,13 @@ function my_theme_class_billing_ic ( $class ) {
 add_filter( 'woolab_icdic_class_billing_dic', 'my_theme_class_billing_dic', 10, 1 );
 function my_theme_class_billing_dic ( $class ) {
 	return array('form-row-last');
-}
-/`
+}`
 
 = I want to update customers meta when I change IČO or DIČ value within order edit. =
 
 You can use this snippet to update customers data when you edit order, just add them to your functions.php
 
-`/
-add_filter( 'woolab_icdic_update_user_meta', '__return_true' );
-/`
+`add_filter( 'woolab_icdic_update_user_meta', '__return_true' );`
 
 = I want to use the latest files. How can I do this? =
 
