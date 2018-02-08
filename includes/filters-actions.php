@@ -122,7 +122,7 @@ function woolab_icdic_checkout_field_process() {
 	}
 }
 
-// my address formatted
+// My address formatted
 function woolab_icdic_my_address_formatted_address( $fields, $customer_id, $name ) {
 	$fields += array(
 		'billing_ic' => get_user_meta( $customer_id, $name . '_ic', true ),
@@ -143,7 +143,7 @@ function woolab_icdic_localisation_address_formats($address_formats) {
 	return $address_formats;
 }
 
-// formatting
+// Formatting
 function woolab_icdic_formatted_address_replacements( $replace, $args) {
 	return $replace += array(
 		'{billing_ic}' => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('Business ID: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
@@ -199,7 +199,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 
 	$order = new WC_Order($post->ID);
 	$order_id = trim( str_replace( '#', '', $order->get_order_number() ) );
-	$country = get_post_meta( $order_id, '_country', true );
+	$country = get_post_meta( $order_id, '_billing_country', '' );
 
 	$fields += array(
 		'billing_ic' => array(
@@ -214,7 +214,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 		) 
 	);
 
-	if ( $country == 'SK' ) {
+	if ( $country[0] == 'SK' ) {
 		$fields += array(			
 			'billing_dic_dph' => array(
 				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
