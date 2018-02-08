@@ -7,20 +7,25 @@ Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
+Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct.
 
 
 == Description ==
 
-* supports WooCommerce 3.0+
-* adds **Czech IČO - Company number, DIČ - VAT number** too WooCommerce
-* **validates its value** if added and billing country is set to CZ
-* **compatible with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
-* **compatible with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
-* possible edit of IČO and DIČ at "My Account" page.
-* support for editing IČO, DIČ in the administration (backend): 
+Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct.
+
+* for CZ as billing country - mathematicaly verifies IČO and DIČ
+* for SK as billing country - just validate format of values
+* adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Acount page
+* allows edits from administration (backend): 
   * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
+
+=== Compatibility ==
+* supports both WooCommerce 2.6 & 3.0+
+* **with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)**
+* **with plugins of Vladislav Musilek (Toret)** - Woo Doprava, Woo GoPay etc.
+
 
 If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut-ic-dic).
 
