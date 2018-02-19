@@ -92,10 +92,11 @@ function woolab_icdic_init() {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', 'woolab_icdic_admin_scripts' );
 		} else {
-			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );
-			add_action('wp_ajax_nopriv_ajaxAres', 'woolab_icdic_ares_ajax');
-			add_action('wp_ajax_ajaxAres', 'woolab_icdic_ares_ajax');			
+			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );						
 		}
+
+		add_action('wp_ajax_nopriv_ajaxAres', 'woolab_icdic_ares_ajax');
+		add_action('wp_ajax_ajaxAres', 'woolab_icdic_ares_ajax');
 
 	}
 }
@@ -106,7 +107,9 @@ function woolab_icdic_enqueue_scripts() {
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
 			'error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
+			'ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
 		));
 	}
 }
@@ -120,7 +123,7 @@ function woolab_icdic_admin_scripts( $hook ) {
 function woolab_icdic_ares_ajax(){
 	if ( isset($_REQUEST) ) {
 		
-		$value = woolab_ic_dic_ares( $_REQUEST['ico'] );
+		$value = woolab_icdic_ares( $_REQUEST['ico'] );
 		if ( $value ) {
 			echo json_encode( $value );
 		} else {

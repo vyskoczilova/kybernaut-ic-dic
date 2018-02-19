@@ -1,28 +1,139 @@
 (function($) {
 
     var cssc = [];
-    cssc['not_valid'] = 'wpcf7-not-valid';
     cssc['validating'] = 'ares-validating';
     cssc['wrong'] = 'ares-wrong';
     cssc['ok'] = 'ares-ok';
 
     $(document).ready(function() {
                                  
+        // Country based
         var country = jQuery('#billing_country').val();
-        hide_show_billing_dic_dph( country );
+        based_on_country( country );
 
         $( 'body' ).bind( 'country_to_state_changing', function( event, country, wrapper ){            
-            hide_show_billing_dic_dph( country );
+            based_on_country( country );
         });
+
 
     });
 
-    function hide_show_billing_dic_dph( country ) {        
-        if ( country == 'SK' ) {
-            $('#billing_dic_dph_field').show();
-        } else {
-            $('#billing_dic_dph_field').hide();
+    function based_on_country( country ) {  
+
+        clear_validation();
+
+        switch( country ) {
+            case 'SK':
+                $('#billing_dic_dph_field').show();
+                break;
+            case 'CZ':
+                $('#billing_dic_dph_field').hide();
+                enable_ares_check();
+                break;
+            default:
+                $('#billing_dic_dph_field').hide();
         }
+
+    }
+
+    function clear_validation() {
+        $('.woolab-ic-dic-tip').remove(); 
+        ares_remove_disabled_from_input(); 
+    }
+    
+    function enable_ares_check() {
+
+        var ico = $('#billing_ic');
+        ares_check( ico );
+        ico.bind('input propertychange', function() {
+            ares_check( ico );
+        });
+
+    }
+
+    function ares_remove_disabled_from_input() {
+        $('#billing_company').removeAttr("disabled");
+        $('#billing_dic').removeAttr("disabled");
+        $('#billing_postcode').removeAttr("disabled");
+        $('#billing_city').removeAttr("disabled");
+        $('#billing_address_1').removeAttr("disabled");
+    }
+
+    function ares_check( ico ) {
+        var value = ico.val();
+        var ico_class = $('#billing_ic_field');
+        var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.not_valid+'</span>';
+
+        ico_class.removeClass( cssc.ok ).removeClass( cssc.wrong ).removeClass(cssc.wrong);            
+
+        if ( (value.length == 7 || value.length == 8) && value.match(/^[0-9]+$/) != null ) {  
+            
+            $.ajax({
+                url: woolab.ajaxurl,
+                data: {
+                    action: "ajaxAres",
+                    'ico' : value,
+                },
+                beforeSend: function() {
+                    ico_class.addClass(cssc.validating);
+                },
+                success: function ( data ) {
+                    ico_class.removeClass(cssc.validating);
+                    if ( data ) {
+                        var data = JSON.parse( data );
+
+                        if ( data.error == false ) {
+
+                            $('#billing_company').val(data.spolecnost).attr('disabled', 'disabled');
+                            $('#billing_dic').val(data.dic).attr('disabled', 'disabled');
+                            $('#billing_address_1').val(data.adresa).attr('disabled', 'disabled');
+                            $('#billing_postcode').val(data.psc).attr('disabled', 'disabled');
+                            $('#billing_city').val(data.mesto).attr('disabled', 'disabled');
+
+                            $('.woolab-ic-dic-tip').remove();
+                            ico_class.addClass( cssc.ok ); 
+                            ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.ok+'</span>' ); 
+
+                        } else {
+                            ares_error( ico_class );
+                            if ( $('.woolab-ic-dic-tip').length > 0 ) {
+                                $('.woolab-ic-dic-tip').remove();                                    
+                            }
+                            ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' ); 
+                        }
+
+                    } else {                             
+                        ares_error( ico_class );   
+                        if ( $('.woolab-ic-dic-tip').length == 0 ) {
+                            ico_class.append( not_valid );
+                        }                                                                
+                    }
+                                                                
+                },
+                error: function(errorThrown){
+                    if ( $('.woolab-ic-dic-tip').length == 0 ) {
+                        ico.val('');
+                        ares_error( ico_class ); 
+                        ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+woolab.error+'</span>' );
+                    }
+                }			
+            });	
+
+        } else {
+            ico_class.addClass( cssc.wrong );
+        }
+    }
+
+    function ares_error ( ico_class ) {
+
+        $('#billing_company').val('');
+        $('#billing_dic').val('');
+        $('#billing_postcode').val('');
+        $('#billing_city').val('');
+        $('#billing_address_1').val('');
+
+        ares_remove_disabled_from_input();
+        ico_class.addClass( cssc.wrong );
     }
 	
 })( jQuery );
