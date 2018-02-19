@@ -20,7 +20,9 @@
 
     function based_on_country( country ) {  
 
-        clear_validation();
+        if ( woolab.ares_fill ) {
+            clear_validation();
+        }
 
         switch( country ) {
             case 'SK':
@@ -28,7 +30,9 @@
                 break;
             case 'CZ':
                 $('#billing_dic_dph_field').hide();
-                enable_ares_check();
+                if ( woolab.ares_check ) {
+                    enable_ares_check();
+                }
                 break;
             default:
                 $('#billing_dic_dph_field').hide();
@@ -62,7 +66,7 @@
     function ares_check( ico ) {
         var value = ico.val();
         var ico_class = $('#billing_ic_field');
-        var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.not_valid+'</span>';
+        var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.l18n_not_valid+'</span>';
 
         ico_class.removeClass( cssc.ok ).removeClass( cssc.wrong ).removeClass(cssc.wrong);            
 
@@ -84,15 +88,17 @@
 
                         if ( data.error == false ) {
 
-                            $('#billing_company').val(data.spolecnost).attr('disabled', 'disabled');
-                            $('#billing_dic').val(data.dic).attr('disabled', 'disabled');
-                            $('#billing_address_1').val(data.adresa).attr('disabled', 'disabled');
-                            $('#billing_postcode').val(data.psc).attr('disabled', 'disabled');
-                            $('#billing_city').val(data.mesto).attr('disabled', 'disabled');
-
                             $('.woolab-ic-dic-tip').remove();
                             ico_class.addClass( cssc.ok ); 
-                            ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.ok+'</span>' ); 
+
+                            if ( woolab.ares_fill ) {
+                                $('#billing_company').val(data.spolecnost).attr('disabled', 'disabled');
+                                $('#billing_dic').val(data.dic).attr('disabled', 'disabled');
+                                $('#billing_address_1').val(data.adresa).attr('disabled', 'disabled');
+                                $('#billing_postcode').val(data.psc).attr('disabled', 'disabled');
+                                $('#billing_city').val(data.mesto).attr('disabled', 'disabled');
+                                ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_ok+'</span>' ); 
+                            }                    
 
                         } else {
                             ares_error( ico_class );
@@ -114,7 +120,7 @@
                     if ( $('.woolab-ic-dic-tip').length == 0 ) {
                         ico.val('');
                         ares_error( ico_class ); 
-                        ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+woolab.error+'</span>' );
+                        ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+woolab.l18n_error+'</span>' );
                     }
                 }			
             });	
@@ -126,13 +132,15 @@
 
     function ares_error ( ico_class ) {
 
-        $('#billing_company').val('');
-        $('#billing_dic').val('');
-        $('#billing_postcode').val('');
-        $('#billing_city').val('');
-        $('#billing_address_1').val('');
+        if ( woolab.ares_fill ) {
+            $('#billing_company').val('');
+            $('#billing_dic').val('');
+            $('#billing_postcode').val('');
+            $('#billing_city').val('');
+            $('#billing_address_1').val('');
+            ares_remove_disabled_from_input();
+        }
 
-        ares_remove_disabled_from_input();
         ico_class.addClass( cssc.wrong );
     }
 	

@@ -107,11 +107,23 @@ function woolab_icdic_enqueue_scripts() {
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
-			'error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
-			'ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
+			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
+			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
+			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
+			'ares_check' => woolab_ic_dic_ares_check(), 
+			'ares_fill' => woolab_ic_dic_ares_fill(),
 		));
 	}
+}
+
+function woolab_ic_dic_ares_check() {
+	//todo načíst filtrem anebo options
+	return true;
+}
+
+function woolab_ic_dic_ares_fill() {
+	//todo načíst filtrem anebo options
+	return true;
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
