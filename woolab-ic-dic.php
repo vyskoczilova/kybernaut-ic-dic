@@ -3,7 +3,7 @@
  * Plugin Name:       Kybernaut IC DIC
  * Plugin URI:		  http://kybernaut.cz/pluginy/kybernaut-ic-dic
  * Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
- * Version:           1.2.1
+ * Version:           1.3.0
  * Author:            Karolína Vyskočilová
  * Author URI:        http://www.kybernaut.cz
  * Text Domain:       woolab-ic-dic
@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.2.1' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.3.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -65,6 +65,7 @@ function woolab_icdic_init() {
 	} else {			
 
 		// load additional sources
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
 		
@@ -91,7 +92,9 @@ function woolab_icdic_init() {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', 'woolab_icdic_admin_scripts' );
 		} else {
-			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );		
+			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );
+			add_action('wp_ajax_nopriv_ajaxAres', 'woolab_icdic_ares_ajax');
+			add_action('wp_ajax_ajaxAres', 'woolab_icdic_ares_ajax');			
 		}
 
 	}
@@ -101,11 +104,29 @@ add_action( 'plugins_loaded', 'woolab_icdic_init' );
 function woolab_icdic_enqueue_scripts() {
 	if( is_checkout() ){
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
+		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
+		));
 	}
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
     if ( 'post.php' === $hook ) {
-        wp_enqueue_style( 'persoo-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );
+		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
     }
 }
+
+function woolab_icdic_ares_ajax(){
+	if ( isset($_REQUEST) ) {
+		
+		$value = woolab_ic_dic_ares( $_REQUEST['ico'] );
+		if ( $value ) {
+			echo json_encode( $value );
+		} else {
+			echo null;
+		}
+
+	}
+	die();
+};

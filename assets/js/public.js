@@ -1,5 +1,11 @@
 (function($) {
 
+    var cssc = [];
+    cssc['not_valid'] = 'wpcf7-not-valid';
+    cssc['validating'] = 'ares-validating';
+    cssc['wrong'] = 'ares-wrong';
+    cssc['ok'] = 'ares-ok';
+
     $(document).ready(function() {
                                  
         var country = jQuery('#billing_country').val();
