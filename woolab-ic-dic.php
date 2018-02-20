@@ -110,18 +110,18 @@ function woolab_icdic_enqueue_scripts() {
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
 			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
 			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
-			'ares_check' => woolab_ic_dic_ares_check(), 
-			'ares_fill' => woolab_ic_dic_ares_fill(),
+			'ares_check' => woolab_icdic_ares_check(), 
+			'ares_fill' => woolab_icdic_ares_fill(),
 		));
 	}
 }
 
-function woolab_ic_dic_ares_check() {
+function woolab_icdic_ares_check() {
 	//todo načíst filtrem anebo options
 	return true;
 }
 
-function woolab_ic_dic_ares_fill() {
+function woolab_icdic_ares_fill() {
 	//todo načíst filtrem anebo options
 	return true;
 }
