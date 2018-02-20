@@ -37,6 +37,18 @@ Just follow the standard [WordPress plugin installation procedere](http://codex.
 
 == Frequently asked questions ==
 
+= I want to style ARES verified fields =
+U can use css selectors `.kbnt-validating`, `.kbnt-ok`, and `.kbnt-wrong` for example:
+`.kbnt-wrong input {
+    color: #e2401c;
+}
+.kbnt-ok input {
+    color: #0f834d;
+}
+.kbnt-validating input{
+    color: #3d9cd2;
+}`
+
 = I want to display fields in the same row, one besides other (half width) =
 
 You can use this snippet to modify the classes of outputed fileds, just add them to your functions.php

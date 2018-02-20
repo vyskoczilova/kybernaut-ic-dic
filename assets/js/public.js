@@ -1,10 +1,5 @@
 (function($) {
 
-    var cssc = [];
-    cssc['validating'] = 'ares-validating';
-    cssc['wrong'] = 'ares-wrong';
-    cssc['ok'] = 'ares-ok';
-
     $(document).ready(function() {
                                  
         // Country based
@@ -44,6 +39,20 @@
         $('.woolab-ic-dic-tip').remove(); 
         ares_remove_disabled_from_input(); 
     }
+
+    function woolab_remove_class_ok ( selector ) {
+        selector.removeClass( 'kbnt-ok' ).removeClass( 'woocommerce-validated' );
+    }
+    function woolab_add_class_ok ( selector ) {
+        selector.addClass( 'kbnt-ok' ).addClass( 'woocommerce-validated' ).removeClass( 'woocommerce-invalid' );
+    }
+
+    function woolab_remove_class_wrong ( selector ) {
+        selector.removeClass( 'kbnt-wrong' ).removeClass( 'woocommerce-invalid' );
+    }
+    function woolab_add_class_wrong ( selector ) {
+        selector.addClass( 'kbnt-wrong' ).addClass( 'woocommerce-invalid' ).removeClass( 'woocommerce-validated' );
+    }
     
     function enable_ares_check() {
 
@@ -56,11 +65,11 @@
     }
 
     function ares_remove_disabled_from_input() {
-        $('#billing_company').removeAttr("disabled");
-        $('#billing_dic').removeAttr("disabled");
-        $('#billing_postcode').removeAttr("disabled");
-        $('#billing_city').removeAttr("disabled");
-        $('#billing_address_1').removeAttr("disabled");
+        $('#billing_company').removeAttr("readonly");
+        $('#billing_dic').removeAttr("readonly");
+        $('#billing_postcode').removeAttr("readonly");
+        $('#billing_city').removeAttr("readonly");
+        $('#billing_address_1').removeAttr("readonly");
     }
 
     function ares_check( ico ) {
@@ -68,7 +77,9 @@
         var ico_class = $('#billing_ic_field');
         var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.l18n_not_valid+'</span>';
 
-        ico_class.removeClass( cssc.ok ).removeClass( cssc.wrong ).removeClass(cssc.wrong);            
+        $('.woolab-ic-dic-tip').remove();          
+        woolab_remove_class_wrong( ico_class );
+        woolab_remove_class_ok( ico_class );
 
         if ( (value.length == 7 || value.length == 8) && value.match(/^[0-9]+$/) != null ) {  
             
@@ -79,24 +90,24 @@
                     'ico' : value,
                 },
                 beforeSend: function() {
-                    ico_class.addClass(cssc.validating);
+                    ico_class.addClass( 'kbnt-validating' );
                 },
                 success: function ( data ) {
-                    ico_class.removeClass(cssc.validating);
+                    ico_class.removeClass( 'kbnt-validating' );
                     if ( data ) {
                         var data = JSON.parse( data );
 
                         if ( data.error == false ) {
 
-                            $('.woolab-ic-dic-tip').remove();
-                            ico_class.addClass( cssc.ok ); 
+                            $('.woolab-ic-dic-tip').remove(); 
+                            woolab_add_class_ok( ico_class );
 
                             if ( woolab.ares_fill ) {
-                                $('#billing_company').val(data.spolecnost).attr('disabled', 'disabled');
-                                $('#billing_dic').val(data.dic).attr('disabled', 'disabled');
-                                $('#billing_address_1').val(data.adresa).attr('disabled', 'disabled');
-                                $('#billing_postcode').val(data.psc).attr('disabled', 'disabled');
-                                $('#billing_city').val(data.mesto).attr('disabled', 'disabled');
+                                $('#billing_company').val(data.spolecnost).attr('readonly', true);
+                                $('#billing_dic').val(data.dic).attr('readonly', true);
+                                $('#billing_address_1').val(data.adresa).attr('readonly', true);
+                                $('#billing_postcode').val(data.psc).attr('readonly', true);
+                                $('#billing_city').val(data.mesto).attr('readonly', true);
                                 ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_ok+'</span>' ); 
                             }                    
 
@@ -126,7 +137,7 @@
             });	
 
         } else {
-            ico_class.addClass( cssc.wrong );
+            woolab_add_class_wrong( ico_class );
         }
     }
 
@@ -140,8 +151,7 @@
             $('#billing_address_1').val('');
             ares_remove_disabled_from_input();
         }
-
-        ico_class.addClass( cssc.wrong );
+        woolab_add_class_wrong( ico_class );
     }
 	
 })( jQuery );

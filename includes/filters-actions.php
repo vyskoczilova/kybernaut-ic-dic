@@ -89,9 +89,7 @@ function woolab_icdic_checkout_field_process() {
 
 		if ( $_POST['billing_country'] == "CZ" ) {
 			
-			if ( isset( $_POST['billing_ic'] ) && $_POST['billing_ic'] ) {		
-				
-				var_dump( $_POST );
+			if ( isset( $_POST['billing_ic'] ) && $_POST['billing_ic'] ) {										
 				
 				if ( woolab_icdic_ares_check() ) {					
 				
@@ -100,8 +98,7 @@ function woolab_icdic_checkout_field_process() {
 						if ( $ares['error'] ) {
 							wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ) . ' ' . $ares['error'], 'error' );
 						} elseif ( woolab_icdic_ares_fill() ) {
-							//TODO FIX
-							/*if ( $_POST['billing_dic'] != $ares['dic'] ) {
+							if ( isset( $_POST['billing_dic'] ) && $_POST['billing_dic'] != $ares['dic'] ) {
 								$missing_fields[] = __( 'Business ID', 'woocommerce' );
 							}
 							if ( $_POST['billing_company'] != $ares['spolecnost'] ) {
@@ -119,8 +116,8 @@ function woolab_icdic_checkout_field_process() {
 								$missing_fields[] = __( 'Address', 'woocommerce' );
 							}
 							if ( $missing_fields ) {								
-								wc_add_notice( sprintf( _n( '%s is a required field and not valid.', '%s are required fields and not valid.', count( $missing_fields ), 'woolab-ic-dic' ), wc_format_list_of_items( $missing_fields ) ), 'error' );
-							}*/
+								wc_add_notice( sprintf( _n( '%s is not corresponding to ARES.', '%s are not corresponding to ARES.', count( $missing_fields ), 'woolab-ic-dic' ), wc_format_list_of_items( $missing_fields ) ), 'error' );
+							}
 						}
 					} else {
 						wc_add_notice( __( 'Unexpected error occurred. Try it again.', 'woolab-ic-dic'  ), 'error' );
