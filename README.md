@@ -8,6 +8,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 ## Unreleased changes
 * Fix: Display "VAT reg. no." field in Order Billing-edit.
 * Performance: CSS in admin.
+* TODO - settings for ARES a VIES valiadtion, VIES validation, minify js
 
 ## Filters
 

@@ -105,8 +105,6 @@ function woolab_icdic_checkout_field_process() {
 								$missing_fields[] = __( 'Company', 'woocommerce' );
 							}
 							if ( $_POST['billing_postcode'] != $ares['psc'] ) {
-								$missing_fields[] = $_POST['billing_postcode'];
-								$missing_fields[] = $ares['psc'];
 								$missing_fields[] = __( 'Postcode / ZIP', 'woocommerce' );
 							}
 							if ( $_POST['billing_city'] != $ares['mesto'] ) {
@@ -125,7 +123,6 @@ function woolab_icdic_checkout_field_process() {
 
 				} elseif ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {	
 						wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
-
 				}
 
 			}
