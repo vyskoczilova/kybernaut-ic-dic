@@ -68,6 +68,7 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
 		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
@@ -91,6 +92,7 @@ function woolab_icdic_init() {
 
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', 'woolab_icdic_admin_scripts' );
+			add_filter( 'plugin_action_links_' . WOOLAB_IC_DIC_PLUGIN_BASENAME, 'woolab_icdic_plugin_action_links' );
 		} else {
 			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );						
 		}
@@ -117,18 +119,25 @@ function woolab_icdic_enqueue_scripts() {
 }
 
 function woolab_icdic_ares_check() {
-	//todo načíst filtrem anebo options
-	return true;
+	$option = get_option( 'woolab_icdic_ares_check', true );
+	return apply_filters( 'woolab_icdic_ares_check', $option );	
 }
 
 function woolab_icdic_ares_fill() {
-	//todo načíst filtrem anebo options
-	return true;
+	$option = get_option( 'woolab_icdic_ares_fill', false );
+	return apply_filters( 'woolab_icdic_ares_fill', $option );
+}
+
+function woolab_icdic_vies_check() {
+	$option = get_option( 'woolab_icdic_vies_check', true );
+	return apply_filters( 'woolab_icdic_vies_check', $option );
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
     if ( 'post.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
+    } elseif ( 'woocommerce_page_wc-settings' === $hook ) {
+        wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery'));
     }
 }
 

@@ -33,6 +33,18 @@ If you need to modify class of outputed fields. For example you want to have *bi
       return array('form-row-last');
     }
 
+### Manipulate the plugin settings: 
+If you need to set it up in your theme or plugin, you can use following filters to do so:
+
+
+*Example:*
+
+    add_filter( 'woolab_icdic_ares_check', '__return_true' );
+
+    add_filter( 'woolab_icdic_ares_fill', '__return_true' );
+
+    add_filter( 'woolab_icdic_vies_check', '__return_true' );
+
 ### Update user meta while edition order details: `woolab_icdic_update_user_meta`
 By default, if you edit order details, user profile is not touched. If you want to update user details when you add or edit ICO or DIC value, use this filter.
 
