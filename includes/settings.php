@@ -2,6 +2,14 @@
 
 add_filter('woocommerce_general_settings', 'woolab_icdic_icdic_general_settings');
 function woolab_icdic_icdic_general_settings($settings) {
+
+    if ( class_exists('SoapClient') ) {
+        $vies_desc = __( 'Enable validation of VAT number in EU database VIES.', 'woolab-ic-dic' );
+        $vies_check = 'yes';
+    } else {
+        $vies_desc = '<span style="color:#ca4a1f">' . __( 'To enable this feature, turn on Soap Client (ask your hosting).', 'woolab-ic-dic' ) . '</span> ' . __( 'Enable validation of VAT number in EU database VIES.', 'woolab-ic-dic' ) ;
+        $vies_check = 'yes';
+    }
         
     $settings[] = array( 'title' => __( 'Kybernaut IČO DIČ options', 'woolab-ic-dic' ), 'type' => 'title', 'desc' => __( 'The following options affect how Business ID and VAT number behaves.', 'woolab-ic-dic' ), 'id' => 'woolab_icdic_options' );
     $settings[] = array(
@@ -20,9 +28,9 @@ function woolab_icdic_icdic_general_settings($settings) {
     );
     $settings[] = array(
         'title'   => __( 'EU: Validate VAT number in VIES', 'woolab-ic-dic' ),
-        'desc'    => __( 'Enable validation of VAT number in EU database VIES.', 'woolab-ic-dic' ),
+        'desc'    => $vies_desc,
         'id'      => 'woolab_icdic_vies_check',
-        'default' => 'yes',
+        'default' => $vies_check,
         'type'    => 'checkbox',
     );
     $settings[] = array( 'type' => 'sectionend', 'id' => 'woolab_icdic_options' );

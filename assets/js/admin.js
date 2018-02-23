@@ -4,12 +4,17 @@
                                  
         // enable active only if ares_check filled out
         var ares_check = $('#woolab_icdic_ares_check');
+        var vies_check = $('#woolab_icdic_vies_check');
 
         if ( ares_check.length ) {
             enableActive( ares_check );
             ares_check.change( function(){
                 enableActive( ares_check );
             });
+        }
+
+        if ( ! woolab.soap ) {
+            vies_check.prop("disabled", true).prop( "checked", false );
         }
 
     });

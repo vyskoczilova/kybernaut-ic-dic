@@ -65,10 +65,15 @@ function woolab_icdic_init() {
 	} else {			
 
 		// load additional sources
-		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');		
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
+		// https://github.com/dannyvankooten/vat.php
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/Client.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/ViesException.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Countries.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Validator.php');
 		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
@@ -88,7 +93,6 @@ function woolab_icdic_init() {
 		} 
 		
 		add_filter( "plugin_row_meta", 'woolab_icdic_plugin_row_meta', 10, 2 );
-
 
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', 'woolab_icdic_admin_scripts' );
@@ -129,15 +133,26 @@ function woolab_icdic_ares_fill() {
 }
 
 function woolab_icdic_vies_check() {
+	
+	if ( ! class_exists('SoapClient') ) {
+        return false;
+	}
+	
 	$option = get_option( 'woolab_icdic_vies_check', true );
 	return apply_filters( 'woolab_icdic_vies_check', $option );
+	
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
     if ( 'post.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
     } elseif ( 'woocommerce_page_wc-settings' === $hook ) {
-        wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery'));
+		wp_register_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery') );		
+        wp_enqueue_script( 'woolab-ic-dic-admin');
+            $params = array(
+                'soap' => class_exists('SoapClient'),
+            );
+        wp_localize_script( 'woolab-ic-dic-admin', 'woolab', $params );
     }
 }
 
