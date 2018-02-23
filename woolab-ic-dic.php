@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Kybernaut IC DIC
- * Plugin URI:		  http://kybernaut.cz/pluginy/kybernaut-ic-dic
+ * Plugin URI:		  https://kybernaut.cz/pluginy/kybernaut-ic-dic
  * Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
  * Version:           1.3.0
  * Author:            Karolína Vyskočilová
- * Author URI:        http://www.kybernaut.cz
+ * Author URI:        https://kybernaut.cz
  * Text Domain:       woolab-ic-dic
  * License:           GPLv3
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
