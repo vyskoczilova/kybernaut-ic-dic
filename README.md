@@ -10,7 +10,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * Performance: CSS in admin.
 * Feature: Validation for Czech Business ID (via ARES)
 * Feature: Autofill for fields such as Company, VAT number, Address, City, and Postcode based on Czech Business ID (via ARES)
-* Feature: Validation of VAT (via VIES)
+* Feature: Validation of VAT (via [VIES](https://github.com/dannyvankooten/vat.php))
 * Added: Plugin settings to `WooCommerce->Settings->General`
 
 ## Filters

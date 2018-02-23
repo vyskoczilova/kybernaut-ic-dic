@@ -35,6 +35,9 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 * PHP 5.4 and above
 * Soap Client for VIES valiadtion (ask your hosting)
 
+=== Credits ===
+* [PHP library for dealing with European VAT](https://github.com/dannyvankooten/vat.php)
+
 
 If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut-ic-dic).
 
