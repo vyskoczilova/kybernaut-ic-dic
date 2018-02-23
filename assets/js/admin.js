@@ -13,8 +13,21 @@
             });
         }
 
-        if ( ! woolab.soap ) {
-            vies_check.prop("disabled", true).prop( "checked", false );
+        if ( vies_check.length ) {
+            if ( ! woolab.soap ) {
+                vies_check.prop("disabled", true).prop( "checked", false );
+            }
+        }
+
+        if ( $('.woolab-icdic-notice').length ) {
+            $( '.woolab-icdic-notice' ).on( 'click', '.notice-dismiss', function() {
+                $.ajax({
+                    url: ajaxurl,
+                    data: {
+                        action: "woolab_icdic_notice_dismiss",
+                    }
+                });	
+            });
         }
 
     });

@@ -64,7 +64,13 @@ function woolab_icdic_init() {
 		
 	} else {			
 
-		// load additional sources
+		// Create option for admin notice
+		if( ! get_option('woolab_icdic_notice_settings')){
+			add_option('woolab_icdic_notice_settings', true);
+		}
+
+		// Load additional sources
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/admin-notice.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');		
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
@@ -146,13 +152,13 @@ function woolab_icdic_vies_check() {
 function woolab_icdic_admin_scripts( $hook ) {
     if ( 'post.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
-    } elseif ( 'woocommerce_page_wc-settings' === $hook ) {
-		wp_register_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery') );		
-        wp_enqueue_script( 'woolab-ic-dic-admin');
-            $params = array(
-                'soap' => class_exists('SoapClient'),
-            );
-        wp_localize_script( 'woolab-ic-dic-admin', 'woolab', $params );
+	} 
+	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery') );		
+        wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(									
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'soap' => class_exists('SoapClient'),
+		));
     }
 }
 
