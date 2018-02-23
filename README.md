@@ -8,7 +8,10 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 ## Unreleased changes
 * Fix: Display "VAT reg. no." field in Order Billing-edit.
 * Performance: CSS in admin.
-* TODO - settings for ARES a VIES valiadtion, VIES validation, minify js
+* Feature: Validation for Czech Business ID (via ARES)
+* Feature: Autofill for fields such as Company, VAT number, Address, City, and Postcode based on Czech Business ID (via ARES)
+* Feature: Validation of VAT (via VIES)
+* Added: Plugin settings to `WooCommerce->Settings->General`
 
 ## Filters
 
