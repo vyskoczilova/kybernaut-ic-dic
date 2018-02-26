@@ -12,19 +12,31 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 
 == Description ==
 
-Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct.
+Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathmeatics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
-* for CZ as billing country - mathematicaly verifies IČO and DIČ
-* for SK as billing country - just validate format of values
+* for CZ as billing country
+    * ARES and VIES verification (or mathematicaly verifies IČO and DIČ)
+    * ARES autofill (fields Company, VAT number, Address, City, and Postcode) based on IČO
+* for SK as billing country
+    * VIES DIČ valiadtion (or just validate format of values)
+* for EU countries as billing country
+    * VIES DIČ valiadtion
 * adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Acount page
 * allows edits from administration (backend): 
   * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
 
 === Compatibility ==
-* both WooCommerce 2.6 & 3.0+
-* with [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
-* with plugins of Vladislav Musilek (Toret) - Woo Doprava, Woo GoPay etc.
+* WooCommerce 2.6 & 3.0+
+* [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
+* plugins of Vladislav Musilek (Toret) - Woo Doprava, Woo GoPay etc.
+
+=== Requirements ===
+* PHP 5.4 and above
+* Soap Client for VIES valiadtion (ask your hosting)
+
+=== Credits ===
+* [PHP library for dealing with European VAT](https://github.com/dannyvankooten/vat.php)
 
 
 If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut-ic-dic).
@@ -32,10 +44,23 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 
 == Installation ==
 
-Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
+1. Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
+1. Go to `WooCommerce->Settings->General` and scroll down for `Kybernaut IČO DIČ options`.
 
 
 == Frequently asked questions ==
+
+= I want to style ARES verified fields =
+U can use css selectors `.kbnt-validating`, `.kbnt-ok`, and `.kbnt-wrong` for example:
+`.kbnt-wrong input {
+    color: #e2401c;
+}
+.kbnt-ok input {
+    color: #0f834d;
+}
+.kbnt-validating input{
+    color: #3d9cd2;
+}`
 
 = I want to display fields in the same row, one besides other (half width) =
 

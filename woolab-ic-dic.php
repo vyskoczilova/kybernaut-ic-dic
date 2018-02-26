@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Kybernaut IC DIC
- * Plugin URI:		  http://kybernaut.cz/pluginy/kybernaut-ic-dic
+ * Plugin URI:		  https://kybernaut.cz/pluginy/kybernaut-ic-dic
  * Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
- * Version:           1.2.1
+ * Version:           1.3.0
  * Author:            Karolína Vyskočilová
- * Author URI:        http://www.kybernaut.cz
+ * Author URI:        https://kybernaut.cz
  * Text Domain:       woolab-ic-dic
  * License:           GPLv3
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.2.1' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.3.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -64,9 +64,22 @@ function woolab_icdic_init() {
 		
 	} else {			
 
-		// load additional sources
+		// Create option for admin notice
+		if( ! get_option('woolab_icdic_notice_settings')){
+			add_option('woolab_icdic_notice_settings', true);
+		}
+
+		// Load additional sources
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/admin-notice.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');		
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
+		// https://github.com/dannyvankooten/vat.php
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/Client.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/ViesException.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Countries.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Validator.php');
 		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
@@ -87,12 +100,15 @@ function woolab_icdic_init() {
 		
 		add_filter( "plugin_row_meta", 'woolab_icdic_plugin_row_meta', 10, 2 );
 
-
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', 'woolab_icdic_admin_scripts' );
+			add_filter( 'plugin_action_links_' . WOOLAB_IC_DIC_PLUGIN_BASENAME, 'woolab_icdic_plugin_action_links' );
 		} else {
-			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );		
+			add_action( 'wp_enqueue_scripts', 'woolab_icdic_enqueue_scripts' );						
 		}
+
+		add_action('wp_ajax_nopriv_ajaxAres', 'woolab_icdic_ares_ajax');
+		add_action('wp_ajax_ajaxAres', 'woolab_icdic_ares_ajax');
 
 	}
 }
@@ -101,11 +117,61 @@ add_action( 'plugins_loaded', 'woolab_icdic_init' );
 function woolab_icdic_enqueue_scripts() {
 	if( is_checkout() ){
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
+		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
+			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
+			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
+			'ares_check' => woolab_icdic_ares_check(), 
+			'ares_fill' => woolab_icdic_ares_fill(),
+		));
 	}
+}
+
+function woolab_icdic_ares_check() {
+	$option = get_option( 'woolab_icdic_ares_check', true );
+	return apply_filters( 'woolab_icdic_ares_check', $option );	
+}
+
+function woolab_icdic_ares_fill() {
+	$option = get_option( 'woolab_icdic_ares_fill', false );
+	return apply_filters( 'woolab_icdic_ares_fill', $option );
+}
+
+function woolab_icdic_vies_check() {
+	
+	if ( ! class_exists('SoapClient') ) {
+        return false;
+	}
+	
+	$option = get_option( 'woolab_icdic_vies_check', true );
+	return apply_filters( 'woolab_icdic_vies_check', $option );
+	
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
     if ( 'post.php' === $hook ) {
-        wp_enqueue_style( 'persoo-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );
+		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
+	} 
+	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery') );		
+        wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(									
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'soap' => class_exists('SoapClient'),
+		));
     }
 }
+
+function woolab_icdic_ares_ajax(){
+	if ( isset($_REQUEST) ) {
+		
+		$value = woolab_icdic_ares( $_REQUEST['ico'] );
+		if ( $value ) {
+			echo json_encode( $value );
+		} else {
+			echo null;
+		}
+
+	}
+	die();
+};
