@@ -116,12 +116,14 @@
                             if ( $('.woolab-ic-dic-tip').length > 0 ) {
                                 $('.woolab-ic-dic-tip').remove();                                    
                             }
+                            ares_remove_disabled_from_input();
                             ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' ); 
                         }
 
                     } else {                             
                         ares_error( ico_class );   
                         if ( $('.woolab-ic-dic-tip').length == 0 ) {
+                            ares_remove_disabled_from_input();
                             ico_class.append( not_valid );
                         }                                                                
                     }
@@ -137,6 +139,7 @@
             });	
 
         } else {
+            ares_remove_disabled_from_input();
             woolab_add_class_wrong( ico_class );
         }
     }
