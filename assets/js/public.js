@@ -140,7 +140,11 @@
 
         } else {
             ares_remove_disabled_from_input();
-            woolab_add_class_wrong( ico_class );
+            if ( value.length > 0 ) {
+                woolab_add_class_wrong( ico_class );
+            } else {
+                woolab_remove_class_wrong( ico_class );
+            }
         }
     }
 
