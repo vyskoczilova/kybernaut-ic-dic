@@ -115,8 +115,9 @@ function woolab_icdic_init() {
 add_action( 'plugins_loaded', 'woolab_icdic_init' );    
 
 function woolab_icdic_enqueue_scripts() {
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	if( is_checkout() ){
-		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
+		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public'.$sufix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
@@ -150,11 +151,13 @@ function woolab_icdic_vies_check() {
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
+
     if ( 'post.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
 	} 
 	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
-		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin.js', array('jquery') );		
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$sufix.'.js', array('jquery') );		
         wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'soap' => class_exists('SoapClient'),

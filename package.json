@@ -1,0 +1,31 @@
+{
+  "name": "woolab-ic-dic",
+  "version": "1.0.0",
+  "description": "[![plugin version](https://img.shields.io/wordpress/plugin/v/woolab-ic-dic.svg)](https://wordpress.org/plugins/woolab-ic-dic)",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-include": "^2.3.1",
+    "gulp-minify": "^2.1.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-wp-pot": "^2.2.0"
+  },
+  "scripts": {
+    "test": "js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vyskoczilova/kybernaut-ic-dic.git"
+  },
+  "author": "Karolina Vyskocilova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vyskoczilova/kybernaut-ic-dic/issues"
+  },
+  "homepage": "https://github.com/vyskoczilova/kybernaut-ic-dic#readme"
+}
