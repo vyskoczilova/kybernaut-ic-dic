@@ -119,7 +119,7 @@ function woolab_icdic_checkout_field_process() {
 							if ( $_POST['billing_address_1'] != $ares['adresa'] ) {
 								$missing_fields[] = __( 'Address', 'woocommerce' );
 							}
-							if ( $missing_fields ) {								
+							if ( isset( $missing_fields ) ) {								
 								wc_add_notice( sprintf( _n( '%s is not corresponding to ARES.', '%s are not corresponding to ARES.', count( $missing_fields ), 'woolab-ic-dic' ), wc_format_list_of_items( $missing_fields ) ), 'error' );
 							}
 						}
@@ -261,7 +261,7 @@ function woolab_icdic_customer_meta_fields($fields) {
 			'label' => __('VAT reg. no.', 'woolab-ic-dic'),
 			'description' => ''
 		)
-		);
+	);
 	return $fields;
 }
 
@@ -270,8 +270,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 	
 	global $post;
 
-	$order = new WC_Order($post->ID);
-	$order_id = trim( str_replace( '#', '', $order->get_order_number() ) );
+	$order_id = $post->ID;
 	$country = get_post_meta( $order_id, '_billing_country', '' );
 
 	$fields += array(

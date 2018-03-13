@@ -29,6 +29,7 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 === Compatibility ==
 * WooCommerce 2.6 & 3.0+
 * [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
+* [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * plugins of Vladislav Musilek (Toret) - Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
