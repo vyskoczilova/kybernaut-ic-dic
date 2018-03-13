@@ -117,7 +117,7 @@ add_action( 'plugins_loaded', 'woolab_icdic_init' );
 function woolab_icdic_enqueue_scripts() {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	if( is_checkout() ){
-		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public'.$sufix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
+		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public'.$suffix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),

@@ -116,3 +116,41 @@ function woolab_icdic_verify_dic_dph_sk( $dic_dph ){
 
     return (string) $dic_dph;
 }
+
+function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) {
+    
+    if ( $type == 'both' ) {
+        // add fields after "billing_company" field
+        foreach ($fields as $key => $value) {
+            if ( $key == 'billing' ) {			
+                foreach ( $value as $_key => $_value ) {
+                    $key_fields[$_key] = $_value;
+                    if ( $_key == 'billing_company') {
+                        // add passed values
+                        foreach ( $additional as $__key => $__value ) {
+                            $key_fields[$__key] = $__value;
+                        }
+                    }
+                }
+                $fields_new[$key] = $key_fields;
+            } else {
+                $fields_new[$key] = $value;
+            }		
+        }
+    } else {
+        foreach ( $fields as $key => $value ) {
+            $fields_new[$key] = $value;
+            if ( $key == 'billing_company') {
+                // add passed values
+                foreach ( $additional as $_key => $_value ) {
+                    $fields_new[$_key] = $_value;
+                }
+            }
+        }
+    }
+
+
+    
+    
+    return $fields_new;
+}

@@ -23,65 +23,66 @@ function woolab_icdic_plugin_row_meta( $links, $file ) {
 
 // add checkout fields
 function woolab_icdic_checkout_fields( $fields ) {
-	
-	 $fields['billing']['billing_ic'] = array(
-		'label'     => __('Business ID', 'woolab-ic-dic'),
-		'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
-		'required'  => false,
-		'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
-		'clear'     => true
-	 );
- 
-	 $fields['billing']['billing_dic'] = array(
-		'label'     => __('Tax ID', 'woolab-ic-dic'),
-		'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
-		'required'  => false,
-		'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
-		'clear'     => true
-	 );
 
-	 $fields['billing']['billing_dic_dph'] = array(
-		'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
-		'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
-		'required'  => false,
-		'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
-		'clear'     => true
-	 );
-
-	return $fields;
-
-}
-
-function woolab_icdic_billing_fields( $fields, $country ) {
-		
-		 $fields['billing_ic'] = array(
+	$additional_fields = array(
+		'billing_ic' => array(
 			'label'     => __('Business ID', 'woolab-ic-dic'),
 			'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),		
+			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
 			'clear'     => true
-		);
-	
-		$fields['billing_dic'] = array(
+		),				 
+		 'billing_dic' => array(
 			'label'     => __('Tax ID', 'woolab-ic-dic'),
 			'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
 			'clear'     => true
-		);
+		 ),				
+		 'billing_dic_dph' => array(
+			'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
+			'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+			'clear'     => true
+		 ),
+	);
+	
+	return woolab_icdic_add_after_company( $fields, $additional_fields );
 
-		if ( $country == 'SK' ) {
-			$fields['billing_dic_dph'] = array(
-				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
-				'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
-				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
-				'clear'     => true
-			);
-		}
+}
+
+function woolab_icdic_billing_fields( $fields, $country ) {
 		
-		return $fields;
-	}		 
+	$additional_fields = array(
+		'billing_ic' => array(
+			'label'     => __('Business ID', 'woolab-ic-dic'),
+			'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),		
+			'clear'     => true
+		),
+		'billing_dic' => array(
+			'label'     => __('Tax ID', 'woolab-ic-dic'),
+			'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
+			'clear'     => true
+		),
+	);
+	
+	if ( $country == 'SK' ) {
+		$additional_fields['billing_dic_dph'] = array(
+			'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
+			'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
+			'required'  => false,
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+			'clear'     => true
+		);
+	}
+	
+	return woolab_icdic_add_after_company( $fields, $additional_fields, 'billing' );
+} 
 			
 // check field on checkout
 function woolab_icdic_checkout_field_process() {
