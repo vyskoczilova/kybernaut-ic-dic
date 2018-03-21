@@ -14,7 +14,7 @@
  
  * Requires PHP: 	  5.4
  * WC requires at least: 	2.6
- * WC tested up to: 		3.3
+ * WC tested up to: 		3.3.4
  * 
  * Copyright: © 2009-2015 Karolína Vyskočilová.
  * License: GNU General Public License v3.0
