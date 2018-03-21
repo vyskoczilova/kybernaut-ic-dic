@@ -113,6 +113,16 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.3.0 (2018-02-21) =
+* Fix: Display "VAT reg. no." field in Order Billing-edit.
+* Fix: Compatibility with WooCommerce Sequential Order Numbers ([#3](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/3))
+* Performance: CSS in admin.
+* Feature: Validation for Czech Business ID (via ARES)
+* Feature: Autofill for fields such as Company, VAT number, Address, City, and Postcode based on Czech Business ID (via ARES)
+* Feature: Validation of VAT (via [VIES](https://github.com/dannyvankooten/vat.php))
+* Added: Plugin settings to `WooCommerce->Settings->General`
+* Fields moved after "company" field.
+
 = 1.2.0 (2018-02-08) =
 * Fixed: Editing Business ID and VAT values within order in admin backend
 * Feature: Texts in plugin only in English (Czech as a translation)

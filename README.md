@@ -6,14 +6,7 @@ Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
-* Fix: Display "VAT reg. no." field in Order Billing-edit.
-* Fix: Compatibility with WooCommerce Sequential Order Numbers ([#3](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/3))
-* Performance: CSS in admin.
-* Feature: Validation for Czech Business ID (via ARES)
-* Feature: Autofill for fields such as Company, VAT number, Address, City, and Postcode based on Czech Business ID (via ARES)
-* Feature: Validation of VAT (via [VIES](https://github.com/dannyvankooten/vat.php))
-* Added: Plugin settings to `WooCommerce->Settings->General`
-* Fields moved after "company" field.
+* none
 
 ## Filters
 
