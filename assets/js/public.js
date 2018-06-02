@@ -3,7 +3,7 @@
     $(document).ready(function() {
                                  
         // Country based
-        var country = jQuery('#billing_country').val();
+        var country = $('#billing_country').val();
         based_on_country( country );
 
         $( 'body' ).bind( 'country_to_state_changing', function( event, country, wrapper ){            

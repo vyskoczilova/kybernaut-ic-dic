@@ -81,7 +81,7 @@ function woolab_icdic_init() {
 		
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);				
-		add_action( 'woocommerce_checkout_process', 'woolab_icdic_checkout_field_process', 10, 2);	
+		add_action( 'woocommerce_checkout_process', 'woolab_icdic_checkout_field_process', 10, 0);	
 		add_filter( 'woocommerce_my_account_my_address_formatted_address', 'woolab_icdic_my_address_formatted_address', 10, 3 );
 		add_filter( 'woocommerce_localisation_address_formats', 'woolab_icdic_localisation_address_formats' );		
 		add_filter( 'woocommerce_formatted_address_replacements', 'woolab_icdic_formatted_address_replacements', 10, 2 );
@@ -128,12 +128,12 @@ function woolab_icdic_enqueue_scripts() {
 }
 
 function woolab_icdic_ares_check() {
-	$option = get_option( 'woolab_icdic_ares_check', true );
+	$option = woolab_icdic_get_option( 'woolab_icdic_ares_check', 'yes' );
 	return apply_filters( 'woolab_icdic_ares_check', $option );	
 }
 
 function woolab_icdic_ares_fill() {
-	$option = get_option( 'woolab_icdic_ares_fill', false );
+	$option = woolab_icdic_get_option( 'woolab_icdic_ares_fill', 'no' );
 	return apply_filters( 'woolab_icdic_ares_fill', $option );
 }
 
@@ -143,9 +143,20 @@ function woolab_icdic_vies_check() {
         return false;
 	}
 	
-	$option = get_option( 'woolab_icdic_vies_check', true );
+	$option = woolab_icdic_get_option( 'woolab_icdic_vies_check', 'yes' );
 	return apply_filters( 'woolab_icdic_vies_check', $option );
 	
+}
+
+function woolab_icdic_get_option( $name, $default = 'yes' ) {
+
+	$option = get_option( $name, $default );
+	if ( $option == 'yes' ) {
+		return true;
+	} else {
+		return false;
+	}	
+
 }
 
 function woolab_icdic_admin_scripts( $hook ) {
