@@ -3,7 +3,7 @@
  Plugin Name:       Kybernaut IC DIC
  Plugin URI:		https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
- Version:           1.3.0
+ Version:           1.3.1
  Author:            Karolína Vyskočilová
  Author URI:        https://kybernaut.cz
  Text Domain:       woolab-ic-dic
@@ -11,9 +11,9 @@
  License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  Domain Path:       /languages
  Donate link: 	    https://paypal.me/KarolinaVyskocilova/
- Requires PHP: 	    5.4
+ Requires PHP: 	    5.6
  WC requires at least: 	2.6
- WC tested up to: 		3.3
+ WC tested up to: 		3.4.1
  Copyright: © 2009-2015 Karolína Vyskočilová.
  License: GNU General Public License v3.0
  License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -150,9 +150,9 @@ function woolab_icdic_vies_check() {
 
 function woolab_icdic_admin_scripts( $hook ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
-
-    if ( 'post.php' === $hook ) {
+    if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );		
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery') );	
 	} 
 	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
 		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery') );		

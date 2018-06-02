@@ -286,7 +286,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 		) 
 	);
 
-	if ( $country[0] == 'SK' ) {
+	if ( $country && $country[0] == 'SK' || ! $country ) {
 		$fields += array(			
 			'billing_dic_dph' => array(
 				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),

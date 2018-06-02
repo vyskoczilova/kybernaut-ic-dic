@@ -43,6 +43,15 @@ gulp.task( "js", function() {
           }
       }))
       .pipe( gulp.dest( 'assets/js' ) );
+      console.log( '-- minifying to assets/js/admin-edit.min.js' );
+      gulp.src( wpTheme + 'assets/js/admin-edit.js' )
+        .pipe(minify({
+            ext:{
+                //src:'.js',
+                min:'.min.js'
+            }
+        }))
+        .pipe( gulp.dest( 'assets/js' ) );
       //console.log( '-- including files to assets/js/public.js' );
       console.log( '-- minifying to assets/js/public.min.js' );
     gulp.src( wpTheme + 'assets/js/public.js' )
