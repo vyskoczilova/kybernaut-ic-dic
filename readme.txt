@@ -121,6 +121,13 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
+= 1.3.1 (2018-06-03) =
+* Fix: Show "IČ DPH" on "Manually add new order" screen when "Slovakia" selected
+* Fix: Correct validation "IČ DPH" (with SK prefix) and "DIČ" (without SK prefix)
+* Fix: Remove the WC nonce check (already checked in WC itself)
+* Fix: Problem with loading plugin options
+* Added "How to" for Woo iDoklad to readme.txt
+
 = 1.3.0 (2018-02-21) =
 * Fix: Display "VAT reg. no." field in Order Billing-edit.
 * Fix: Compatibility with WooCommerce Sequential Order Numbers ([#3](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/3))

@@ -6,10 +6,7 @@ Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
-* Fix: Show "IČ DPH" on "Manually add new order" screen when "Slovakia" selected
-* Fix: Correct validation "IČ DPH" (with SK prefix) and "DIČ" (without SK prefix)
-* Fix: Remove the WC nonce check (already checked in WC itself)
-* Fix: Problem with loading plugin options
+* none
 
 ## Filters
 
