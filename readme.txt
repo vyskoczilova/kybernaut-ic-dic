@@ -31,7 +31,7 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 * WooCommerce 2.6 & 3.0+
 * [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
-* plugins of Vladislav Musilek (Toret) - Woo Doprava, Woo GoPay etc.
+* plugins of Vladislav Musilek (Toret) - Woo iDoklad, Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
 * PHP 5.4 and above
@@ -51,6 +51,13 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 
 
 == Frequently asked questions ==
+
+= I want to display values in Woo iDoklad by Vladislav Musílek (Toret) =
+
+Go to `Toret plugins -> Woo iDoklad` and scroll to `Přiřazení polí pro IČ a DIČ` and fill following values:
+IČ: `_billing_ic`
+DIČ: `_billing_dic`
+SK DIČ: `_billing_dic_dph`
 
 = I want to style ARES verified fields =
 U can use css selectors `.kbnt-validating`, `.kbnt-ok`, and `.kbnt-wrong` for example:
