@@ -127,6 +127,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 * Fix: Remove the WC nonce check (already checked in WC itself)
 * Fix: Problem with loading plugin options
 * Added "How to" for Woo iDoklad to readme.txt
+* Update .pot source file.
 
 = 1.3.0 (2018-02-21) =
 * Fix: Display "VAT reg. no." field in Order Billing-edit.
