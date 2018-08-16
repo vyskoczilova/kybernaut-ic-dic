@@ -121,6 +121,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
+= 1.3.2 (2018-08-14) =
+* Fix: Use number for address in ARES when no correct land registry and hous number are not filled ([@pryx](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/6))
+
 = 1.3.1 (2018-06-03) =
 * Fix: Show "IČ DPH" on "Manually add new order" screen when "Slovakia" selected
 * Fix: Correct validation "IČ DPH" (with SK prefix) and "DIČ" (without SK prefix)
