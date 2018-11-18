@@ -24,30 +24,37 @@ function woolab_icdic_plugin_row_meta( $links, $file ) {
 // add checkout fields
 function woolab_icdic_checkout_fields( $fields ) {
 
-	$additional_fields = array(
-		'billing_ic' => array(
-			'label'     => __('Business ID', 'woolab-ic-dic'),
-			'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
-			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
-			'clear'     => true
-		),				 
-		 'billing_dic' => array(
-			'label'     => __('Tax ID', 'woolab-ic-dic'),
-			'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
-			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
-			'clear'     => true
-		 ),				
-		 'billing_dic_dph' => array(
-			'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
-			'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
-			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
-			'clear'     => true
-		 ),
-	);
-	
+		$additional_fields = array(
+			'billing_ic' => array(
+				'label'     => __('Business ID', 'woolab-ic-dic'),
+				'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
+				'required'  => false,
+				'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
+				'clear'     => true,
+				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
+			),				 
+			'billing_dic' => array(
+				'label'     => __('Tax ID', 'woolab-ic-dic'),
+				'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
+				'required'  => false,
+				'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
+				'clear'     => true,
+				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
+			),				
+			'billing_dic_dph' => array(
+				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
+				'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
+				'required'  => false,
+				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+				'clear'     => true,
+				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
+			),
+		);
+
+	/**
+	 * NOTE: since WC 3.5.1 which starts to use 'priority' parameter for fields, there would be enough just to assign right priority and append new fields to $fields array
+	 * TODO: later drop support
+	 */
 	return woolab_icdic_add_after_company( $fields, $additional_fields );
 
 }
@@ -60,14 +67,16 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),		
-			'clear'     => true
+			'clear'     => true,
+			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		),
 		'billing_dic' => array(
 			'label'     => __('Tax ID', 'woolab-ic-dic'),
 			'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
-			'clear'     => true
+			'clear'     => true,
+			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		),
 	);
 	
@@ -77,10 +86,15 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
 			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
-			'clear'     => true
+			'clear'     => true,
+			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		);
 	}
 	
+	/**
+	 * NOTE: since WC 3.5.1 which starts to use 'priority' parameter for fields, there would be enough just to assign right priority and append new fields to $fields array
+	 * TODO: later drop support
+	 */
 	return woolab_icdic_add_after_company( $fields, $additional_fields, 'billing' );
 } 
 			

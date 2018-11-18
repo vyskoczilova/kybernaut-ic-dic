@@ -6,7 +6,7 @@ Tested up to: 5.0
 Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Donate link: https://www.patreon.com/kybernaut
+Donate link: https://www.paypal.me/KarolinaVyskocilova
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct.
 
@@ -121,6 +121,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.3.3 (2018-11-18) =
+* Compatibility with WC 3.5.1 which has "fixed" old ordering of checkout fields [#21763](https://github.com/woocommerce/woocommerce/pull/21763)
 
 = 1.3.2 (2018-08-14) =
 * Fix: Use number for address in ARES when no correct land registry and hous number are not filled ([@pryx](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/6))
