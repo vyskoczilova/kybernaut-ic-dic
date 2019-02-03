@@ -10,6 +10,12 @@
             based_on_country( country );
         });
 
+        $('.woolab-ic-dic-no_spaces input').bind('input', function(){
+            $(this).val(function(_, v){
+                return v.replace(/\s+/g, '');
+            });
+        });
+
 
     });
 

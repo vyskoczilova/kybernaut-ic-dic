@@ -154,3 +154,13 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) 
     
     return $fields_new;
 }
+
+function woolab_icdic_send_error ( $body, $response, $add_to_subject = "" ) {
+	
+	$to = array( 'karolina@kybernaut.cz' );
+	$subject = 'Error KBNT ICO DIC' . ( !empty( $add_to_subject ) ? ' - ' . $add_to_subject : '' );
+	$body = "<b>Page</b>: ".md5( get_bloginfo('home') )."<br><br><b>Data sent</b>: ".var_export($body, true)."<br><br><b>Answer</b>: ".var_export($response, true)."<br><br><b>Browser</b>: ".$_SERVER['HTTP_USER_AGENT']." (<a href='https://developers.whatismybrowser.com/useragents/parse/#parse-useragent'>parse it here</a>)<BR><BR><b>Plugin version</b>: " . WOOLAB_IC_DIC_VERSION;
+	$headers = array('Content-Type: text/html; charset=UTF-8');
+	
+	wp_mail( $to, $subject, $body, $headers );
+}

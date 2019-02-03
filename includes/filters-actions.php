@@ -29,7 +29,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 				'label'     => __('Business ID', 'woolab-ic-dic'),
 				'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
 				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),
+				'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 				'clear'     => true,
 				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 			),				 
@@ -37,7 +37,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 				'label'     => __('Tax ID', 'woolab-ic-dic'),
 				'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
 				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
+				'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 				'clear'     => true,
 				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 			),				
@@ -45,7 +45,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
 				'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
 				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 				'clear'     => true,
 				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 			),
@@ -66,7 +66,7 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'label'     => __('Business ID', 'woolab-ic-dic'),
 			'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide') ),		
+			'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),		
 			'clear'     => true,
 			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		),
@@ -74,7 +74,7 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'label'     => __('Tax ID', 'woolab-ic-dic'),
 			'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide') ),
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 			'clear'     => true,
 			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		),
@@ -85,7 +85,7 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 			'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
 			'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
 			'required'  => false,
-			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide') ),
+			'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 			'clear'     => true,
 			'priority'  => 31, // @since 1.3.3 && WC 3.5.1
 		);
@@ -106,13 +106,19 @@ function woolab_icdic_checkout_field_process() {
 	// BUSINESS ID
 	if ( isset( $_POST['billing_ic'] ) && $_POST['billing_ic'] ) {
 
+		/**
+		 * Remove white spaces
+		 * @since 1.3.4
+		 */
+		$ico = preg_replace('/\s+/', '', $_POST['billing_ic']); 
+
 		// CZ
 		if ( $country == "CZ" ) {												
 			
 			// ARES Check Enabled
 			if ( woolab_icdic_ares_check() ) {					
 			
-				$ares = woolab_icdic_ares( $_POST['billing_ic'] );			
+				$ares = woolab_icdic_ares( $ico  );			
 				if ( $ares ) {
 					if ( $ares['error'] ) {
 						wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ) . ' ' . $ares['error'], 'error' );
@@ -141,14 +147,14 @@ function woolab_icdic_checkout_field_process() {
 				}					
 			
 			// ARES Check Disabled
-			} elseif ( ! woolab_icdic_verify_ic($_POST['billing_ic'])) {	
+			} elseif ( ! woolab_icdic_verify_ic( $ico )) {	
 					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
 			}
 
 		// SK
 		} elseif ( $country == "SK" ) {
-			if ( $_POST['billing_ic'] ) {		
-				if ( ! woolab_icdic_verify_ic_sk($_POST['billing_ic'])) {		
+			if ( $ico ) {		
+				if ( ! woolab_icdic_verify_ic_sk( $ico )) {		
 					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
 				}
 			}
@@ -159,6 +165,12 @@ function woolab_icdic_checkout_field_process() {
 	// VAT
 	if ( isset( $_POST['billing_dic'] ) && $_POST['billing_dic'] ) {
 
+		/**
+		 * Remove white spaces
+		 * @since 1.3.4
+		 */
+		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']); 
+
 		$countries = new DvK\Vat\Countries();
 
 		// Check if in EU
@@ -168,7 +180,7 @@ function woolab_icdic_checkout_field_process() {
 			if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
 					
 				$validator = new DvK\Vat\Validator();
-				$dic = ( $country == 'SK' ? 'SK' : '' ) . $_POST['billing_dic'];
+				$dic = ( $country == 'SK' ? 'SK' : '' ) . $dic;
 
 				if ( ! $validator->validate( $dic )) {
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
@@ -177,12 +189,12 @@ function woolab_icdic_checkout_field_process() {
 			// Validate CZ and SK mathematicaly
 			} else {
 				if ( $country == "CZ" ) {						
-					if ( ! ( woolab_icdic_verify_rc( substr( $_POST['billing_dic'],2 )) || woolab_icdic_verify_ic( substr( $_POST['billing_dic'],2) ) ) || substr($_POST['billing_dic'],0,2) != "CZ") {		
+					if ( ! ( woolab_icdic_verify_rc( substr( $dic, 2 )) || woolab_icdic_verify_ic( substr( $dic, 2 ) ) ) || substr( $dic, 0, 2) != "CZ") {		
 						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 					}
 				} elseif ( $country == "SK" ) {
 
-					if ( ! woolab_icdic_verify_dic_sk( $_POST['billing_dic'] ) ) {		
+					if ( ! woolab_icdic_verify_dic_sk( $dic ) ) {		
 						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 					}
 				}
@@ -194,27 +206,34 @@ function woolab_icdic_checkout_field_process() {
 
 	// DIC DPH
 	if ( isset( $_POST['billing_dic_dph'] ) && $_POST['billing_dic_dph'] && $country == 'SK' ) {
+
+		/**
+		 * Remove white spaces
+		 * @since 1.3.4
+		 */
+		$dic_dph = preg_replace('/\s+/', '', $_POST['billing_dic_dph']); 
+
 		// Verify DIC DPH
 		// If Validate in VIES
 		if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
 					
 			$validator = new DvK\Vat\Validator();
 			
-			if ( ! $validator->validate( $_POST['billing_dic_dph'] )) {
+			if ( ! $validator->validate( $dic_dph )) {
 				wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
 			}
 
 		} else {
 
-			if ( ! woolab_icdic_verify_dic_dph_sk( $_POST['billing_dic_dph'] ) ) {		
+			if ( ! woolab_icdic_verify_dic_dph_sk( $dic_dph ) ) {		
 				wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
 			}
 
 		}
 		// DIC DPH has to match to VAT number without SK
-		if ( $_POST['billing_dic_dph'] && $_POST['billing_dic'] ) {		
+		if ( $dic_dph && $dic ) {		
 
-			if ( $_POST['billing_dic'] != substr( $_POST['billing_dic_dph'], 2) ) {		
+			if ( $dic != substr( $dic_dph, 2) ) {		
 				wc_add_notice( __( 'VAT number or VAT DPH is not valid.', 'woolab-ic-dic' ), 'error' );
 			}
 
