@@ -7,6 +7,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 * Fix: Strip spaces from ICO, DIC, DIC DPH fields ([#8](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/8))
+* Performance: Don't validate IČO in ARES when the value has not been changed
 
 ## Filters
 
