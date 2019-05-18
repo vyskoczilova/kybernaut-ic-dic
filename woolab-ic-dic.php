@@ -121,6 +121,7 @@ function woolab_icdic_enqueue_scripts() {
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
 			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
 			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
+			'l18n_validating' => __('Validating data in ARES.', 'woolab-ic-dic'),
 			'ares_check' => woolab_icdic_ares_check(), 
 			'ares_fill' => woolab_icdic_ares_fill(),
 		));

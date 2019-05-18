@@ -4,6 +4,7 @@
                                  
         // Country based
         var country = $('#billing_country').val();
+        var last_ico_value = '';
         based_on_country( country );
 
         $( 'body' ).bind( 'country_to_state_changing', function( event, country, wrapper ){            
@@ -64,8 +65,13 @@
 
         var ico = $('#billing_ic');
         ares_check( ico );
-        ico.bind('input propertychange', function() {
-            ares_check( ico );
+        ico.bind('focusin', function() {
+            last_ico_value = ico.val();
+        });
+        ico.bind('focusout', function() {
+            if ( ico.val() !== last_ico_value ) {
+                ares_check( ico );
+            }
         });
 
     }
@@ -87,7 +93,7 @@
         woolab_remove_class_wrong( ico_class );
         woolab_remove_class_ok( ico_class );
 
-        if ( (value.length == 7 || value.length == 8) && value.match(/^[0-9]+$/) != null ) {  
+        if ( (value.length == 7 || value.length == 8) && value.match(/^[0-9]+$/) != null ) {
             
             $.ajax({
                 url: woolab.ajaxurl,
@@ -97,6 +103,7 @@
                 },
                 beforeSend: function() {
                     ico_class.addClass( 'kbnt-validating' );
+                    ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_validating+'</span>' ); 
                 },
                 success: function ( data ) {
                     ico_class.removeClass( 'kbnt-validating' );
