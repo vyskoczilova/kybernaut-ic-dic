@@ -169,9 +169,10 @@ function woolab_icdic_checkout_field_process() {
 		 * Remove white spaces
 		 * @since 1.3.4
 		 */
+		
 		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']); 
-
 		$countries = new DvK\Vat\Countries();
+
 
 		// Check if in EU
 		if ( $countries->inEurope( $country ) ) {
@@ -180,7 +181,6 @@ function woolab_icdic_checkout_field_process() {
 			if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
 					
 				$validator = new DvK\Vat\Validator();
-				$dic = ( $country == 'SK' ? 'SK' : '' ) . $dic;
 
 				if ( ! $validator->validate( $dic )) {
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
