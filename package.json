@@ -1,6 +1,6 @@
 {
   "name": "woolab-ic-dic",
-  "version": "1.0.0",
+  "version": "1.3.4",
   "description": "[![plugin version](https://img.shields.io/wordpress/plugin/v/woolab-ic-dic.svg)](https://wordpress.org/plugins/woolab-ic-dic)",
   "main": "gulpfile.js",
   "dependencies": {},
