@@ -5,6 +5,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Covered by Unit test
 function woolab_icdic_verify_rc( $rc )
 {
     // be liberal in what you receive
@@ -44,6 +45,7 @@ function woolab_icdic_verify_rc( $rc )
     return TRUE;
 }
 
+// Covered by Unit test
 function woolab_icdic_verify_ic($ic)
 {
     // be liberal in what you receive
@@ -72,6 +74,7 @@ function woolab_icdic_verify_ic($ic)
     return (int) $ic[7] === $c;
 }
 
+// Covered by Unit test
 function woolab_icdic_verify_ic_sk( $ic ){
 
     // be liberal in what you receive
@@ -87,6 +90,7 @@ function woolab_icdic_verify_ic_sk( $ic ){
     return (int) $ic;
 }
 
+// Covered by Unit test
 function woolab_icdic_verify_dic_sk( $dic ){
 
     // be liberal in what you receive
