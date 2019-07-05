@@ -11,6 +11,10 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * Performance: Don't validate IČO in ARES when the value has not been changed
 * Maintenance: Update node_modules
 
+## Development
+* Run `npm install` & `composer install`
+* Run `npm run phpunit` to run PHPUnit tests
+
 ## Filters
 
 ### Custom class for fields: `woolab_icdic_class_{field_name}`
