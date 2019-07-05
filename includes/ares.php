@@ -30,9 +30,19 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
 
                 $ns = $xml->getDocNamespaces(); 
                 $data = $xml->children($ns['are']);
+
+                echo '<pre>';
+                var_dump( $data->children($ns['D']) );
+                echo '</pre>';
+
+
                 $data = $data->children($ns['D'])->VBAS;
 
                 if ( $data ) {
+
+                    // echo '<pre>';
+                    // var_dump( $data );
+                    // echo '</pre>';
 
                     $return = array( 'error' => false );
                     $return['spolecnost'] = $data->OF->__toString();
@@ -47,6 +57,11 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
 
                     $return['psc'] = $data->AA->PSC->__toString();
                     $return['mesto'] = $data->AA->N->__toString();
+
+                    // echo '<pre>';
+                    // var_dump( $return );
+                    // echo '</pre>';
+
 
                 } else {
                     

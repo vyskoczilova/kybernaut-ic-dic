@@ -37,7 +37,7 @@ function woolab_icdic_verify_rc( $rc )
     }
 
     // check date
-    if (!checkdate($month, $day, $year)) {
+    if (!checkdate(intval($month), intval($day), intval($year))) {
         return FALSE;
     }
 
