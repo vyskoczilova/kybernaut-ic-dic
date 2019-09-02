@@ -8,6 +8,7 @@
  * https://github.com/svecon/web-utilities/blob/master/Ares/Ares.php
  * https://webtrh.cz/279860-script-nacitani-dat-ares-jquery
  * http://www.garth.cz/ostatni/ares-ziskani-dat-pomoci-php/
+ * http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/documentation/zkr_103.txt
  */
 
 if ( ! function_exists( 'woolab_icdic_ares') ) {
@@ -24,6 +25,10 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
         if ( ! is_wp_error( $response ) ) {
             
             $body = wp_remote_retrieve_body($response);
+            echo '<pre>';
+var_dump( $body );
+echo '</pre>';
+
             $xml  = simplexml_load_string($body);
 
             if ( $xml ) {
@@ -31,9 +36,9 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 $ns = $xml->getDocNamespaces(); 
                 $data = $xml->children($ns['are']);
 
-                echo '<pre>';
-                var_dump( $data->children($ns['D']) );
-                echo '</pre>';
+                // echo '<pre>';
+                // var_dump( $data->children($ns['D'])->VBAS );
+                // echo '</pre>';
 
 
                 $data = $data->children($ns['D'])->VBAS;
@@ -53,25 +58,34 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                     $cp_2 = $data->AA->CO->__toString();
                     $cp = ( $cp_2 != "" ? $cp_1."/".$cp_2 : $cp_1 );
                     $cp = (empty($cp)?$data->AA->CA->__toString():$cp);
-                    $return['adresa'] = $data->AA->NU->__toString() . ' ' . $cp;
+                    $return['adresa'] = trim($data->AA->NU->__toString() . ' ' . $cp);
 
                     $return['psc'] = $data->AA->PSC->__toString();
                     $return['mesto'] = $data->AA->N->__toString();
 
-                    // echo '<pre>';
-                    // var_dump( $return );
-                    // echo '</pre>';
-
+                    if ( empty($return['adresa']) && empty($return['psc']) && empty($return['mesto'] )) {
+                        // 'AT' = 542 35 Velké Svatoňovice 198
+                        var_dump($data->AA->AT->__toString());
+                    }
 
                 } else {
-                    
-                    $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
 
-                    /**
-                     * Send anonymized errors for future testing
-                     * @since 1.3.4
-                     */ 
-                    woolab_icdic_send_error( $url, $xml, 'ARES - entity doesn\'t exist');
+                    echo '<pre>';
+var_dump( $xml->getDocNamespaces(TRUE) );
+echo '</pre>';
+
+                    
+                    if ( $data->E->EK == 1 ) {
+                        $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
+                    } else {
+                        $return = array( 'error' => $data->E->ET );
+                    }
+
+                    // /**
+                    //  * Send anonymized errors for future testing
+                    //  * @since 1.3.4
+                    //  */ 
+                    // woolab_icdic_send_error( $url, $xml, 'ARES - entity doesn\'t exist');
                     
                 }
 
@@ -89,6 +103,10 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
         } else {
             $return = array( 'error' => __('WP ERROR, can\'t connect.', 'woolab-ic-dic'));
         }
+
+        echo '<pre>';
+        var_dump( $return );
+        echo '</pre>';
 
         return $return;
 

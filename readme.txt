@@ -86,6 +86,16 @@ function my_theme_class_billing_dic ( $class ) {
 	return array('form-row-last');
 }`
 
+= I want to have Business ID field required. =
+
+You can use this snippet, just add them to your functions.php
+
+`function my_theme_require_business_id( $fields ) {
+    $fields['billing_ic']['required'] = true;
+    return $fields;
+}
+add_filter( 'woocommerce_billing_fields', 'my_theme_require_business_id' );`
+
 = I want to update customers meta when I change IČO or DIČ value within order edit. =
 
 You can use this snippet to update customers data when you edit order, just add them to your functions.php
