@@ -116,12 +116,18 @@
                             woolab_add_class_ok( ico_class );
 
                             if ( woolab.ares_fill ) {
+                                
+                                // Update values
                                 $('#billing_company').val(data.spolecnost).attr('readonly', true);
                                 $('#billing_dic').val(data.dic).attr('readonly', true);
                                 $('#billing_address_1').val(data.adresa).attr('readonly', true);
                                 $('#billing_postcode').val(data.psc).attr('readonly', true);
                                 $('#billing_city').val(data.mesto).attr('readonly', true);
                                 ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_ok+'</span>' ); 
+                                
+                                // Trigger the checkout update
+                                $('body').trigger('update_checkout');
+
                             }                    
 
                         } else {
@@ -140,7 +146,8 @@
                             ico_class.append( not_valid );
                         }                                                                
                     }
-                                                                
+
+                    
                 },
                 error: function(errorThrown){
                     if ( $('.woolab-ic-dic-tip').length == 0 ) {
