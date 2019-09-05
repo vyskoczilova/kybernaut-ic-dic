@@ -108,7 +108,7 @@ function woolab_icdic_checkout_field_process() {
 
 		/**
 		 * Remove white spaces
-		 * @since 1.3.4
+		 * @since 1.4.0
 		 */
 		$ico = preg_replace('/\s+/', '', $_POST['billing_ic']); 
 
@@ -167,7 +167,7 @@ function woolab_icdic_checkout_field_process() {
 
 		/**
 		 * Remove white spaces
-		 * @since 1.3.4
+		 * @since 1.4.0
 		 */
 		
 		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']); 
@@ -209,7 +209,7 @@ function woolab_icdic_checkout_field_process() {
 
 		/**
 		 * Remove white spaces
-		 * @since 1.3.4
+		 * @since 1.4.0
 		 */
 		$dic_dph = preg_replace('/\s+/', '', $_POST['billing_dic_dph']); 
 

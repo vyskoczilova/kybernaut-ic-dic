@@ -122,6 +122,13 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
+= 1.4.0 (2019-09-05) =
+* Fix: Strip spaces from ICO, DIC, DIC DPH fields ([#8](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/8))
+* Fix: Validation of Slovak DIČ in Vies ([#9](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/9))
+* Fix: Trigger update_checkout JS when address loaded
+* Performance: Don't validate IČO in ARES when the value has not been changed, called after 'donetyping'
+* Maintenance: Update node_modules
+
 = 1.3.3 (2018-11-18) =
 * Compatibility with WC 3.5.1 which has "fixed" old ordering of checkout fields [#21763](https://github.com/woocommerce/woocommerce/pull/21763)
 
