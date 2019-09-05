@@ -9,7 +9,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 * Fix: Strip spaces from ICO, DIC, DIC DPH fields ([#8](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/8))
 * Fix: Validation of Slovak DIČ in Vies ([#9](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/9))
 * Fix: Trigger update_checkout JS when address loaded
-* Performance: Don't validate IČO in ARES when the value has not been changed
+* Performance: Don't validate IČO in ARES when the value has not been changed, called after 'donetyping'
 * Maintenance: Update node_modules
 
 ## Filters
