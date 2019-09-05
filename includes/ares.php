@@ -51,23 +51,11 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 } else {
                     
                     $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
-
-                    /**
-                     * Send anonymized errors for future testing
-                     * @since 1.3.4
-                     */ 
-                    woolab_icdic_send_error( $url, $xml, 'ARES - entity doesn\'t exist');
                     
                 }
 
             } else {
                 $return = array( 'error' => __('ARES is not responding', 'woolab-ic-dic'));
-                
-                /**
-                 * Send anonymized errors for future testing
-                 * @since 1.3.4
-                 */ 
-                woolab_icdic_send_error( $url, $response, 'ARES - not responding');
 
             }
             
