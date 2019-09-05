@@ -133,8 +133,6 @@
         var value = ico.val();
         if ( value !== last_ico_value ) {
 
-            console.log( value );
-
             var ico_class = $('#billing_ic_field');
             var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.l18n_not_valid+'</span>';
 
