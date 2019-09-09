@@ -6,7 +6,7 @@ Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
-none
+* update .pot language file
 
 ## Filters
 
