@@ -178,7 +178,8 @@ function woolab_icdic_checkout_field_process() {
 		if ( $countries->inEurope( $country ) ) {
 
 			// If Validate in VIES
-			if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
+			// Slovak DIC cannot (and shouldn't) be validated in VIES
+			if ( woolab_icdic_vies_check() && $country != 'SK' ) {
 					
 				$validator = new DvK\Vat\Validator();
 
@@ -202,6 +203,12 @@ function woolab_icdic_checkout_field_process() {
 
 		}
 
+	}
+	// DIC is mandatory in Slovakia, this is not a VAT number
+	else {
+		if( empty( $_POST['billing_dic'] ) && $country == 'SK' ) {
+			wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+		}
 	}
 
 	// DIC DPH
