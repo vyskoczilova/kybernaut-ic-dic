@@ -206,7 +206,8 @@ function woolab_icdic_checkout_field_process() {
 	}
 	// DIC is mandatory in Slovakia, this is not a VAT number
 	else {
-		if( empty( $_POST['billing_dic'] ) && $country == 'SK' ) {
+		// if IC is set, DIC must be set as well in Slovakia
+		if( !empty( $_POST['billing_ic'] ) && empty( $_POST['billing_dic'] ) && $country == 'SK' ) {
 			wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 		}
 	}
