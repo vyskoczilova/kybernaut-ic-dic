@@ -228,13 +228,13 @@ function woolab_icdic_checkout_field_process() {
 			$validator = new DvK\Vat\Validator();
 			
 			if ( ! $validator->validate( $dic_dph )) {
-				wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 			}
 
 		} else {
 
 			if ( ! woolab_icdic_verify_dic_dph_sk( $dic_dph ) ) {		
-				wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 			}
 
 		}

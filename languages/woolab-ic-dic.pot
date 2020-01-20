@@ -121,12 +121,16 @@ msgid "Unexpected error occurred. Try it again."
 msgstr ""
 
 #: includes/filters-actions.php:187 includes/filters-actions.php:194
-#: includes/filters-actions.php:231 includes/filters-actions.php:237
 msgid "Enter a valid VAT number"
 msgstr ""
 
 #: includes/filters-actions.php:199 includes/filters-actions.php:211
 msgid "Enter a valid Tax ID"
+msgstr ""
+
+#: includes/filters-actions.php:231 includes/filters-actions.php:237
+msgctxt "IC DPH"
+msgid "Enter a valid VAT number"
 msgstr ""
 
 #: includes/filters-actions.php:245
