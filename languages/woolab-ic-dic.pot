@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Kybernaut IČO DIČ has now settings, go to the %1$s page and check it out!"
 msgstr ""
 
-#: includes/admin-notice.php:9 includes/filters-actions.php:417
+#: includes/admin-notice.php:9 includes/filters-actions.php:425
 msgid "Settings"
 msgstr ""
 
@@ -58,8 +58,8 @@ msgid "Write a Review"
 msgstr ""
 
 #: includes/filters-actions.php:29 includes/filters-actions.php:66
-#: includes/filters-actions.php:127 includes/filters-actions.php:300
-#: includes/filters-actions.php:325
+#: includes/filters-actions.php:127 includes/filters-actions.php:308
+#: includes/filters-actions.php:333
 msgid "Business ID"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgid "Business ID"
 msgstr ""
 
 #: includes/filters-actions.php:37 includes/filters-actions.php:74
-#: includes/filters-actions.php:304 includes/filters-actions.php:330
+#: includes/filters-actions.php:312 includes/filters-actions.php:338
 msgid "Tax ID"
 msgstr ""
 
@@ -79,7 +79,7 @@ msgid "Tax ID"
 msgstr ""
 
 #: includes/filters-actions.php:45 includes/filters-actions.php:85
-#: includes/filters-actions.php:308 includes/filters-actions.php:339
+#: includes/filters-actions.php:316 includes/filters-actions.php:347
 msgid "VAT reg. no."
 msgstr ""
 
@@ -120,32 +120,32 @@ msgstr[1] ""
 msgid "Unexpected error occurred. Try it again."
 msgstr ""
 
-#: includes/filters-actions.php:186 includes/filters-actions.php:193
-#: includes/filters-actions.php:198
+#: includes/filters-actions.php:187 includes/filters-actions.php:194
+#: includes/filters-actions.php:231 includes/filters-actions.php:237
 msgid "Enter a valid VAT number"
 msgstr ""
 
-#: includes/filters-actions.php:223 includes/filters-actions.php:229
-msgid "Enter a valid VAT DPH number"
+#: includes/filters-actions.php:199 includes/filters-actions.php:211
+msgid "Enter a valid Tax ID"
 msgstr ""
 
-#: includes/filters-actions.php:237
-msgid "VAT number or VAT DPH is not valid."
+#: includes/filters-actions.php:245
+msgid "Tax ID or VAT number is not valid."
 msgstr ""
 
-#: includes/filters-actions.php:269 includes/filters-actions.php:272
+#: includes/filters-actions.php:277 includes/filters-actions.php:280
 msgid "Business ID: "
 msgstr ""
 
-#: includes/filters-actions.php:270 includes/filters-actions.php:273
+#: includes/filters-actions.php:278 includes/filters-actions.php:281
 msgid "Tax ID: "
 msgstr ""
 
-#: includes/filters-actions.php:271 includes/filters-actions.php:274
+#: includes/filters-actions.php:279 includes/filters-actions.php:282
 msgid "VAT reg. no.: "
 msgstr ""
 
-#: includes/filters-actions.php:417
+#: includes/filters-actions.php:425
 msgid "View Kybernaut IČO DIČ settings"
 msgstr ""
 
