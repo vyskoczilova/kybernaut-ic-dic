@@ -7,6 +7,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 * update .pot language file
+* fix broken validation of SK DIČ (#22)
 
 ## Filters
 
