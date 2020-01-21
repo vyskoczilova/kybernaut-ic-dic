@@ -162,7 +162,7 @@ function woolab_icdic_checkout_field_process() {
 
 	}
 
-	// VAT
+	// VAT / DIC
 	if ( isset( $_POST['billing_dic'] ) && $_POST['billing_dic'] ) {
 
 		/**
@@ -178,7 +178,8 @@ function woolab_icdic_checkout_field_process() {
 		if ( $countries->inEurope( $country ) ) {
 
 			// If Validate in VIES
-			if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
+			// Slovak DIC cannot (and shouldn't) be validated in VIES
+			if ( woolab_icdic_vies_check() && $country != 'SK' ) {
 					
 				$validator = new DvK\Vat\Validator();
 
@@ -195,7 +196,7 @@ function woolab_icdic_checkout_field_process() {
 				} elseif ( $country == "SK" ) {
 
 					if ( ! woolab_icdic_verify_dic_sk( $dic ) ) {		
-						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+						wc_add_notice( __( 'Enter a valid Tax ID', 'woolab-ic-dic' ), 'error' );
 					}
 				}
 			}
@@ -203,8 +204,15 @@ function woolab_icdic_checkout_field_process() {
 		}
 
 	}
+	// DIC is mandatory in Slovakia, this is not a VAT number
+	else {
+		// if IC is set, DIC must be set as well in Slovakia
+		if( !empty( $_POST['billing_ic'] ) && empty( $_POST['billing_dic'] ) && $country == 'SK' ) {
+			wc_add_notice( __( 'Enter a valid Tax ID', 'woolab-ic-dic' ), 'error' );
+		}
+	}
 
-	// DIC DPH
+	// IC DPH / DIC DPH
 	if ( isset( $_POST['billing_dic_dph'] ) && $_POST['billing_dic_dph'] && $country == 'SK' ) {
 
 		/**
@@ -213,28 +221,28 @@ function woolab_icdic_checkout_field_process() {
 		 */
 		$dic_dph = preg_replace('/\s+/', '', $_POST['billing_dic_dph']); 
 
-		// Verify DIC DPH
+		// Verify IC DPH
 		// If Validate in VIES
 		if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
 					
 			$validator = new DvK\Vat\Validator();
 			
 			if ( ! $validator->validate( $dic_dph )) {
-				wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
+				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 			}
 
 		} else {
 
 			if ( ! woolab_icdic_verify_dic_dph_sk( $dic_dph ) ) {		
-				wc_add_notice( __( 'Enter a valid VAT DPH number', 'woolab-ic-dic' ), 'error' );
+				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 			}
 
 		}
-		// DIC DPH has to match to VAT number without SK
+		// IC DPH has to match to Tax ID number without SK
 		if ( $dic_dph && $dic ) {		
 
 			if ( $dic != substr( $dic_dph, 2) ) {		
-				wc_add_notice( __( 'VAT number or VAT DPH is not valid.', 'woolab-ic-dic' ), 'error' );
+				wc_add_notice( __( 'Tax ID or VAT number is not valid.', 'woolab-ic-dic' ), 'error' );
 			}
 
 		}
