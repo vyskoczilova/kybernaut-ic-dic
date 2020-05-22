@@ -24,38 +24,78 @@ function woolab_icdic_plugin_row_meta( $links, $file ) {
 // add checkout fields
 function woolab_icdic_checkout_fields( $fields ) {
 
-		$additional_fields = array(
-			'billing_ic' => array(
-				'label'     => __('Business ID', 'woolab-ic-dic'),
-				'placeholder'   => _x('Business ID', 'placeholder', 'woolab-ic-dic'),
-				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
-				'clear'     => true,
-				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
-			),				 
-			'billing_dic' => array(
-				'label'     => __('Tax ID', 'woolab-ic-dic'),
-				'placeholder'   => _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
-				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
-				'clear'     => true,
-				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
-			),				
-			'billing_dic_dph' => array(
-				'label'     => __('VAT reg. no.', 'woolab-ic-dic'),
-				'placeholder'   => _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
-				'required'  => false,
-				'class'     => apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
-				'clear'     => true,
-				'priority'  => 31, // @since 1.3.3 && WC 3.5.1
-			),
-		);
+	$fields['billing']['billing_ic'] = array(
+		'label'			=> __('Business ID', 'woolab-ic-dic'),
+		'placeholder'	=> _x('Business ID', 'placeholder', 'woolab-ic-dic'),
+		'required'		=> false,
+		'class'			=> apply_filters( 'woolab_icdic_class_billing_ic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
+		'clear'			=> true,
+		'priority'		=> 31, // @since 1.3.3 && WC 3.5.1
+	);
+	$fields['billing']['billing_dic'] = array(
+		'label'			=> __('Tax ID', 'woolab-ic-dic'),
+		'placeholder'	=> _x('Tax ID', 'placeholder', 'woolab-ic-dic'),
+		'required'		=> false,
+		'class'			=> apply_filters( 'woolab_icdic_class_billing_dic', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
+		'clear'			=> true,
+		'priority'		=> 31, // @since 1.3.3 && WC 3.5.1
+	);
+	$fields['billing']['billing_dic_dph'] = array(
+		'label'			=> __('VAT reg. no.', 'woolab-ic-dic'),
+		'placeholder'	=> _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
+		'required'		=> false,
+		'class'			=> apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces', 'woolab-ic-dic-toggle') ),
+		'clear'			=> true,
+		'priority'		=> 31, // @since 1.3.3 && WC 3.5.1
+	);
 
 	/**
-	 * NOTE: since WC 3.5.1 which starts to use 'priority' parameter for fields, there would be enough just to assign right priority and append new fields to $fields array
-	 * TODO: later drop support
+	 * Enable/Disable fields toggle
+	 * @since 1.5.0
 	 */
-	return woolab_icdic_add_after_company( $fields, $additional_fields );
+	$woolabToggle = apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') );
+	if($woolabToggle !== 'no') {
+		$fields['billing']['billing_iscomp'] = array(
+			'type'			=> 'checkbox',
+			'label_class'	=> apply_filters( 'woolab_icdic_label_class_billing_iscomp', array('woocommerce-form__label', 'woocommerce-form__label-for-checkbox', 'checkbox') ),
+			'label'			=> '<span>' . __('Buying as a company', 'woolab-ic-dic') . '</span>',
+			'required'		=> false,
+			'class'			=> apply_filters( 'woolab_icdic_class_billing_iscomp', array('woocommerce-form__input', 'woocommerce-form__input-checkbox', 'input-checkbox') ),
+			'clear'			=> true,
+			'priority'		=> 29
+		);
+		array_push($fields['billing']['billing_ic']['class'], 'woolab-ic-dic-toggle');
+		array_push($fields['billing']['billing_dic']['class'], 'woolab-ic-dic-toggle');
+		array_push($fields['billing']['billing_dic_dph']['class'], 'woolab-ic-dic-toggle');
+		array_push($fields['billing']['billing_company']['class'], 'woolab-ic-dic-toggle');
+	}
+
+	/**
+	 * Move Country above the toggle, makes more sense when filling in VAT / TAX ID
+	 * @since 1.5.0
+	 */
+	$countryFirst = apply_filters( 'woolab_icdic_country_ontop', get_option('woolab_icdic_country_switch', 'no') );
+	if($countryFirst !== 'no') {
+		$fields['billing']['billing_country']['priority'] = 28;
+	}
+
+	/**
+	 * Optionally show "required" asterisk for Company and Business ID
+	 * as these are always required for companies
+	 * @since 1.5.0
+	 */
+	$fakeRequired = apply_filters( 'woolab_icdic_fake_required', false);
+	if($fakeRequired) {
+		$fields['billing']['billing_company']['label'] .= ' <abbr class="required" title="'.__('required', 'woocommerce').'">*</abbr>';
+		$fields['billing']['billing_ic']['label'] .= ' <abbr class="required" title="'.__('required', 'woocommerce').'">*</abbr>';
+		$fields['billing']['billing_dic']['label'] = __('Tax ID (optional, enter only if you are a VAT payer)', 'woolab-ic-dic');
+		$fields['billing']['billing_dic']['label_class'] = array('woolab-ic-dic-not-optional');
+	}
+	
+	// Why there is no placeholder for Company field by default ?!
+	$fields['billing']['billing_company']['placeholder'] = __( 'Company', 'woocommerce' );
+
+	return $fields;
 
 }
 
@@ -154,7 +194,7 @@ function woolab_icdic_checkout_field_process() {
 		// SK
 		} elseif ( $country == "SK" ) {
 			if ( $ico ) {		
-				if ( ! woolab_icdic_verify_ic_sk( $ico )) {		
+				if ( ! woolab_icdic_verify_ic( $ico )) {		
 					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
 				}
 			}

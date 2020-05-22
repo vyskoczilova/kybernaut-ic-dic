@@ -72,21 +72,6 @@ function woolab_icdic_verify_ic($ic)
     return (int) $ic[7] === $c;
 }
 
-function woolab_icdic_verify_ic_sk( $ic ){
-
-    // be liberal in what you receive
-    $ic = preg_replace('#\s+#', '', $ic);
-
-    // check required format
-    if (!preg_match('#^\d{8}$#', $ic)) {
-        return FALSE;
-    }
-
-    // TODO check the sum for Slovak IC
-
-    return (int) $ic;
-}
-
 function woolab_icdic_verify_dic_sk( $dic ){
 
     // be liberal in what you receive
@@ -147,10 +132,7 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) 
                 }
             }
         }
-    }
-
-
-    
+    }    
     
     return $fields_new;
 }

@@ -1,0 +1,9 @@
+#customer_details .woolab-ic-dic-toggle,
+.required + .optional,
+.woolab-ic-dic-not-optional > .optional,
+.woolab-ic-dic-required {
+  display: none;
+}
+.woolab-ic-dic-required + .optional {
+  display: inline;
+}

@@ -47,14 +47,6 @@
     });
 
     $(document).ready(function() {
-                                 
-        // Country based
-        var country = $('#billing_country').val();
-        based_on_country( country );
-
-        $( 'body' ).bind( 'country_to_state_changing', function( event, country, wrapper ){            
-            based_on_country( country );
-        });
 
         $('.woolab-ic-dic-no_spaces input').bind('input', function(){
             $(this).val(function(_, v){
@@ -62,29 +54,52 @@
             });
         });
 
+        /** On init, check if the toggle is present or is set to "on" and run the hiding logic */
+        var $fieldToggle = $('#billing_iscomp');
+        if ( ! $fieldToggle.length || $fieldToggle.prop("checked") ) {
+            based_on_country();
+        }
+
+        /** Toggle fields when country is changed or checkbox is toggled */
+        $("#customer_details").on("change", "#billing_country, #billing_iscomp", function () {
+            var $fieldToggle = $('#billing_iscomp');
+            if ( ! $fieldToggle.length || $fieldToggle.prop("checked") ) {
+                based_on_country();
+            } else {
+                $(".woolab-ic-dic-toggle").slideUp();
+            }
+        });
 
     });
 
-    function based_on_country( country ) {  
+    /** Show/Hide logic for woolab-ic-dic fields */
+    function based_on_country() {
 
-        if ( woolab.ares_fill ) {
+        if (woolab.ares_fill) {
             clear_validation();
         }
 
-        switch( country ) {
+        $("#billing_ic_field").slideDown();
+        $("#billing_dic_field").slideDown();
+
+        var country = $("#billing_country").val();
+        switch (country) {
             case 'SK':
-                $('#billing_dic_dph_field').show();
+                $("#billing_dic_dph_field").slideDown();
+                $("#billing_dic_field > label").addClass("woolab-ic-dic-required");
                 break;
             case 'CZ':
-                $('#billing_dic_dph_field').hide();
-                if ( woolab.ares_check ) {
+                $("#billing_dic_dph_field").slideUp();
+                $("#billing_dic_field > label").removeClass("woolab-ic-dic-required");
+                if (woolab.ares_check) {
                     enable_ares_check();
                 }
                 break;
             default:
-                $('#billing_dic_dph_field').hide();
+                $("#billing_dic_dph_field").slideUp();
+                $("#billing_dic_field > label").removeClass("woolab-ic-dic-required");
         }
-
+        $("#billing_company_field").slideDown();
     }
 
     function clear_validation() {
@@ -105,7 +120,7 @@
     function woolab_add_class_wrong ( selector ) {
         selector.addClass( 'kbnt-wrong' ).addClass( 'woocommerce-invalid' ).removeClass( 'woocommerce-validated' );
     }
-    
+
     function enable_ares_check() {
 
         var ico = $('#billing_ic');
@@ -229,5 +244,5 @@
         }
         woolab_add_class_wrong( ico_class );
     }
-	
+
 })( jQuery );

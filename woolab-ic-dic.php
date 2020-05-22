@@ -1,22 +1,22 @@
 <?php
 /*
- Plugin Name:       Kybernaut IC DIC
- Plugin URI:		https://kybernaut.cz/pluginy/kybernaut-ic-dic
- Description:       Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct. 
- Version:           1.4.1
- Author:            Karolína Vyskočilová
- Author URI:        https://kybernaut.cz
- Text Domain:       woolab-ic-dic
- License:           GPLv3
- License URI:       http://www.gnu.org/licenses/gpl-3.0.html
- Domain Path:       /languages
- Donate link: 	    https://paypal.me/KarolinaVyskocilova/
- Requires PHP: 	    5.6
- WC requires at least: 	2.6
- WC tested up to: 		3.7.0
- Copyright: © 2009-2015 Karolína Vyskočilová.
- License: GNU General Public License v3.0
- License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ Plugin Name:			Kybernaut IC DIC
+ Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
+ Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
+ Version:				1.5.0
+ Author:				Karolína Vyskočilová
+ Author URI:			https://kybernaut.cz
+ Text Domain:			woolab-ic-dic
+ License:				GPLv3
+ License URI:			http://www.gnu.org/licenses/gpl-3.0.html
+ Domain Path:			/languages
+ Donate link:			https://paypal.me/KarolinaVyskocilova/
+ Requires PHP:			5.6
+ WC requires at least:	3.5.0
+ WC tested up to:		4.1.0
+ Copyright:				© 2009-2015 Karolína Vyskočilová.
+ License:				GNU General Public License v3.0
+ License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 // If this file is called directly, abort.
@@ -27,7 +27,7 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.4.1' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.5.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -115,7 +115,7 @@ add_action( 'plugins_loaded', 'woolab_icdic_init' );
 function woolab_icdic_enqueue_scripts() {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	if( is_checkout() ){
-		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public'.$suffix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_URL );
+		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . '/assets/js/public'.$suffix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_VERSION );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(									
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
@@ -125,6 +125,7 @@ function woolab_icdic_enqueue_scripts() {
 			'ares_check' => woolab_icdic_ares_check(), 
 			'ares_fill' => woolab_icdic_ares_fill(),
 		));
+		wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . '/assets/css/style'.$suffix.'.css', null, WOOLAB_IC_DIC_VERSION );
 	}
 }
 
