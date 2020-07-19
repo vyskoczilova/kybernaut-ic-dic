@@ -60,7 +60,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 			'label_class'	=> apply_filters( 'woolab_icdic_label_class_billing_iscomp', array('woocommerce-form__label', 'woocommerce-form__label-for-checkbox', 'checkbox') ),
 			'label'			=> '<span>' . __('Buying as a company', 'woolab-ic-dic') . '</span>',
 			'required'		=> false,
-			'class'			=> apply_filters( 'woolab_icdic_class_billing_iscomp', array('woocommerce-form__input', 'woocommerce-form__input-checkbox', 'input-checkbox') ),
+			'class'			=> apply_filters( 'woolab_icdic_class_billing_iscomp', array('woocommerce-form__input', 'woocommerce-form__input-checkbox', 'input-checkbox', 'form-row-wide') ),
 			'clear'			=> true,
 			'priority'		=> 29
 		);
