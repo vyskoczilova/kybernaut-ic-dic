@@ -10,7 +10,7 @@ function woolab_icdic_icdic_general_settings($settings) {
         $vies_desc = '<span style="color:#ca4a1f">' . __( 'To enable this feature, turn on Soap Client (ask your hosting).', 'woolab-ic-dic' ) . '</span> ' . __( 'Enable validation of VAT number in EU database VIES.', 'woolab-ic-dic' ) ;
         $vies_check = 'yes';
     }
-        
+
     $settings[] = array( 'title' => __( 'Kybernaut IČO DIČ options', 'woolab-ic-dic' ), 'type' => 'title', 'desc' => __( 'The following options affect how Business ID and VAT number behaves.', 'woolab-ic-dic' ), 'id' => 'woolab_icdic_options' );
     $settings[] = array(
         'title'   => __( 'CZ: Validate Business ID in ARES', 'woolab-ic-dic' ),
@@ -42,7 +42,7 @@ function woolab_icdic_icdic_general_settings($settings) {
     );
     $settings[] = array(
         'title'   => __( 'Move Country to top', 'woolab-ic-dic' ),
-        'desc'    => __( 'Move Country field above the "Buy as company" toggle', 'woolab-ic-dic' ),
+        'desc'    => __( 'Move Country field above the "Buying as a company" toggle', 'woolab-ic-dic' ),
         'id'      => 'woolab_icdic_country_switch',
         'default' => 'no',
         'type'    => 'checkbox',

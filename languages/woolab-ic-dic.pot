@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
@@ -22,7 +25,7 @@ msgstr ""
 msgid "Kybernaut IČO DIČ has now settings, go to the %1$s page and check it out!"
 msgstr ""
 
-#: includes/admin-notice.php:9, includes/filters-actions.php:465
+#: includes/admin-notice.php:9 includes/filters-actions.php:465
 msgid "Settings"
 msgstr ""
 
@@ -30,16 +33,16 @@ msgstr ""
 msgid "Business ID not set."
 msgstr ""
 
-#: includes/ares.php:63
-msgid "WP ERROR, can't connect."
+#: includes/ares.php:53
+msgid "Entity doesn't exist in ARES."
 msgstr ""
 
 #: includes/ares.php:58
 msgid "ARES is not responding"
 msgstr ""
 
-#: includes/ares.php:53
-msgid "Entity doesn't exist in ARES."
+#: includes/ares.php:63
+msgid "WP ERROR, can't connect."
 msgstr ""
 
 #: includes/filters-actions.php:14
@@ -50,33 +53,37 @@ msgstr ""
 msgid "GitHub"
 msgstr ""
 
-#: includes/filters-actions.php:15, includes/filters-actions.php:15
+#: includes/filters-actions.php:15
 msgid "Write a Review"
 msgstr ""
 
-#: includes/filters-actions.php:28, includes/filters-actions.php:106, includes/filters-actions.php:348, includes/filters-actions.php:373
+#: includes/filters-actions.php:28 includes/filters-actions.php:106
+#: includes/filters-actions.php:167 includes/filters-actions.php:348
+#: includes/filters-actions.php:373
 msgid "Business ID"
 msgstr ""
 
-#: includes/filters-actions.php:29, includes/filters-actions.php:107
+#: includes/filters-actions.php:29 includes/filters-actions.php:107
 msgctxt "placeholder"
 msgid "Business ID"
 msgstr ""
 
-#: includes/filters-actions.php:36, includes/filters-actions.php:114, includes/filters-actions.php:352, includes/filters-actions.php:378
+#: includes/filters-actions.php:36 includes/filters-actions.php:114
+#: includes/filters-actions.php:352 includes/filters-actions.php:378
 msgid "Tax ID"
 msgstr ""
 
-#: includes/filters-actions.php:37, includes/filters-actions.php:115
+#: includes/filters-actions.php:37 includes/filters-actions.php:115
 msgctxt "placeholder"
 msgid "Tax ID"
 msgstr ""
 
-#: includes/filters-actions.php:44, includes/filters-actions.php:125, includes/filters-actions.php:356, includes/filters-actions.php:387
+#: includes/filters-actions.php:44 includes/filters-actions.php:125
+#: includes/filters-actions.php:356 includes/filters-actions.php:387
 msgid "VAT reg. no."
 msgstr ""
 
-#: includes/filters-actions.php:45, includes/filters-actions.php:126
+#: includes/filters-actions.php:45 includes/filters-actions.php:126
 msgctxt "placeholder"
 msgid "VAT reg. no."
 msgstr ""
@@ -85,16 +92,33 @@ msgstr ""
 msgid "Buying as a company"
 msgstr ""
 
+#: includes/filters-actions.php:89 includes/filters-actions.php:90
+msgid "required"
+msgstr ""
+
 #: includes/filters-actions.php:91
 msgid "Tax ID (optional, enter only if you are a VAT payer)"
 msgstr ""
 
-#: includes/filters-actions.php:198, includes/filters-actions.php:191, includes/filters-actions.php:164
+#: includes/filters-actions.php:96 includes/filters-actions.php:170
+msgid "Company"
+msgstr ""
+
+#: includes/filters-actions.php:164 includes/filters-actions.php:191
+#: includes/filters-actions.php:198
 msgid "Enter a valid Business ID"
 msgstr ""
 
-#: includes/filters-actions.php:186, woolab-ic-dic.php:122
-msgid "Unexpected error occurred. Try it again."
+#: includes/filters-actions.php:173
+msgid "Postcode / ZIP"
+msgstr ""
+
+#: includes/filters-actions.php:176
+msgid "Town / City"
+msgstr ""
+
+#: includes/filters-actions.php:179
+msgid "Address"
 msgstr ""
 
 #: includes/filters-actions.php:182
@@ -104,15 +128,19 @@ msgid_plural "%s are not corresponding to ARES."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/filters-actions.php:251, includes/filters-actions.php:239
-msgid "Enter a valid Tax ID"
+#: includes/filters-actions.php:186 woolab-ic-dic.php:122
+msgid "Unexpected error occurred. Try it again."
 msgstr ""
 
-#: includes/filters-actions.php:234, includes/filters-actions.php:227
+#: includes/filters-actions.php:227 includes/filters-actions.php:234
 msgid "Enter a valid VAT number"
 msgstr ""
 
-#: includes/filters-actions.php:277, includes/filters-actions.php:271
+#: includes/filters-actions.php:239 includes/filters-actions.php:251
+msgid "Enter a valid Tax ID"
+msgstr ""
+
+#: includes/filters-actions.php:271 includes/filters-actions.php:277
 msgctxt "IC DPH"
 msgid "Enter a valid VAT number"
 msgstr ""
@@ -121,16 +149,28 @@ msgstr ""
 msgid "Tax ID or VAT number is not valid."
 msgstr ""
 
+#: includes/filters-actions.php:317 includes/filters-actions.php:320
+msgid "Business ID: "
+msgstr ""
+
+#: includes/filters-actions.php:318 includes/filters-actions.php:321
+msgid "Tax ID: "
+msgstr ""
+
+#: includes/filters-actions.php:319 includes/filters-actions.php:322
+msgid "VAT reg. no.: "
+msgstr ""
+
 #: includes/filters-actions.php:465
 msgid "View Kybernaut IČO DIČ settings"
 msgstr ""
 
-#: includes/settings.php:10
-msgid "To enable this feature, turn on Soap Client (ask your hosting)."
+#: includes/settings.php:7 includes/settings.php:10
+msgid "Enable validation of VAT number in EU database VIES."
 msgstr ""
 
-#: includes/settings.php:10, includes/settings.php:7
-msgid "Enable validation of VAT number in EU database VIES."
+#: includes/settings.php:10
+msgid "To enable this feature, turn on Soap Client (ask your hosting)."
 msgstr ""
 
 #: includes/settings.php:14
@@ -174,7 +214,7 @@ msgid "Move Country to top"
 msgstr ""
 
 #: includes/settings.php:45
-msgid "Move Country field above the \"Buy as company\" toggle"
+msgid "Move Country field above the \"Buying as a company\" toggle"
 msgstr ""
 
 #: woolab-ic-dic.php:51

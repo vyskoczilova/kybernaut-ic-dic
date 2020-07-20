@@ -15,6 +15,11 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathmeatics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
+NEW Enhanced settings for:
+* Enable toggle switch to show/hide input fields ("Buying as a company?")
+* Move Country field above the "Buying as a company?" toggle
+
+Main functionality:
 * for CZ as billing country
     * ARES and VIES verification (or mathematicaly verifies IČO and DIČ)
     * ARES autofill (fields Company, VAT number, Address, City, and Postcode) based on IČO
@@ -23,8 +28,8 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 * for EU countries as billing country
     * VIES DIČ valiadtion
 * adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Acount page
-* allows edits from administration (backend): 
-  * `Users -> Joe Doe (Edit) -> Billing address of the customer` 
+* allows edits from administration (backend):
+  * `Users -> Joe Doe (Edit) -> Billing address of the customer`
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
 
 === Compatibility ==
@@ -121,6 +126,11 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.5.0 (2020-07-20) =
+* Fix: Slovak DIC validation fix, [#22](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/22)- thanks to [@morvy](https://github.com/morvy)
+* Feature: Show/Hide toggle functionality, [#24](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/24) - [@morvy](https://github.com/morvy)
+* Maintenance: Update language files and dependencies
 
 = 1.4.0 (2019-09-05) =
 * Fix: Strip spaces from ICO, DIC, DIC DPH fields ([#8](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/8))
