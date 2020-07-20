@@ -33,6 +33,20 @@ function woolab_icdic_icdic_general_settings($settings) {
         'default' => $vies_check,
         'type'    => 'checkbox',
     );
+    $settings[] = array(
+        'title'   => __( 'Toggle fields visibility', 'woolab-ic-dic' ),
+        'desc'    => __( 'Enable toggle switch to show/hide input fields', 'woolab-ic-dic' ),
+        'id'      => 'woolab_icdic_toggle_switch',
+        'default' => 'no',
+        'type'    => 'checkbox',
+    );
+    $settings[] = array(
+        'title'   => __( 'Move Country to top', 'woolab-ic-dic' ),
+        'desc'    => __( 'Move Country field above the "Buy as company" toggle', 'woolab-ic-dic' ),
+        'id'      => 'woolab_icdic_country_switch',
+        'default' => 'no',
+        'type'    => 'checkbox',
+    );
     $settings[] = array( 'type' => 'sectionend', 'id' => 'woolab_icdic_options' );
 
     return $settings;
