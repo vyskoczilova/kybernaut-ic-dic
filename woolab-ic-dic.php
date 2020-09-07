@@ -13,8 +13,8 @@
  Donate link:			https://paypal.me/KarolinaVyskocilova/
  Requires PHP:			5.6
  WC requires at least:	3.5.0
- WC tested up to:		4.3.0
- Copyright:				© 2009-2015 Karolína Vyskočilová.
+ WC tested up to:		4.4.1
+ Copyright:				© 2009-2020 Karolína Vyskočilová.
  License:				GNU General Public License v3.0
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */

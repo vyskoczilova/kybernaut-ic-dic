@@ -44,6 +44,7 @@ function woolab_icdic_verify_rc( $rc )
     return TRUE;
 }
 
+// https://phpfashion.com/jak-overit-platne-ic-a-rodne-cislo
 function woolab_icdic_verify_ic($ic)
 {
     // be liberal in what you receive
@@ -103,11 +104,11 @@ function woolab_icdic_verify_dic_dph_sk( $dic_dph ){
 }
 
 function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) {
-    
+
     if ( $type == 'both' ) {
         // add fields after "billing_company" field
         foreach ($fields as $key => $value) {
-            if ( $key == 'billing' ) {			
+            if ( $key == 'billing' ) {
                 foreach ( $value as $_key => $_value ) {
                     $key_fields[$_key] = $_value;
                     if ( $_key == 'billing_company') {
@@ -120,7 +121,7 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) 
                 $fields_new[$key] = $key_fields;
             } else {
                 $fields_new[$key] = $value;
-            }		
+            }
         }
     } else {
         foreach ( $fields as $key => $value ) {
@@ -132,7 +133,7 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) 
                 }
             }
         }
-    }    
-    
+    }
+
     return $fields_new;
 }
