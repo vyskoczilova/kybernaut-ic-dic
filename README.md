@@ -32,7 +32,7 @@ If you need to modify class of outputed fields. For example you want to have *bi
       return array('form-row-last');
     }
 
-### Manipulate the plugin settings: 
+### Manipulate the plugin settings:
 If you need to set it up in your theme or plugin, you can use following filters to do so:
 
 
@@ -51,3 +51,7 @@ By default, if you edit order details, user profile is not touched. If you want 
 *Example:*
 
     add_filter( 'woolab_icdic_update_user_meta', '__return_true' );
+
+### Disable required DIC when ICO filled in SK
+
+    add_filter( 'woolab_icdic_sk_required_ic_and_dic', '__return_false' );

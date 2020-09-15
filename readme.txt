@@ -127,6 +127,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.5.1 (2020-09-15) =
+* Add custom filter for disabling required DIC when ICO filled for SK `add_filter( 'woolab_icdic_sk_required_ic_and_dic', '__return_false' );`
+
 = 1.5.0 (2020-07-20) =
 * Fix: Slovak DIC validation fix, [#22](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/22)- thanks to [@morvy](https://github.com/morvy)
 * Feature: Show/Hide toggle functionality, [#24](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/24) - [@morvy](https://github.com/morvy)
