@@ -163,19 +163,19 @@ function woolab_icdic_checkout_field_process() {
 					if ( $ares['error'] ) {
 						wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ) . ' ' . $ares['error'], 'error' );
 					} elseif ( woolab_icdic_ares_fill() ) {
-						if ( isset( $_POST['billing_dic'] ) && $_POST['billing_dic'] != $ares['dic'] ) {
+						if ( isset( $_POST['billing_dic'] ) && wc_clean( wp_unslash($_POST['billing_dic'])) != $ares['dic'] ) {
 							$missing_fields[] = __( 'Business ID', 'woocommerce' );
 						}
-						if ( $_POST['billing_company'] != $ares['spolecnost'] ) {
+						if ( wc_clean( wp_unslash($_POST['billing_company'])) != $ares['spolecnost'] ) {
 							$missing_fields[] = __( 'Company', 'woocommerce' );
 						}
-						if ( $_POST['billing_postcode'] != $ares['psc'] ) {
+						if ( wc_clean( wp_unslash($_POST['billing_postcode'])) != $ares['psc'] ) {
 							$missing_fields[] = __( 'Postcode / ZIP', 'woocommerce' );
 						}
-						if ( $_POST['billing_city'] != $ares['mesto'] ) {
+						if ( wc_clean( wp_unslash($_POST['billing_city'])) != $ares['mesto'] ) {
 							$missing_fields[] = __( 'Town / City', 'woocommerce' );
 						}
-						if ( $_POST['billing_address_1'] != $ares['adresa'] ) {
+						if ( wc_clean( wp_unslash($_POST['billing_address_1'])) != $ares['adresa'] ) {
 							$missing_fields[] = __( 'Address', 'woocommerce' );
 						}
 						if ( isset( $missing_fields ) ) {
