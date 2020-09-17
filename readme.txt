@@ -2,7 +2,7 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 5.5
+Tested up to: 5.5.1
 Stable tag: /trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,7 +127,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.5.1 (2020-09-15) =
+= 1.5.1 (2020-09-17) =
 * Fix issues with quotes - [#25](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/25)
 * Add custom filter for disabling required DIC when ICO filled for SK `add_filter( 'woolab_icdic_sk_required_ic_and_dic', '__return_false' );` - [#26](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/26)
 
