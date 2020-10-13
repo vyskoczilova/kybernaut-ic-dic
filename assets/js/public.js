@@ -29,7 +29,7 @@
                     // the event from triggering too preemptively. Without this line,
                     // using tab/shift+tab will make the focused element fire the callback.
                     if (e.type=='keyup' && e.keyCode!=8) return;
-                    
+
                     // Check if timeout has been set. If it has, "reset" the clock and
                     // start over again.
                     if (timeoutReference) clearTimeout(timeoutReference);
@@ -61,7 +61,7 @@
         }
 
         /** Toggle fields when country is changed or checkbox is toggled */
-        $("#customer_details").on("change", "#billing_country, #billing_iscomp", function () {
+        $(".woocommerce-billing-fields").on("change", "#billing_country, #billing_iscomp", function () {
             var $fieldToggle = $('#billing_iscomp');
             if ( ! $fieldToggle.length || $fieldToggle.prop("checked") ) {
                 based_on_country();
@@ -103,8 +103,8 @@
     }
 
     function clear_validation() {
-        $('.woolab-ic-dic-tip').remove(); 
-        ares_remove_disabled_from_input(); 
+        $('.woolab-ic-dic-tip').remove();
+        ares_remove_disabled_from_input();
     }
 
     function woolab_remove_class_ok ( selector ) {
@@ -151,12 +151,12 @@
             var ico_class = $('#billing_ic_field');
             var not_valid = '<span role="alert" class="woolab-ic-dic-tip">'+woolab.l18n_not_valid+'</span>';
 
-            $('.woolab-ic-dic-tip').remove();          
+            $('.woolab-ic-dic-tip').remove();
             woolab_remove_class_wrong( ico_class );
             woolab_remove_class_ok( ico_class );
 
             if ( (value.length == 7 || value.length == 8) && value.match(/^[0-9]+$/) != null ) {
-                
+
                 $.ajax({
                     url: woolab.ajaxurl,
                     data: {
@@ -165,7 +165,7 @@
                     },
                     beforeSend: function() {
                         ico_class.addClass( 'kbnt-validating' );
-                        ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_validating+'</span>' ); 
+                        ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_validating+'</span>' );
                     },
                     success: function ( data ) {
                         ico_class.removeClass( 'kbnt-validating' );
@@ -174,51 +174,51 @@
 
                             if ( data.error == false ) {
 
-                                $('.woolab-ic-dic-tip').remove(); 
+                                $('.woolab-ic-dic-tip').remove();
                                 woolab_add_class_ok( ico_class );
 
                                 if ( woolab.ares_fill ) {
-                                    
+
                                     // Update values
                                     $('#billing_company').val(data.spolecnost).attr('readonly', true);
                                     $('#billing_dic').val(data.dic).attr('readonly', true);
                                     $('#billing_address_1').val(data.adresa).attr('readonly', true);
                                     $('#billing_postcode').val(data.psc).attr('readonly', true);
                                     $('#billing_city').val(data.mesto).attr('readonly', true);
-                                    ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_ok+'</span>' ); 
-                                    
+                                    ico_class.append( '<span role="info" class="woolab-ic-dic-tip">'+woolab.l18n_ok+'</span>' );
+
                                     // Trigger the checkout update
                                     $('body').trigger('update_checkout');
 
-                                }                    
+                                }
 
                             } else {
                                 ares_error( ico_class );
                                 if ( $('.woolab-ic-dic-tip').length > 0 ) {
-                                    $('.woolab-ic-dic-tip').remove();                                    
+                                    $('.woolab-ic-dic-tip').remove();
                                 }
                                 ares_remove_disabled_from_input();
-                                ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' ); 
+                                ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' );
                             }
 
-                        } else {                             
-                            ares_error( ico_class );   
+                        } else {
+                            ares_error( ico_class );
                             if ( $('.woolab-ic-dic-tip').length == 0 ) {
                                 ares_remove_disabled_from_input();
                                 ico_class.append( not_valid );
-                            }                                                                
+                            }
                         }
 
-                        
+
                     },
                     error: function(errorThrown){
                         if ( $('.woolab-ic-dic-tip').length == 0 ) {
                             ico.val('');
-                            ares_error( ico_class ); 
+                            ares_error( ico_class );
                             ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+woolab.l18n_error+'</span>' );
                         }
-                    }			
-                });	
+                    }
+                });
 
             } else {
                 ares_remove_disabled_from_input();
