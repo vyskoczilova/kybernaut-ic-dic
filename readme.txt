@@ -37,7 +37,8 @@ Main functionality:
 * [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
-* plugins of Vladislav Musilek (Toret) - Woo iDoklad, Woo Doprava, Woo GoPay etc.
+* [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
+* Toret - Woo iDoklad, Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
 * PHP 5.4 and above
@@ -126,6 +127,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 
 == Changelog ==
+
+= 1.5.3 (2020-11-09) =
+* Compatibility with Superfaktura
 
 = 1.5.2 (2020-10-13) =
 * Fix wrong assets path.
