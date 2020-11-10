@@ -1,4 +1,4 @@
-﻿=== Kybernaut IC DIC ===
+﻿=== Kybernaut IČO DIČ ===
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
@@ -10,38 +10,35 @@ Donate link: https://www.paypal.me/KarolinaVyskocilova
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct.
 
-
 == Description ==
 
-Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathmeatics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
+Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathematics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
-NEW Enhanced settings for:
-* Enable toggle switch to show/hide input fields ("Buying as a company?")
-* Move Country field above the "Buying as a company?" toggle
+=== Main functionality ===
 
-Main functionality:
 * for CZ as billing country
-    * ARES and VIES verification (or mathematicaly verifies IČO and DIČ)
+    * ARES and VIES verification (or mathematically verifies IČO and DIČ)
     * ARES autofill (fields Company, VAT number, Address, City, and Postcode) based on IČO
 * for SK as billing country
-    * VIES DIČ valiadtion (or just validate format of values)
+    * VIES DIČ validation (or just validate the format of values)
 * for EU countries as billing country
-    * VIES DIČ valiadtion
-* adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Acount page
+    * VIES DIČ validation
+* adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Account page
 * allows edits from administration (backend):
   * `Users -> Joe Doe (Edit) -> Billing address of the customer`
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
+* Enable toggle switch to show/hide input fields ("Buying as a company?")
+* Move Country field above the "Buying as a company?" toggle
 
-=== Compatibility ==
-* WooCommerce 2.6 & 3.0+
+=== Compatibility ===
+* [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
+* [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
 * [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
-* [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
 * Toret - Woo iDoklad, Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
-* PHP 5.4 and above
 * SoapClient PHP library for VIES validation (ask your hosting)
 
 === Credits ===
@@ -94,7 +91,7 @@ function my_theme_class_billing_dic ( $class ) {
 
 = I want to update customers meta when I change IČO or DIČ value within order edit. =
 
-You can use this snippet to update customers data when you edit order, just add them to your functions.php
+You can use this snippet to update customers data when you edit an order, just add them to your functions.php
 
 `add_filter( 'woolab_icdic_update_user_meta', '__return_true' );`
 
@@ -129,7 +126,8 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 == Changelog ==
 
 = 1.5.3 (2020-11-09) =
-* Compatibility with Superfaktura
+* Compatibility with [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
+* Compatibility [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
 
 = 1.5.2 (2020-10-13) =
 * Fix wrong assets path.
