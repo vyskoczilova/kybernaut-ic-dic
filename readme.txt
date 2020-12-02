@@ -125,6 +125,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.5.4 (2020-12-02 ) =
+* Fix: Don't validate without billing country [#27](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/27) - thanks to [@morvy](https://github.com/morvy)
+
 = 1.5.3 (2020-11-09) =
 * Compatibility with [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
 * Compatibility [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
@@ -138,7 +141,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 * Add custom filter for disabling required DIC when ICO filled for SK `add_filter( 'woolab_icdic_sk_required_ic_and_dic', '__return_false' );` - [#26](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/26)
 
 = 1.5.0 (2020-07-20) =
-* Fix: Slovak DIC validation fix, [#22](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/22)- thanks to [@morvy](https://github.com/morvy)
+* Fix: Slovak DIC validation fix, [#22](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/22) - thanks to [@morvy](https://github.com/morvy)
 * Feature: Show/Hide toggle functionality, [#24](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/24) - [@morvy](https://github.com/morvy)
 * Maintenance: Update language files and dependencies
 

@@ -141,6 +141,11 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 // check field on checkout
 function woolab_icdic_checkout_field_process() {
 
+	// Bail if form not fully filled.
+	if (!isset($_POST['billing_country'])) {
+		return false;
+	}
+
 	$country = $_POST['billing_country'];
 
 	// BUSINESS ID
