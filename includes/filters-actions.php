@@ -1,5 +1,8 @@
 <?php
 
+use DvK\Vat\Countries;
+use DvK\Vat\Validator;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -216,7 +219,7 @@ function woolab_icdic_checkout_field_process() {
 		 */
 
 		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']);
-		$countries = new DvK\Vat\Countries();
+		$countries = new Countries();
 
 
 		// Check if in EU
@@ -226,7 +229,7 @@ function woolab_icdic_checkout_field_process() {
 			// Slovak DIC cannot (and shouldn't) be validated in VIES
 			if ( woolab_icdic_vies_check() && $country != 'SK' ) {
 
-				$validator = new DvK\Vat\Validator();
+				$validator = new Validator();
 
 				if ( ! $validator->validate( $dic )) {
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
@@ -271,7 +274,7 @@ function woolab_icdic_checkout_field_process() {
 		// If Validate in VIES
 		if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
 
-			$validator = new DvK\Vat\Validator();
+			$validator = new Validator();
 
 			if ( ! $validator->validate( $dic_dph )) {
 				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );

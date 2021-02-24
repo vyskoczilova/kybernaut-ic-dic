@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.5.5
+ Version:				1.6.0
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -24,10 +24,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Load Composer dependencies.
+require_once(__DIR__ . '/vendor/autoload.php');
+
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.5.5' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.6.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -73,11 +76,6 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
-		// https://github.com/dannyvankooten/vat.php
-		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/Client.php');
-		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Vies/ViesException.php');
-		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Countries.php');
-		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/vat/Validator.php');
 		// Compatibility
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/superfaktura.php');
 

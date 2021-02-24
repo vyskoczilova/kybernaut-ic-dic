@@ -1,0 +1,15 @@
+{
+    "name": "vyskocilova/kybernaut-ic-dic",
+    "description": "Plugin for WooCommerce handling VAT numbers.",
+    "type": "project",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Karolína Vyskočilová",
+            "email": "karolina@kybernaut.cz"
+        }
+    ],
+    "require": {
+        "ibericode/vat": "^2.0"
+    }
+}

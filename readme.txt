@@ -125,8 +125,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
-= 1.5.5 (2021-02-24) =
-* Fix: Add correct classes on checkbox input for "Buy as Company".
+= 1.6.0 (2021-02-24) =
+* Fix: Add correct classes on checkbox input for "Buy as Company"
+* Update dependencies: VAT composer library to 2.0.5
 
 = 1.5.4 (2020-12-02) =
 * Fix: Don't validate without billing country [#27](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/27) - thanks to [@morvy](https://github.com/morvy)
