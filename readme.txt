@@ -125,6 +125,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.6.3 (2021-02-24) =
+* Fix: PHP 8 Fatal error: Uncaught TypeError: array_push()
+
 = 1.6.2 (2021-02-24) =
 * Fix: VAT Validation error.
 

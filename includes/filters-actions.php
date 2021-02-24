@@ -71,7 +71,12 @@ function woolab_icdic_checkout_fields( $fields ) {
 		array_push($fields['billing']['billing_ic']['class'], 'woolab-ic-dic-toggle');
 		array_push($fields['billing']['billing_dic']['class'], 'woolab-ic-dic-toggle');
 		array_push($fields['billing']['billing_dic_dph']['class'], 'woolab-ic-dic-toggle');
-		array_push($fields['billing']['billing_company']['class'], 'woolab-ic-dic-toggle');
+
+		if ( is_array($fields['billing']['billing_company']['class'])) {
+			array_push($fields['billing']['billing_company']['class'], 'woolab-ic-dic-toggle');
+		} else {
+			$fields['billing']['billing_company']['class'] = ['woolab-ic-dic-toggle'];
+		}
 	}
 
 	/**
