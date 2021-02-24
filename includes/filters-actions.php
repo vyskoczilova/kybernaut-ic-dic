@@ -1,9 +1,10 @@
 <?php
 
-use DvK\Vat\Countries;
-use DvK\Vat\Validator;
-
 // If this file is called directly, abort.
+
+use Ibericode\Vat\Countries;
+use Ibericode\Vat\Validator;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -223,7 +224,7 @@ function woolab_icdic_checkout_field_process() {
 
 
 		// Check if in EU
-		if ( $countries->inEurope( $country ) ) {
+		if ( $countries->isCountryCodeInEU( $country ) ) {
 
 			// If Validate in VIES
 			// Slovak DIC cannot (and shouldn't) be validated in VIES
@@ -231,7 +232,11 @@ function woolab_icdic_checkout_field_process() {
 
 				$validator = new Validator();
 
-				if ( ! $validator->validate( $dic )) {
+				if ( ! $validator->validateVatNumberFormat( $dic )) {
+					wc_add_notice( __( 'VAT number has not correct format', 'woolab-ic-dic' ), 'error' );
+				}
+
+				if ( ! $validator->validateVatNumber( $dic )) {
 					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 				}
 
