@@ -4,6 +4,7 @@ Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech
 Requires at least: 4.6
 Tested up to: 5.6
 Stable tag: 1.6.3
+Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate link: https://www.paypal.me/KarolinaVyskocilova
@@ -14,7 +15,7 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathematics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
-Supports both PHP 7.0+ & PHP 8.0+.
+Supports both PHP 7.1+ & PHP 8.0+.
 
 === Main functionality ===
 
@@ -139,6 +140,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 = 1.6.0 (2021-02-24) =
 * Fix: Add correct classes on checkbox input for "Buy as Company"
 * Update dependencies: VAT composer library to 2.0.5
+* Bump minimum requirements to 7.1 (due to Composer dependency)
 
 = 1.5.4 (2020-12-02) =
 * Fix: Don't validate without billing country [#27](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/27) - thanks to [@morvy](https://github.com/morvy)

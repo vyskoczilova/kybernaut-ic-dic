@@ -1,14 +1,9 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "e36d7cefc025f8f0c27879e3d1852f70",
     "packages": [
         {
             "name": "ibericode/vat",
             "version": "2.0.5",
+            "version_normalized": "2.0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ibericode/vat.git",
@@ -33,7 +28,9 @@
                 "ext-soap": "Needed to support VIES VAT number validation",
                 "ibericode/vat-bundle": "Symfony bundle for integrating this package"
             },
+            "time": "2020-12-30T17:01:42+00:00",
             "type": "library",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Ibericode\\Vat\\": "src/"
@@ -57,16 +54,9 @@
                 "issues": "https://github.com/ibericode/vat/issues",
                 "source": "https://github.com/ibericode/vat/tree/2.0.5"
             },
-            "time": "2020-12-30T17:01:42+00:00"
+            "install-path": "../ibericode/vat"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
-    "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "dev": false,
+    "dev-package-names": []
 }
