@@ -124,7 +124,9 @@ function woolab_icdic_enqueue_scripts() {
 			'ares_check' => woolab_icdic_ares_check(),
 			'ares_fill' => woolab_icdic_ares_fill(),
 		));
-		wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
+		if ( apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') ) === 'yes') {
+			wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
+		}
 	}
 }
 

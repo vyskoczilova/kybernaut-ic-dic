@@ -9,6 +9,8 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 * Improve: remove duplicate class on IČ DPH
+* Fix: prefix toggle CSS class
+* Load toggle CSS only when used
 
 ## Filters
 
