@@ -3,7 +3,6 @@
 // Dependencies
 var gulp = require('gulp');
 var minify = require('gulp-minify');
-var notify = require('gulp-notify'); // Sends message notification to you
 var wpPot = require('gulp-wp-pot'); // For generating the .pot file.
 var sort = require('gulp-sort'); // Recommended to prevent unnecessary changes in pot-file.
 var babel = require('gulp-babel');
@@ -75,6 +74,10 @@ gulp.task('styles', function (done) {
             team          : team
         } ))
        .pipe(gulp.dest(translationDestination + '/' + translationFile ))
-       .pipe( notify( { message: 'TASK: "translate" Completed! 💯', onLast: true } ) )
-
 });
+
+
+/**
+ * Complete build task
+ */
+ gulp.task('build', gulp.series('styles', 'scripts', 'translate'));
