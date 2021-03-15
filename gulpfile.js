@@ -7,6 +7,9 @@ var notify = require('gulp-notify'); // Sends message notification to you
 var wpPot = require('gulp-wp-pot'); // For generating the .pot file.
 var sort = require('gulp-sort'); // Recommended to prevent unnecessary changes in pot-file.
 var babel = require('gulp-babel');
+var autoprefixer = require('gulp-autoprefixer');
+var cleanCSS = require('gulp-clean-css');
+var gcmq = require('gulp-group-css-media-queries');
 
 // Translation related.
 var text_domain             = 'woolab-ic-dic'; // Your textdomain here.
@@ -36,6 +39,18 @@ gulp.task("scripts", function (done) {
             }
         }))
         .pipe(gulp.dest('assets/js/'));
+    done();
+});
+
+// Minify CSS
+gulp.task('styles', function (done) {
+    gulp.src(['src/css/*.css'])
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(gcmq())
+        .pipe(cleanCSS({}))
+        .pipe(gulp.dest('assets/css/'))
     done();
 });
 

@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.6.3
+ Version:				1.6.4rc1
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.6.2' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.6.4rc1' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -124,7 +124,7 @@ function woolab_icdic_enqueue_scripts() {
 			'ares_check' => woolab_icdic_ares_check(),
 			'ares_fill' => woolab_icdic_ares_fill(),
 		));
-		wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style'.$suffix.'.css', null, WOOLAB_IC_DIC_VERSION );
+		wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
 	}
 }
 
