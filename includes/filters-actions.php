@@ -48,7 +48,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 		'label'			=> __('VAT reg. no.', 'woolab-ic-dic'),
 		'placeholder'	=> _x('VAT reg. no.', 'placeholder', 'woolab-ic-dic'),
 		'required'		=> false,
-		'class'			=> apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces', 'woolab-ic-dic-toggle') ),
+		'class'			=> apply_filters( 'woolab_icdic_class_billing_dic_dph', array('form-row-wide', 'woolab-ic-dic-no_spaces') ),
 		'clear'			=> true,
 		'priority'		=> 31, // @since 1.3.3 && WC 3.5.1
 	);
