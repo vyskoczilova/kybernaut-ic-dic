@@ -1,18 +1,12 @@
 'use strict';
 
-//npm install --save-dev gulp gulp-include gulp-imagemin gulp-minify gulp-wp-pot gulp-sort
-//npm install --save-dev gulp
-
 // Dependencies
-var gulp = require('gulp');  
-var include = require('gulp-include');
+var gulp = require('gulp');
 var minify = require('gulp-minify');
 var notify = require('gulp-notify'); // Sends message notification to you
 var wpPot = require('gulp-wp-pot'); // For generating the .pot file.
 var sort = require('gulp-sort'); // Recommended to prevent unnecessary changes in pot-file.
-
-// Settings
-var wpTheme = "./";
+var babel = require('gulp-babel');
 
 // Translation related.
 var text_domain             = 'woolab-ic-dic'; // Your textdomain here.
@@ -26,43 +20,24 @@ var team                    = 'Kybernaut <karolina@kybernaut.cz>'; // Team's Ema
 // Watch files paths.
 var projectPHPWatchFiles    = './**/*.php'; // Path to all PHP files.
 
-/** 
- * INCLUDE JS SCRIPTS AND MINIFY
- * https://www.npmjs.com/package/gulp-include
- * https://www.npmjs.com/package/gulp-minify
- */
-
-gulp.task( "js", function() {
-    //console.log( '-- including files to assets/js/admin.js' );
-    console.log( '-- minifying to assets/js/admin.min.js' );
-    gulp.src( wpTheme + 'assets/js/admin.js' )
-      .pipe(minify({
-          ext:{
-              //src:'.js',
-              min:'.min.js'
-          }
-      }))
-      .pipe( gulp.dest( 'assets/js' ) );
-      console.log( '-- minifying to assets/js/admin-edit.min.js' );
-      gulp.src( wpTheme + 'assets/js/admin-edit.js' )
+// Handle JS
+gulp.task("scripts", function (done) {
+    gulp.src('src/js/[^_]*.js')
+        .on('error', console.log)
+        .pipe(babel({
+            presets: [
+                '@babel/preset-env',
+            ]
+        }))
         .pipe(minify({
-            ext:{
-                //src:'.js',
-                min:'.min.js'
+            ext: {
+                src: '.js',
+                min: '.min.js'
             }
         }))
-        .pipe( gulp.dest( 'assets/js' ) );
-      //console.log( '-- including files to assets/js/public.js' );
-      console.log( '-- minifying to assets/js/public.min.js' );
-    gulp.src( wpTheme + 'assets/js/public.js' )
-      .pipe(minify({
-          ext:{
-              //src:'.js',
-              min:'.min.js'
-          }
-      }))
-      .pipe( gulp.dest( 'assets/js' ) );
-  });
+        .pipe(gulp.dest('assets/js/'));
+    done();
+});
 
 /**
   * WP POT Translation File Generator.
