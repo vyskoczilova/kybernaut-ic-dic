@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,13 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.6.4 (2021-04-05) =
+* Fix: prefix toggle CSS class.
+* Fix: call old function in SK dic validation.
+* Improve: remove duplicate class on IČ DPH.
+* Improve: validate ARES only in when CZ selected (when country is re-selected again).
+* Load toggle CSS only when used.
 
 = 1.6.3 (2021-02-24) =
 * Feature: Add compatibility with PHP 8

@@ -9,11 +9,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 
-* Fix: prefix toggle CSS class.
-* Fix: call old function in SK dic validation.
-* Improve: remove duplicate class on IČ DPH.
-* Improve: validate ARES only in when CZ selected (when country is re-selected again).
-* Load toggle CSS only when used.
+* none
 
 ## Filters
 
