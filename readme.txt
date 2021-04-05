@@ -130,9 +130,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 = 1.6.4 (2021-04-05) =
 * Fix: prefix toggle CSS class.
-* Fix: call old function in SK dic validation.
+* Fix: call an old function in SK DIČ validation.
 * Improve: remove duplicate class on IČ DPH.
-* Improve: validate ARES only in when CZ selected (when country is re-selected again).
+* Improve: validate ARES only when CZ selected (when the country is re-selected again).
 * Load toggle CSS only when used.
 
 = 1.6.3 (2021-02-24) =
