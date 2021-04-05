@@ -8,10 +8,12 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 **Note:** `vendor` folder is tracked because off PHP 7.1 compatibility which is unoficially still working on ibericode/vat package, but the minimum requirement was bumped in December 2020. Plan to bump accordingly soon.
 
 ## Unreleased changes
-* Improve: remove duplicate class on IČ DPH
-* Fix: prefix toggle CSS class
-* Fix: validate ARES only in when CZ selected (when country is re-selected again)
-* Load toggle CSS only when used
+
+* Fix: prefix toggle CSS class.
+* Fix: call old function in SK dic validation.
+* Improve: remove duplicate class on IČ DPH.
+* Improve: validate ARES only in when CZ selected (when country is re-selected again).
+* Load toggle CSS only when used.
 
 ## Filters
 

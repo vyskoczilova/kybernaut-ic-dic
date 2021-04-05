@@ -286,7 +286,7 @@ function woolab_icdic_checkout_field_process() {
 
 			$validator = new Validator();
 
-			if ( ! $validator->validate( $dic_dph )) {
+			if ( ! $validator->validateVatNumber( $dic_dph )) {
 				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 			}
 
