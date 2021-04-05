@@ -10,6 +10,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 ## Unreleased changes
 * Improve: remove duplicate class on IČ DPH
 * Fix: prefix toggle CSS class
+* Fix: validate ARES only in when CZ selected (when country is re-selected again)
 * Load toggle CSS only when used
 
 ## Filters

@@ -92,16 +92,15 @@
       case 'CZ':
         $("#billing_dic_dph_field").slideUp();
         $("#billing_dic_field > label").removeClass("woolab-ic-dic-required");
-
-        if (woolab.ares_check) {
-          enable_ares_check();
-        }
-
         break;
 
       default:
         $("#billing_dic_dph_field").slideUp();
         $("#billing_dic_field > label").removeClass("woolab-ic-dic-required");
+    }
+
+    if (woolab.ares_check) {
+      enable_ares_check();
     }
 
     $("#billing_company_field").slideDown();
@@ -150,6 +149,11 @@
   }
 
   function ares_check(ico) {
+    // Only if country is CZ.
+    if ($("#billing_country").val() !== 'CZ') {
+      return;
+    }
+
     var value = ico.val();
 
     if (value !== last_ico_value) {
