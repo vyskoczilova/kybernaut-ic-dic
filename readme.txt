@@ -2,8 +2,8 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 5.7
-Stable tag: 1.6.4
+Tested up to: 5.8
+Stable tag: 1.6.5
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.6.5 (2021-10-01) =
+
+* Fix: VAT label CSS bug [#40](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/40) - thanks to [@morvy](https://github.com/morvy)
 
 = 1.6.4 (2021-04-05) =
 * Fix: prefix toggle CSS class.
