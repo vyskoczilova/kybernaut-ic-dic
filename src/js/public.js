@@ -48,7 +48,7 @@
 
     $(document).ready(function() {
 
-        $('.woolab-ic-dic-no_spaces input').bind('input', function(){
+        $('.woolab-ic-dic-no_spaces input').on('input', function() {
             $(this).val(function(_, v){
                 return v.replace(/\s+/g, '');
             });
@@ -125,7 +125,7 @@
 
         var ico = $('#billing_ic');
         ares_check( ico );
-        ico.bind('focusin', function() {
+        ico.on('focusin', function() {
             last_ico_value = ico.val();
         });
         ico.donetyping( function() {

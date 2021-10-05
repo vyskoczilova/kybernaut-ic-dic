@@ -9,7 +9,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 
-* none
+* Fix: jQuery 3.x compatibility [#41](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/41) - thanks to [@morvy](https://github.com/morvy)
 
 ## Filters
 
