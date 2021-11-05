@@ -278,6 +278,7 @@ function woolab_icdic_checkout_field_process() {
 		 * Remove white spaces
 		 * @since 1.4.0
 		 */
+		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']);
 		$dic_dph = preg_replace('/\s+/', '', $_POST['billing_dic_dph']);
 
 		// Verify IC DPH
