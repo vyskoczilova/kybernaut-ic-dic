@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 1.6.5
+Stable tag: 1.6.6
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,8 +125,12 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 1. Checkout validation of IČO.
 
 
-
 == Changelog ==
+
+= 1.6.6 (2021-11-05) =
+
+* Fix: jQuery 3.x compatibility [#41](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/41) - thanks to [@morvy](https://github.com/morvy)
+* Fix: Notice: Undefined variable: dic [#43](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/43) - thanks to [@morvy](https://github.com/morvy)
 
 = 1.6.5 (2021-10-01) =
 
