@@ -57,6 +57,7 @@
     var $fieldToggle = $('#billing_iscomp');
 
     if (!$fieldToggle.length || $fieldToggle.prop("checked")) {
+      restore_company_data();
       based_on_country();
     }
     /** Toggle fields when country is changed or checkbox is toggled */
@@ -66,9 +67,11 @@
       var $fieldToggle = $('#billing_iscomp');
 
       if (!$fieldToggle.length || $fieldToggle.prop("checked")) {
+        restore_company_data();
         based_on_country();
       } else {
         $(".woolab-ic-dic-toggle").slideUp();
+        clear_company_data();
       }
     });
   });
@@ -104,6 +107,24 @@
     }
 
     $("#billing_company_field").slideDown();
+  }
+
+  function clear_company_data() {
+    $("#billing_company, #billing_ic, #billing_dic, #billing_dic_dph").each(function (index, el) {
+      if (el.value.length) {
+        el.setAttribute('data-value', el.value);
+      }
+
+      el.value = '';
+    });
+  }
+
+  function restore_company_data() {
+    $("#billing_company, #billing_ic, #billing_dic, #billing_dic_dph").each(function (index, el) {
+      if (el.getAttribute('data-value')) {
+        el.value = el.getAttribute('data-value');
+      }
+    });
   }
 
   function clear_validation() {
