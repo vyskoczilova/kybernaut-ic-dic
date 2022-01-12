@@ -129,7 +129,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.6.7 (2022-01-12) =
 
-* Fix: Checbox buy as company - data are sent even when unchecked - thanks to [@morvy](https://github.com/morvy)
+* Fix: Checkbox buy as a company - data are sent even when unchecked - thanks to [@morvy](https://github.com/morvy)
 
 = 1.6.6 (2021-11-05) =
 
