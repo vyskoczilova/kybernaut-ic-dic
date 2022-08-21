@@ -361,6 +361,79 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 
 }
 
+function woolab_icdic_toggle_iscomp_field($value, $input) {
+	$customer = WC()->customer;
+
+	if ( !empty($customer->get_meta('billing_company'))
+		|| !empty($customer->get_meta('billing_ic'))
+		|| !empty($customer->get_meta('billing_dic'))
+		|| !empty($customer->get_meta('billing_dic_dph'))
+		) {
+		return true;
+	}
+	
+	return $value;
+}
+
+function woolab_icdic_set_vat_exempt_for_customer() {
+	if ( is_ajax() ) {
+		return;
+	}
+
+	$customer      = WC()->customer;
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', get_option('woolab_icdic_vat_exempt_switch', 'no') );
+
+	if (empty($customer) || $enabled !== 'yes') {
+		return;
+	}
+
+	$vat_num       = null;
+	$store_country = woolab_icdic_get_store_country();
+	$is_vat_exempt = false;
+
+	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $store_country) {
+		$vat_num = $customer->get_meta('billing_country') == 'SK' ? $customer->get_meta('billing_dic_dph') : $customer->get_meta('billing_dic');
+	}
+
+	if (!empty($vat_num)) {
+		$validator     = new Validator();
+		$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+	}
+
+	$customer->set_is_vat_exempt( $is_vat_exempt );
+}
+
+function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', get_option('woolab_icdic_vat_exempt_switch', 'no') );
+
+	if ($enabled !== 'yes') {
+		return;
+	}
+
+	$data          = array();
+	wp_parse_str($post_data, $data);
+	$store         = woolab_icdic_get_store_country();
+	$country       = $data['billing_country'];
+	// TODO: use WooCommerce core functionality after replacing ibericode library
+	$vat_countries = new Countries();
+	$is_eu_country = $vat_countries->isCountryCodeInEU($country);
+
+	if ($country === $store || !$is_eu_country) {
+		// Skip check if company's billing country is the same as store's country
+		return;
+	}
+
+	$vat_num = $country === 'SK' ? $data['billing_dic_dph'] : $data['billing_dic'];
+
+	if ( !empty($vat_num) && isset($data['billing_iscomp']) && $data['billing_iscomp'] == 1 ) {
+		$validator     = new Validator();
+		$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		WC()->customer->set_is_vat_exempt( $is_vat_exempt );
+	} else {
+		WC()->customer->set_is_vat_exempt( false );
+	}
+}
+
 // admin
 function woolab_icdic_customer_meta_fields($fields) {
 	$fields['billing']['fields'] += array(

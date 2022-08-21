@@ -137,3 +137,13 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' ) 
 
     return $fields_new;
 }
+
+function woolab_icdic_get_store_country() {
+    // The country/state
+    $store_raw_country = get_option( 'woocommerce_default_country' );
+
+    // Split the country/state
+    $split_country = explode( ":", $store_raw_country );
+
+    return apply_filters( 'woolab_icdic_default_country', $split_country[0] );
+}

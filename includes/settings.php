@@ -34,6 +34,13 @@ function woolab_icdic_icdic_general_settings($settings) {
         'type'    => 'checkbox',
     );
     $settings[] = array(
+        'title'   => __( 'EU: VAT exempt', 'woolab-ic-dic' ),
+        'desc'    => __( 'Enable VAT exemption for valid EU VAT numbers', 'woolab-ic-dic' ),
+        'id'      => 'woolab_icdic_vat_exempt_switch',
+        'default' => 'no',
+        'type'    => 'checkbox',
+    );
+    $settings[] = array(
         'title'   => __( 'Toggle fields visibility', 'woolab-ic-dic' ),
         'desc'    => __( 'Enable toggle switch to show/hide input fields', 'woolab-ic-dic' ),
         'id'      => 'woolab_icdic_toggle_switch',

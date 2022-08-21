@@ -73,6 +73,16 @@
             }
         });
 
+        /** Refresh checkout to validate VAT number and VAT exemption */
+        $('#billing_dic, #billing_dic_dph').donetyping(function() {
+            var country = $("#billing_country").val();
+            if (country != "SK" && this.id == "billing_dic") {
+                $(document.body).trigger("update_checkout");
+            }
+            if (country == "SK" && this.id == "billing_dic_dph") {
+                $(document.body).trigger("update_checkout");
+            }
+        }, 750);
     });
 
     /** Show/Hide logic for woolab-ic-dic fields */
@@ -106,18 +116,26 @@
     }
 
     function clear_company_data() {
+        var country   = $("#billing_country").val();
+        var vat_field = country == 'SK' ? 'billing_dic_dph' : 'billing_dic';
         $("#billing_company, #billing_ic, #billing_dic, #billing_dic_dph").each(function(index,el) {
-            if (el.value.length) {
-                el.setAttribute('data-value', el.value);
+            el.setAttribute('data-value', el.value);
+            if (el.id == vat_field && el.value.length) {
+                $(document.body).trigger("update_checkout");
             }
             el.value = '';
         });
     }
 
     function restore_company_data() {
+        var country   = $("#billing_country").val();
+        var vat_field = country == 'SK' ? 'billing_dic_dph' : 'billing_dic';
         $("#billing_company, #billing_ic, #billing_dic, #billing_dic_dph").each(function(index,el) {
             if (el.getAttribute('data-value')) {
                 el.value = el.getAttribute('data-value');
+                if (el.id == vat_field && el.value.length) {
+                    $(document.body).trigger("update_checkout");
+                }
             }
         });
     }
