@@ -364,6 +364,10 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 function woolab_icdic_toggle_iscomp_field($value, $input) {
 	$customer = WC()->customer;
 
+	if ( empty($customer) ) {
+		return $value;
+	}
+
 	if ( !empty($customer->get_meta('billing_company'))
 		|| !empty($customer->get_meta('billing_ic'))
 		|| !empty($customer->get_meta('billing_dic'))
@@ -371,7 +375,7 @@ function woolab_icdic_toggle_iscomp_field($value, $input) {
 		) {
 		return true;
 	}
-	
+
 	return $value;
 }
 
@@ -381,17 +385,19 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 	}
 
 	$customer      = WC()->customer;
-	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', get_option('woolab_icdic_vat_exempt_switch', 'no') );
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
 
-	if (empty($customer) || $enabled !== 'yes') {
+	if (empty($customer) || !$enabled) {
 		return;
 	}
 
 	$vat_num       = null;
-	$store_country = woolab_icdic_get_store_country();
+	$wc_countries  = new WC_Countries();
+	$base_country  = $wc_countries->get_base_country();
+	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
 	$is_vat_exempt = false;
 
-	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $store_country) {
+	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $base_country) {
 		$vat_num = $customer->get_meta('billing_country') == 'SK' ? $customer->get_meta('billing_dic_dph') : $customer->get_meta('billing_dic');
 	}
 
@@ -404,22 +410,23 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 }
 
 function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
-	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', get_option('woolab_icdic_vat_exempt_switch', 'no') );
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
 
-	if ($enabled !== 'yes') {
+	if ( !$enabled ) {
 		return;
 	}
 
 	$data          = array();
 	wp_parse_str($post_data, $data);
-	$store         = woolab_icdic_get_store_country();
+	$wc_countries  = new WC_Countries();
+	$base_country  = $wc_countries->get_base_country();
+	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
 	$country       = $data['billing_country'];
-	// TODO: use WooCommerce core functionality after replacing ibericode library
-	$vat_countries = new Countries();
-	$is_eu_country = $vat_countries->isCountryCodeInEU($country);
+	$vat_countries = $wc_countries->get_european_union_countries('eu_vat');
+	$is_eu_country = in_array($country, $vat_countries);
 
-	if ($country === $store || !$is_eu_country) {
-		// Skip check if company's billing country is the same as store's country
+	if ($country === $base_country || !$is_eu_country) {
+		// Skip check if company's billing country is the same as store's country or if company's billing country is not EU VAT country.
 		return;
 	}
 
