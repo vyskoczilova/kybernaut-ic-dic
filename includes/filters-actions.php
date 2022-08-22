@@ -403,7 +403,9 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 
 	if (!empty($vat_num)) {
 		$validator     = new Validator();
-		$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
+			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		}
 	}
 
 	$customer->set_is_vat_exempt( $is_vat_exempt );
@@ -434,7 +436,12 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 
 	if ( !empty($vat_num) && isset($data['billing_iscomp']) && $data['billing_iscomp'] == 1 ) {
 		$validator     = new Validator();
-		$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		$is_vat_exempt = false;
+
+		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
+			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		}
+
 		WC()->customer->set_is_vat_exempt( $is_vat_exempt );
 	} else {
 		WC()->customer->set_is_vat_exempt( false );
