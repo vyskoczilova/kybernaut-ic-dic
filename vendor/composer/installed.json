@@ -57,6 +57,6 @@
             "install-path": "../ibericode/vat"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }
