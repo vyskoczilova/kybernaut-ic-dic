@@ -408,6 +408,8 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 		}
 	}
 
+	$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_customer', $is_vat_exempt, $vat_num, $customer );
+
 	$customer->set_is_vat_exempt( $is_vat_exempt );
 }
 
@@ -441,6 +443,8 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
 			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
 		}
+
+		$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_company', $is_vat_exempt, $data );
 
 		WC()->customer->set_is_vat_exempt( $is_vat_exempt );
 	} else {
