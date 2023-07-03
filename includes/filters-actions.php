@@ -248,7 +248,7 @@ function woolab_icdic_checkout_field_process() {
 			// Validate CZ and SK mathematicaly
 			} else {
 				if ( $country == "CZ" ) {
-					if ( ! ( woolab_icdic_verify_rc( substr( $dic, 2 )) || woolab_icdic_verify_ic( substr( $dic, 2 ) ) ) || substr( $dic, 0, 2) != "CZ") {
+					if ( ! ( woolab_icdic_verify_rc( substr( $dic, 2 )) || woolab_icdic_verify_dic( substr( $dic, 2 ) ) ) || substr( $dic, 0, 2) != "CZ") {
 						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 					}
 				} elseif ( $country == "SK" ) {
@@ -283,7 +283,7 @@ function woolab_icdic_checkout_field_process() {
 
 		// Verify IC DPH
 		// If Validate in VIES
-		if ( woolab_icdic_vies_check() && class_exists('SoapClient') ) {
+		if ( woolab_icdic_vies_check() ) {
 
 			$validator = new Validator();
 
