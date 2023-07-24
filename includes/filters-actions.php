@@ -361,6 +361,97 @@ function woolab_icdic_order_formatted_billing_address($address, $order) {
 
 }
 
+function woolab_icdic_toggle_iscomp_field($value, $input) {
+	$customer = WC()->customer;
+
+	if ( empty($customer) ) {
+		return $value;
+	}
+
+	if ( !empty($customer->get_meta('billing_company'))
+		|| !empty($customer->get_meta('billing_ic'))
+		|| !empty($customer->get_meta('billing_dic'))
+		|| !empty($customer->get_meta('billing_dic_dph'))
+		) {
+		return true;
+	}
+
+	return $value;
+}
+
+function woolab_icdic_set_vat_exempt_for_customer() {
+	if ( is_ajax() ) {
+		return;
+	}
+
+	$customer      = WC()->customer;
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
+
+	if (empty($customer) || !$enabled) {
+		return;
+	}
+
+	$vat_num       = null;
+	$wc_countries  = new WC_Countries();
+	$base_country  = $wc_countries->get_base_country();
+	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
+	$is_vat_exempt = false;
+
+	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $base_country) {
+		$vat_num = $customer->get_meta('billing_country') == 'SK' ? $customer->get_meta('billing_dic_dph') : $customer->get_meta('billing_dic');
+	}
+
+	if (!empty($vat_num)) {
+		$validator     = new Validator();
+		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
+			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		}
+	}
+
+	$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_customer', $is_vat_exempt, $vat_num, $customer );
+
+	$customer->set_is_vat_exempt( $is_vat_exempt );
+}
+
+function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
+	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
+
+	if ( !$enabled ) {
+		return;
+	}
+
+	$data          = array();
+	wp_parse_str($post_data, $data);
+	$wc_countries  = new WC_Countries();
+	$base_country  = $wc_countries->get_base_country();
+	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
+	$country       = $data['billing_country'];
+	$vat_countries = $wc_countries->get_european_union_countries('eu_vat');
+	$is_eu_country = in_array($country, $vat_countries);
+
+	if ($country === $base_country || !$is_eu_country) {
+		// Skip check if company's billing country is the same as store's country or if company's billing country is not EU VAT country.
+		return;
+	}
+
+	$vat_num = $country === 'SK' ? $data['billing_dic_dph'] : $data['billing_dic'];
+
+	if ( !empty($vat_num) && isset($data['billing_iscomp']) && $data['billing_iscomp'] == 1 ) {
+		$validator     = new Validator();
+		$is_vat_exempt = false;
+
+		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
+			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+		}
+
+		$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_company', $is_vat_exempt, $data );
+
+		WC()->customer->set_is_vat_exempt( $is_vat_exempt );
+	} else {
+		WC()->customer->set_is_vat_exempt( false );
+	}
+}
+
 // admin
 function woolab_icdic_customer_meta_fields($fields) {
 	$fields['billing']['fields'] += array(
