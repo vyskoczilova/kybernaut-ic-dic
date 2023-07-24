@@ -127,6 +127,11 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= WIP =
+
+* Feature: VAT extempt - thanks to [@morvy](https://github.com/morvy), [#48](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/48)
+* Fix: Checked "Buying as a company" while any of Company related fields is filled - thanks to [@morvy](https://github.com/morvy), [#48](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/48)
+
 = 1.6.7 (2022-01-12) =
 
 * Fix: Checkbox buy as a company - data are sent even when unchecked - thanks to [@morvy](https://github.com/morvy)
