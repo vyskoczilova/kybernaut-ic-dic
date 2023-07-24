@@ -474,6 +474,14 @@ function woolab_icdic_customer_meta_fields($fields) {
 // Add custom user fields to admin order screen
 function woolab_icdic_admin_billing_fields ( $fields ) {
 
+	// Bail if not post type shop_order.
+	global $pagenow;
+    
+	// TODO, add HPOS support.
+    if ( $pagenow !== 'edit.php' && ! isset( $_GET['post_type'] ) && $_GET['post_type'] !== 'shop_order' ) {
+        return $fields;
+    }
+
 	global $post;
 
 	$order_id = $post->ID;
