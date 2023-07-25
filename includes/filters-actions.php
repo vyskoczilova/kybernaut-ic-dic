@@ -474,44 +474,47 @@ function woolab_icdic_customer_meta_fields($fields) {
 // Add custom user fields to admin order screen
 function woolab_icdic_admin_billing_fields ( $fields ) {
 
-	// Bail if not post type shop_order.
 	global $pagenow;
-
-	if ( $pagenow !== 'edit.php' && ! isset( $_GET['post_type'] ) && $_GET['post_type'] !== 'shop_order' ) {
-		return $fields;
-	}
-
-	global $post;
-
-	$order   = wc_get_order( $post->ID );
-
-	if ( ! $order instanceof \WC_Order ) {
-		return $fields;
-	}
-
-	$country = $order->get_meta( '_billing_country', true );
-
+	
+	// Return empty fields everytime someone wants admin billing fields.
 	$fields += array(
 		'billing_ic' => array(
 			'label' => __('Business ID', 'woolab-ic-dic'),
 			'show'  => false,
-			'value' => $order->get_meta( '_billing_ic', true ),
 		),
 		'billing_dic' => array(
 			'label' => __('Tax ID', 'woolab-ic-dic'),
 			'show'  => false,
-			'value' => $order->get_meta( '_billing_dic', true ),
-		)
-	);
-
-	if ( $country && $country[0] == 'SK' || ! $country ) {
-		$fields += array(
-			'billing_dic_dph' => array(
-				'label' => __('VAT reg. no.', 'woolab-ic-dic'),
-				'show'  => false,
-				'value' => $order->get_meta( '_billing_dic_dph', true ),
+		),
+		'billing_dic_dph' => array(
+			'label' => __('VAT reg. no.', 'woolab-ic-dic'),
+			'show'  => false,
 			)
 		);
+		
+	$order = null;
+
+	// HPOS ready.
+	if ( $pagenow == 'admin.php' && isset($_GET['page']) && $_GET['page'] == 'wc-orders' && isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id']) ) {
+		$order = wc_get_order($_GET['id']);		
+	} elseif ($pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'shop_order') {
+		global $post;
+		$order = wc_get_order( $post->ID );
+	}
+
+	if ( $order instanceof \WC_Order ) {
+
+		$country = $order->get_meta( '_billing_country', true );
+
+		$fields['billing_ic']['value'] = $order->get_meta( '_billing_ic', true );
+		$fields['billing_dic']['value'] = $order->get_meta( '_billing_dic', true );
+		$fields['billing_dic_dph']['value'] = $order->get_meta( '_billing_dic_dph', true );
+
+		// Hide the VAT reg. no. field if not country SK
+		if ( ! $country || ($country && $country[0] !== 'SK') ) {
+			$fields['billing_dic_dph']['show'] = false;
+		}
+
 	}
 
 	return $fields;
