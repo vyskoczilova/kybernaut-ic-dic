@@ -129,6 +129,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.7.0 (WIP) =
 
+* Feature: HPOS support - together with [@morvy](https://github.com/morvy), [#55](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/55)
 * Feature: VAT extempt - thanks to [@morvy](https://github.com/morvy), [#48](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/48)
 * Feature: Math validation for Slovak IC DPH - thanks to [@morvy](https://github.com/morvy), [#56](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/56)
 * Fix: Checked "Buying as a company" while any of Company related fields is filled - thanks to [@morvy](https://github.com/morvy), [#48](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/48)

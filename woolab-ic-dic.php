@@ -45,21 +45,21 @@ function woolab_icdic_init() {
 
 		// Deactivate the Child Plugin
 		function woolab_icdic_plugin_deactivate() {
-		  deactivate_plugins( plugin_basename( __FILE__ ) );
+			deactivate_plugins( plugin_basename( __FILE__ ) );
 		}
 
 		// Throw an Alert to tell the Admin why it didn't activate
 		function woolab_icdic_plugin_admin_notice() {
 			$dpa_child_plugin = __( 'Kybernaut IČ DIČ', 'woolab-ic-dic' );
-            $dpa_parent_plugin = __( 'WooCommerce', 'woolab-ic-dic' );
+			$dpa_parent_plugin = __( 'WooCommerce', 'woolab-ic-dic' );
 
-            		echo '<div class="error"><p>'
-                		. sprintf( __( '%1$s requires %2$s to function. Please activate %2$s before you activate %1$s. This plugin has been deactivated.', 'woolab-ic-dic' ), '<strong>' . esc_html( $dpa_child_plugin ) . '</strong>', '<strong>' . esc_html( $dpa_parent_plugin ) . '</strong>' )
-                		. '</p></div>';
+			echo '<div class="error"><p>'
+				. sprintf( __( '%1$s requires %2$s to function. Please activate %2$s before you activate %1$s. This plugin has been deactivated.', 'woolab-ic-dic' ), '<strong>' . esc_html( $dpa_child_plugin ) . '</strong>', '<strong>' . esc_html( $dpa_parent_plugin ) . '</strong>' )
+				. '</p></div>';
 
-		   if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
-		   }
+			if ( isset( $_GET['activate'] ) ) {
+				unset( $_GET['activate'] );
+			}
 		}
 
 	} else {
@@ -146,7 +146,7 @@ function woolab_icdic_ares_fill() {
 function woolab_icdic_vies_check() {
 
 	if ( ! class_exists('SoapClient') ) {
-        return false;
+		return false;
 	}
 
 	$option = woolab_icdic_get_option( 'woolab_icdic_vies_check', 'yes' );
@@ -167,17 +167,17 @@ function woolab_icdic_get_option( $name, $default = 'yes' ) {
 
 function woolab_icdic_admin_scripts( $hook ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
-    if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
+	if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );
 		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery') );
 	}
 	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
 		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery') );
-        wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(
+		wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'soap' => class_exists('SoapClient'),
 		));
-    }
+	}
 }
 
 function woolab_icdic_ares_ajax(){
@@ -193,3 +193,12 @@ function woolab_icdic_ares_ajax(){
 	}
 	die();
 };
+
+/**
+ * Declare WooCommerce HPOS compatibility.
+ */
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
