@@ -2,8 +2,8 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 6.0
-Stable tag: 1.6.7
+Tested up to: 6.3
+Stable tag: 1.7.0
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,6 +26,7 @@ Supports both PHP 7.1+ & PHP 8.0+.
     * VIES DIČ validation (or just validate the format of values)
 * for EU countries as billing country
     * VIES DIČ validation
+* VAT extempt feature
 * adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Account page
 * allows edits from administration (backend):
   * `Users -> Joe Doe (Edit) -> Billing address of the customer`
@@ -127,7 +128,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.7.0 (WIP) =
+= 1.7.0 (2023-07-25) =
 
 * Feature: HPOS support - together with [@morvy](https://github.com/morvy), [#55](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/55)
 * Feature: VAT extempt - thanks to [@morvy](https://github.com/morvy), [#48](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/48)
