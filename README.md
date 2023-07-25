@@ -46,6 +46,14 @@ If you need to set it up in your theme or plugin, you can use following filters 
 
     add_filter( 'woolab_icdic_vies_check', '__return_true' );
 
+    add_filter( 'woolab_icdic_vat_exempt_enabled', function(){
+      return "no"; // or "yes"
+    } );
+
+    add_filter( 'woolab_icdic_base_country', function(){
+      return "SK";
+    } );
+
 ### Update user meta while edition order details: `woolab_icdic_update_user_meta`
 By default, if you edit order details, user profile is not touched. If you want to update user details when you add or edit ICO or DIC value, use this filter.
 
