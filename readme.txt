@@ -130,7 +130,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.7.1 (2023-07-26) =
 
-Fix: Fatal error while updating manually order status.
+* Fix: Fatal error while updating manually order status [#59](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/59)
 
 = 1.7.0 (2023-07-25) =
 
