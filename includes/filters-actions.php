@@ -569,6 +569,11 @@ function woolab_icdic_process_shop_order ( $order_id, $order ) {
 		return;
 	}
 
+	// If not instance of WC_Order, get post ID and create WC_Order (somehow WC_Order is not passed in woocommerce_process_shop_order_meta hook, although it was before).
+	if ( ! $order instanceof \WC_Order ) {
+		$order = wc_get_order( $order_id );
+	}
+
 	$update_user_meta = apply_filters( 'woolab_icdic_update_user_meta', false );
 	$user_id          = intval( $_POST['user_ID'] );
 
