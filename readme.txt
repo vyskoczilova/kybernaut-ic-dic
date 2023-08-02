@@ -131,6 +131,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 = 1.7.2 (2023-08-02) =
 
 * Fix: non HPOS WooCommerce edit order - load IC DIC values
+* Several code updates and cleanup.
 
 = 1.7.1 (2023-07-26) =
 
