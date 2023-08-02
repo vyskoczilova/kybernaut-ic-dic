@@ -497,7 +497,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 	// HPOS ready.
 	if ( $pagenow == 'admin.php' && isset($_GET['page']) && $_GET['page'] == 'wc-orders' && isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id']) ) {
 		$order = wc_get_order($_GET['id']);		
-	} elseif ($pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'shop_order') {
+	} else { // either edit.php or post.php - double checked by the next conditional.
 		global $post;
 		$order = wc_get_order( $post->ID );
 	}
@@ -510,7 +510,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 		$fields['billing_dic']['value'] = $order->get_meta( '_billing_dic', true );
 		$fields['billing_dic_dph']['value'] = $order->get_meta( '_billing_dic_dph', true );
 
-		// Hide the VAT reg. no. field if not country SK
+		// Hide the VAT reg. no. field if not country SK.
 		if ( ! $country || ($country && $country[0] !== 'SK') ) {
 			$fields['billing_dic_dph']['show'] = false;
 		}
