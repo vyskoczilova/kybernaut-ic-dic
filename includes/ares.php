@@ -43,7 +43,9 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                     $cp_2 = $data->AA->CO->__toString();
                     $cp = ( $cp_2 != "" ? $cp_1."/".$cp_2 : $cp_1 );
                     $cp = (empty($cp)?$data->AA->CA->__toString():$cp);
-                    $return['adresa'] = $data->AA->NU->__toString() . ' ' . $cp;
+
+                    $street = $data->AA->NU->__toString() ? $data->AA->NU->__toString() : $data->AA->NCO->__toString();
+                    $return['adresa'] = $street . ' ' . $cp;
 
                     $return['psc'] = $data->AA->PSC->__toString();
                     $return['mesto'] = $data->AA->N->__toString();

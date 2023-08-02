@@ -130,8 +130,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.7.2 (2023-08-02) =
 
-* Fix: non HPOS WooCommerce edit order - load IC DIC values
-* Several code updates and cleanup.
+* Fix: non HPOS WooCommerce edit order - load IC DIC values [#60](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/60)
+* Fix: ICO - load the city district (NCO) if the street (NO) is not filled in (case when the street = city name) [#62](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/62)
+* Several code updates and cleanup [#61](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/61)
 
 = 1.7.1 (2023-07-26) =
 
