@@ -504,7 +504,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 
 	if ( $order instanceof \WC_Order ) {
 
-		$country = $order->get_meta( '_billing_country', true );
+		$country = $order->get_billing_country();
 
 		$fields['billing_ic']['value'] = $order->get_meta( '_billing_ic', true );
 		$fields['billing_dic']['value'] = $order->get_meta( '_billing_dic', true );
@@ -554,14 +554,14 @@ function woolab_icdic_ajax_get_customer_details( $data, $customer, $user_id ){
 /**
  * Save meta data / custom fields when editing order in admin screen
  *
- * @param int       $order_id Order ID.
- * @param \WC_Order $order    Post object.
+ * @param int $post_id Post ID.
+ * @param object $post Post object.
  *
  * @return void
  */
-function woolab_icdic_process_shop_order ( $order_id, $order ) {
+function woolab_icdic_process_shop_order ( $post_id, $post ) {
 
-	if ( empty( $_POST['woocommerce_meta_nonce'] ) || empty( intval( $_POST['user_ID'] ) ) ) {
+	if ( empty( $_POST['woocommerce_meta_nonce'] ) ) {
 		return;
 	}
 
@@ -569,29 +569,26 @@ function woolab_icdic_process_shop_order ( $order_id, $order ) {
 		return;
 	}
 
-	// If not instance of WC_Order, get post ID and create WC_Order (somehow WC_Order is not passed in woocommerce_process_shop_order_meta hook, although it was before).
-	if ( ! $order instanceof \WC_Order ) {
-		$order = wc_get_order( $order_id );
-	}
+	$order = wc_get_order( $post_id );
 
 	$update_user_meta = apply_filters( 'woolab_icdic_update_user_meta', false );
-	$user_id          = intval( $_POST['user_ID'] );
+	$user_id          = $order->get_user_id();
 
 	if ( isset($_POST['_billing_billing_ic']) ) {
 		$order->update_meta_data( '_billing_ic', wc_clean( $_POST['_billing_billing_ic'] ) );
-		if ( $update_user_meta ) {
+		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
 			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic']) ) {
 		$order->update_meta_data( '_billing_dic', wc_clean( $_POST['_billing_billing_dic'] ) );
-		if ( $update_user_meta ) {
+		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
 			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic_dph']) ) {
 		$order->update_meta_data( '_billing_dic_dph', wc_clean( $_POST['_billing_billing_dic_dph'] ) );
-		if ( $update_user_meta ) {
+		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
 			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( $_POST['_billing_billing_dic_dph'] ) );
 		}
 	}
