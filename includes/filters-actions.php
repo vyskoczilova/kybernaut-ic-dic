@@ -504,7 +504,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 
 	if ( $order instanceof \WC_Order ) {
 
-		$country = $order->get_meta( '_billing_country', true );
+		$country = $order->get_billing_country();
 
 		$fields['billing_ic']['value'] = $order->get_meta( '_billing_ic', true );
 		$fields['billing_dic']['value'] = $order->get_meta( '_billing_dic', true );
