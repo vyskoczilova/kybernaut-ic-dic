@@ -498,7 +498,12 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 	if ( $pagenow == 'admin.php' && isset($_GET['page']) && $_GET['page'] == 'wc-orders' && isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id']) ) {
 		$order = wc_get_order($_GET['id']);		
 	} else { // either edit.php or post.php - double checked by the next conditional.
+		
 		global $post;
+		if ($post === null) {
+			return $fields;
+		}
+
 		$order = wc_get_order( $post->ID );
 	}
 
