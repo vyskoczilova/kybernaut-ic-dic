@@ -231,6 +231,12 @@ function woolab_icdic_checkout_field_process() {
 		// Check if in EU
 		if ( $countries->isCountryCodeInEU( $country ) ) {
 
+			// Match VAT country prefix and country code.
+			// @since 1.7.3.
+			if ( substr( $dic, 0, 2) != $country ) {
+				wc_add_notice( __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
+			}
+
 			// If Validate in VIES
 			// Slovak DIC cannot (and shouldn't) be validated in VIES
 			if ( woolab_icdic_vies_check() && $country != 'SK' ) {

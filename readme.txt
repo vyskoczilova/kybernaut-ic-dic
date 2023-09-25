@@ -131,6 +131,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 = 1.7.3 () =
 
 * Feature: Localize address format for all EU countries.
+* Feature: Additional check - billing country and VAT country prefix must match.
 
 = 1.7.2 (2023-08-02) =
 
