@@ -325,9 +325,25 @@ function woolab_icdic_my_address_formatted_address( $fields, $customer_id, $name
 	return $fields;
 }
 
+/**
+ * Add ICO, DIC fields to customers address for all EU countries including Monaco.
+ * @param array $address_formats Address formats array.
+ * @return array 
+ * 
+ * @updated 1.7.3
+ */
 function woolab_icdic_localisation_address_formats($address_formats) {
-	$address_formats['CZ'] .= "\n{billing_ic}\n{billing_dic}";
-	$address_formats['SK'] .= "\n{billing_ic}\n{billing_dic}\n{billing_dic_dph}";
+
+	$euvat = WC()->countries->get_european_union_countries( 'eu_vat' ); // Eu VAT Countries including Monaco.
+
+	foreach ( $euvat as $country_code ) {
+		if (isset($address_formats[$country_code])) {
+			$address_formats[$country_code] .= "\n{billing_ic}\n{billing_dic}";
+			if ( $country_code == 'SK' ) {
+				$address_formats[$country_code] .= "\n{billing_dic_dph}";
+			}
+		}
+	}
 	return $address_formats;
 }
 

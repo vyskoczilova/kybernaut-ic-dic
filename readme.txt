@@ -128,6 +128,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.7.3 () =
+
+* Feature: Localize address format for all EU countries.
+
 = 1.7.2 (2023-08-02) =
 
 * Fix: non HPOS WooCommerce edit order - load IC DIC values [#60](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/60)
