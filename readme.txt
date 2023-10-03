@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 6.3
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,10 +128,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.7.3 () =
+= 1.7.3 (2023-10-08) =
 
 * Feature: Localize address format for all EU countries.
-* Feature: Additional check - billing country and VAT country prefix must match.
+* Feature: Additional check - billing country and VAT country prefix must match (paid by a supporter).
 
 = 1.7.2 (2023-08-02) =
 
