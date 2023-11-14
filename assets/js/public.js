@@ -232,7 +232,12 @@
                 woolab_add_class_ok(ico_class);
 
                 if (woolab.ares_fill) {
-                  // Update values
+                  // Compatibility with Fluid Checkout for WooCommerce – Lite
+                  if ($('#billing_same_as_shipping') && $('#billing_same_as_shipping').is(':checked')) {
+                    $('#billing_same_as_shipping').click();
+                  } // Update values
+
+
                   $('#billing_company').val(data.spolecnost).attr('readonly', true);
                   $('#billing_dic').val(data.dic).attr('readonly', true);
                   $('#billing_address_1').val(data.adresa).attr('readonly', true);

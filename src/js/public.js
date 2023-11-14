@@ -225,6 +225,12 @@
 
                                 if ( woolab.ares_fill ) {
 
+                                    // Compatibility with Fluid Checkout for WooCommerce – Lite
+                                    if ($('#billing_same_as_shipping') && $('#billing_same_as_shipping').is(':checked')) {
+                                        $('#billing_same_as_shipping').click();
+                                        $('#fc-expansible-form-section__toggle-plus--billing_company').click();
+                                    }
+
                                     // Update values
                                     $('#billing_company').val(data.spolecnost).attr('readonly', true);
                                     $('#billing_dic').val(data.dic).attr('readonly', true);
