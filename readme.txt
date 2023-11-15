@@ -131,7 +131,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.7.4 () =
 
+* Fix: Additional check - billing country and VAT country prefix must match (paid by a supporter) for SK.
 * Feature: Added compatibility with [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/).
+* Feature: Added a filter `woolab_icdic_check_billing_country_and_dic` allowing to disable the feature introduced in 1.7.3.
 
 = 1.7.3 (2023-10-08) =
 
