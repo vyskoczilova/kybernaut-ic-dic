@@ -131,7 +131,8 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 = 1.7.5 (2023-12-19) =
 
-* Fix: Accidentaly broken toggle switch in 1.7.4
+* Fix: Accidentaly broken toggle switch in 1.7.4.
+* Declare incompatibility with checkout blocks.
 
 = 1.7.4 (2023-11-20) =
 
