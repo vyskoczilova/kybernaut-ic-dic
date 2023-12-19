@@ -129,6 +129,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.7.5 (2023-12-19) =
+
+* Fix: Accidentaly broken toggle switch in 1.7.4
+
 = 1.7.4 (2023-11-20) =
 
 * Fix: Additional check - billing country and VAT country prefix must match for SK IC DPH.

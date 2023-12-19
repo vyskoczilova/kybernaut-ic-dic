@@ -72,7 +72,7 @@ function woolab_icdic_icdic_general_settings($settings) {
     $settings[] = array(
         'title'   => __( 'Toggle fields visibility', 'woolab-ic-dic' ),
         'desc'    => __( 'Enable toggle switch to show/hide input fields', 'woolab-ic-dic' ) . ( class_exists("FluidCheckout") ? ' <br><span style="color:#ca4a1f">' . __("This feature is not compatible with Fluid Checkout for WooCommerce.", 'woolab-ic-dic') . '</span>': ""),
-        'id'      => 'woolab_icdic_toggle_swithch',
+        'id'      => 'woolab_icdic_toggle_switch',
         'default' => 'no',
         'type'    => 'checkbox',
         'disabled' => class_exists("FluidCheckout") ? true : false,
