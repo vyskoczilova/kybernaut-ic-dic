@@ -26,7 +26,7 @@
         var $el = $(el); // Chrome Fix (Use keyup over keypress to detect backspace)
         // thank you @palerdot
 
-        $el.is(':input') && $el.on('keyup keypress paste', function (e) {
+        $el.is(':input') && $(document.body).on('keyup keypress paste', el, function (e) {
           // This catches the backspace button in chrome, but also prevents
           // the event from triggering too preemptively. Without this line,
           // using tab/shift+tab will make the focused element fire the callback.
@@ -39,7 +39,8 @@
             // callback
             doneTyping(el);
           }, timeout);
-        }).on('blur', function () {
+        });
+        $el.is(':input') && $(document.body).on('blur', el, function () {
           // If we can, fire the event since we're leaving the field
           doneTyping(el);
         });
@@ -47,7 +48,7 @@
     }
   });
   $(document).ready(function () {
-    $('.woolab-ic-dic-no_spaces input').on('input', function () {
+    $(document.body).on('input', '.woolab-ic-dic-no_spaces input', function () {
       $(this).val(function (_, v) {
         return v.replace(/\s+/g, '');
       });
@@ -63,7 +64,7 @@
     /** Toggle fields when country is changed or checkbox is toggled */
 
 
-    $(".woocommerce-billing-fields").on("change", "#billing_country, #billing_iscomp", function () {
+    $(document.body).on("change", "#billing_country, #billing_iscomp", function () {
       var $fieldToggle = $('#billing_iscomp');
 
       if (!$fieldToggle.length || $fieldToggle.prop("checked")) {
@@ -174,10 +175,12 @@
   function enable_ares_check() {
     var ico = $('#billing_ic');
     ares_check(ico);
-    ico.on('focusin', function () {
+    $(document.body).on('focusin', '#billing_ic', function () {
       last_ico_value = ico.val();
     });
     ico.donetyping(function () {
+      ico = $('#billing_ic'); // Because of Fluid Checkout for WooCommerce - Lite compatibility
+
       if (ico.val() !== last_ico_value) {
         ares_check(ico);
       }
@@ -229,7 +232,12 @@
                 woolab_add_class_ok(ico_class);
 
                 if (woolab.ares_fill) {
-                  // Update values
+                  // Compatibility with Fluid Checkout for WooCommerce – Lite
+                  if ($('#billing_same_as_shipping') && $('#billing_same_as_shipping').is(':checked')) {
+                    $('#billing_same_as_shipping').click();
+                  } // Update values
+
+
                   $('#billing_company').val(data.spolecnost).attr('readonly', true);
                   $('#billing_dic').val(data.dic).attr('readonly', true);
                   $('#billing_address_1').val(data.adresa).attr('readonly', true);

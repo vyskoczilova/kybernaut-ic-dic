@@ -2,8 +2,8 @@
 Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
-Tested up to: 6.3
-Stable tag: 1.7.2
+Tested up to: 6.4
+Stable tag: 1.7.4
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,6 +40,7 @@ Supports both PHP 7.1+ & PHP 8.0+.
 * [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
+* [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/)
 * Toret - Woo iDoklad, Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
@@ -128,10 +129,21 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.7.3 () =
+= 1.7.5 (2023-12-19) =
+
+* Fix: Accidentaly broken toggle switch in 1.7.4.
+* Declare incompatibility with checkout blocks.
+
+= 1.7.4 (2023-11-20) =
+
+* Fix: Additional check - billing country and VAT country prefix must match for SK IC DPH.
+* Feature: Added compatibility with [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/).
+* Feature: Added a filter `woolab_icdic_check_billing_country_and_dic` allowing to disable the feature introduced in 1.7.3.
+
+= 1.7.3 (2023-10-08) =
 
 * Feature: Localize address format for all EU countries.
-* Feature: Additional check - billing country and VAT country prefix must match.
+* Feature: Additional check - billing country and VAT country prefix must match (paid by a supporter).
 
 = 1.7.2 (2023-08-02) =
 

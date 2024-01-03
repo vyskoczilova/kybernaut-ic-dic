@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.7.3-rc1
+ Version:				1.7.5
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -12,8 +12,8 @@
  Domain Path:			/languages
  Donate link:			https://paypal.me/KarolinaVyskocilova/
  WC requires at least:	3.5.0
- WC tested up to:		8.0.0
- Copyright:				© 2009-2023 Karolína Vyskočilová.
+ WC tested up to:		8.4.0
+ Copyright:				© 2016-2023 Karolína Vyskočilová.
  License:				GNU General Public License v3.0
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.7.3-rc1' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.7.5' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -200,5 +200,6 @@ function woolab_icdic_ares_ajax(){
 add_action( 'before_woocommerce_init', function() {
 	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, false );
 	}
 } );
