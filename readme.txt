@@ -129,6 +129,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.8.0 () = 
+
+* Fix: VAT exempt checkbox default to off.
+
 = 1.7.5 (2023-12-19) =
 
 * Fix: Accidentaly broken toggle switch in 1.7.4.
