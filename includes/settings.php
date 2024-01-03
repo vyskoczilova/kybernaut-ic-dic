@@ -17,7 +17,7 @@ function woolab_icdic_icdic_general_settings($settings) {
 
     $vat_desc      = __( 'Enable VAT exemption for valid EU VAT numbers', 'woolab-ic-dic' );
     if ( wc_tax_enabled() ) {
-        $vat_check = 'yes';
+        $vat_check = 'no';
     } else {
         $vat_desc  = $vat_desc . '<br><span style="color:#ca4a1f">' . __( 'To enable this feature, turn on taxes in your store.', 'woolab-ic-dic' ) . '</span>';
         $vat_check = 'no';
