@@ -2,7 +2,7 @@
 
 /**
  * MFCR INFO ARES API
- * http://wwwinfo.mfcr.cz/ares/ares_xml.html.cz#k3
+ * https://ares.gov.cz/stranky/vyvojar-info
  * 
  * ADDITIONAL CREDITS
  * https://github.com/svecon/web-utilities/blob/master/Ares/Ares.php
@@ -18,51 +18,45 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             return array( 'error' => __('Business ID not set.', 'woolab-ic-dic'));
         }
 
-        $url = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi?ico=' . $ico;
+        // Check format before asking ARES.
+        if ( ! is_numeric( $ico ) || strlen( $ico ) != 8) {
+            return array( 'error' => __('Business ID must be a number and 8 digits long.', 'woolab-ic-dic'));
+        }
+
+        $url = 'https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/' . $ico;
         $response = wp_remote_get( $url );
 
         if ( ! is_wp_error( $response ) ) {
-            
+
+            $status_code = wp_remote_retrieve_response_code( $response );
             $body = wp_remote_retrieve_body($response);
-            $xml  = simplexml_load_string($body);
+            $data = json_decode($body);
 
-            if ( $xml ) {
+            if ( $status_code == 200 && $data ) {
 
-                $ns = $xml->getDocNamespaces(); 
-                $data = $xml->children($ns['are']);
-                $data = $data->children($ns['D'])->VBAS;
+                $return = array( 'error' => false );
+                $return['spolecnost'] = $data->obchodniJmeno ?? '';
+                $return['ico'] = $data->ico ?? '';
+                $return['dic'] = $data->dic ?? '';
 
-                if ( $data ) {
+                $cislo_orientacni = $data->sidlo->cisloOrientacni ?? '';
+                $cislo_domovni = $data->sidlo->cisloDomovni ?? '';
+                $pismeno_orientacni = $data->sidlo->cisloOrientacniPismeno ?? ''; // TEST
+                $cp = ($cislo_orientacni !== "" ? $cislo_domovni . "/".$cislo_orientacni . $pismeno_orientacni : $cislo_domovni);
+                $ulice  = $data->sidlo->nazevUlice ?? $data->sidlo->nazevObce;
 
-                    $return = array( 'error' => false );
-                    $return['spolecnost'] = $data->OF->__toString();
-                    $return['ico'] = $data->ICO->__toString();
-                    $return['dic'] = $data->DIC->__toString();
+                $return['adresa'] = sprintf( '%s %s', $ulice, $cp );
+                $return['psc'] = $data->sidlo->psc;
+                $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce;
 
-                    $cp_1 = $data->AA->CD->__toString();
-                    $cp_2 = $data->AA->CO->__toString();
-                    $cp = ( $cp_2 != "" ? $cp_1."/".$cp_2 : $cp_1 );
-                    $cp = (empty($cp)?$data->AA->CA->__toString():$cp);
-
-                    $street = $data->AA->NU->__toString() ? $data->AA->NU->__toString() : $data->AA->NCO->__toString();
-                    $return['adresa'] = $street . ' ' . $cp;
-
-                    $return['psc'] = $data->AA->PSC->__toString();
-                    $return['mesto'] = $data->AA->N->__toString();
-
-                } else {
-                    
-                    $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
-                    
-                }
-
+            } elseif ( $status_code == 404 ) {
+                $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
             } else {
                 $return = array( 'error' => __('ARES is not responding', 'woolab-ic-dic'));
-
             }
-            
+
         } else {
-            $return = array( 'error' => __('WP ERROR, can\'t connect.', 'woolab-ic-dic'));
+            $return = array( 'error' => __('An error occured while connecting to ARES, try it again later.', 'woolab-ic-dic'));
         }
 
         return $return;

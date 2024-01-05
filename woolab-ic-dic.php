@@ -23,8 +23,12 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Load Composer dependencies.
-require_once(__DIR__ . '/vendor/autoload.php');
+/**
+ * Loads Composer dependencies.
+ */
+require 'deps/scoper-autoload.php';
+require 'deps/autoload.php';
+require 'vendor/autoload.php';
 
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );

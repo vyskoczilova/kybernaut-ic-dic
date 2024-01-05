@@ -1,18 +1,23 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d6cde512ffe9072b722432f978a46825",
     "packages": [
         {
             "name": "ibericode/vat",
-            "version": "2.0.5",
-            "version_normalized": "2.0.5.0",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ibericode/vat.git",
-                "reference": "b12b6e42c4d57f98189267d744025b9c7539ccdd"
+                "reference": "70de835ab5c1bc8d72248e3784a9a1e63ee268e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ibericode/vat/zipball/b12b6e42c4d57f98189267d744025b9c7539ccdd",
-                "reference": "b12b6e42c4d57f98189267d744025b9c7539ccdd",
+                "url": "https://api.github.com/repos/ibericode/vat/zipball/70de835ab5c1bc8d72248e3784a9a1e63ee268e9",
+                "reference": "70de835ab5c1bc8d72248e3784a9a1e63ee268e9",
                 "shasum": ""
             },
             "require": {
@@ -28,9 +33,7 @@
                 "ext-soap": "Needed to support VIES VAT number validation",
                 "ibericode/vat-bundle": "Symfony bundle for integrating this package"
             },
-            "time": "2020-12-30T17:01:42+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Ibericode\\Vat\\": "src/"
@@ -52,11 +55,23 @@
             ],
             "support": {
                 "issues": "https://github.com/ibericode/vat/issues",
-                "source": "https://github.com/ibericode/vat/tree/2.0.5"
+                "source": "https://github.com/ibericode/vat/tree/master"
             },
-            "install-path": "../ibericode/vat"
+            "time": "2020-04-17T07:45:10+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.1"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.1"
+    },
+    "plugin-api-version": "2.6.0"
 }

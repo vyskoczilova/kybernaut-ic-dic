@@ -2,8 +2,8 @@
 
 // If this file is called directly, abort.
 
-use Ibericode\Vat\Countries;
-use Ibericode\Vat\Validator;
+use KybernautIcDicDeps\Ibericode\Vat\Countries;
+use KybernautIcDicDeps\Ibericode\Vat\Validator;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;

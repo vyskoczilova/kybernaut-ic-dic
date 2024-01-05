@@ -1,0 +1,11 @@
+{
+	"config": {
+		"platform": {
+			"php": "7.1"
+		}
+	},
+    "require": {
+        "php": "^7.1",
+        "ibericode/vat": "^2.0"
+    }
+}
