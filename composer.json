@@ -9,13 +9,23 @@
             "email": "karolina@kybernaut.cz"
         }
     ],
-    "require": {
-        "ibericode/vat": "^2.0"
-    },
     "require-dev": {
         "10up/wp_mock": "^0.4.2"
     },
     "scripts" : {
         "test:unit": "vendor/bin/phpunit --testsuite Unit"
+    },
+    "config": {
+        "allow-plugins": {
+            "wpify/scoper": true
+        },
+		"platform": {
+			"php": "7.1"
+		}
+    },
+	"extra": {
+        "wpify-scoper": {
+            "prefix": "KybernautIcDicDeps"
+        }
     }
 }

@@ -9,5 +9,4 @@
 /package.json
 /gulpfile.js
 .DS_Store
-vendor
 phpunit.cache

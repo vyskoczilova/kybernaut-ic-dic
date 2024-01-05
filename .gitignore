@@ -3,5 +3,5 @@ working_data
 .vscode
 .DS_Store
 vendor
-vendor/
 .phpunit.cache
+deps
