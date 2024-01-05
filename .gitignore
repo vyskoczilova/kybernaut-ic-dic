@@ -5,3 +5,4 @@ working_data
 vendor
 .phpunit.cache
 deps
+.phpunit.result.cache

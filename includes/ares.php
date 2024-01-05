@@ -12,9 +12,9 @@
 
 if ( ! function_exists( 'woolab_icdic_ares') ) {
 
-    function woolab_icdic_ares( $ico = NULL ) {
+    function woolab_icdic_ares( $ico = '' ) {
 
-        if ( $ico == NULL ) {
+        if ( $ico == '' ) {
             return array( 'error' => __('Business ID not set.', 'woolab-ic-dic'));
         }
 

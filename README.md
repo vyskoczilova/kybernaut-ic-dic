@@ -5,8 +5,6 @@
 Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
-**Note:** `vendor` folder is tracked because off PHP 7.1 compatibility which is unoficially still working on ibericode/vat package, but the minimum requirement was bumped in December 2020. Plan to bump accordingly soon.
-
 ## Unreleased changes
 
 * none
