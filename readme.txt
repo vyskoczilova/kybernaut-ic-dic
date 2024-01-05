@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.7.5
+Stable tag: 1.8.0
 Requires PHP: 7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -129,9 +129,12 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.8.0 () = 
+= 1.8.0 (2024-01-05) = 
 
 * Fix: VAT exempt checkbox default to off.
+* Fix: Work with new ARES API (the old in previous versions has been discontinued by the end of 2023). For initial solution and pointing to the thanks to [@lukas-tomoszek](https://github.com/lukas-tomoszek).
+* Feature: Prefix dependencies to avoid conflicts (using [wpify/scoper](https://packagist.org/packages/wpify/scoper))
+* Add test validating Ares REST API check and processing.
 
 = 1.7.5 (2023-12-19) =
 
