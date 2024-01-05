@@ -18,6 +18,11 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             return array( 'error' => __('Business ID not set.', 'woolab-ic-dic'));
         }
 
+        // Check format before asking ARES.
+        if ( ! is_numeric( $ico ) || strlen( $ico ) != 8) {
+            return array( 'error' => __('Business ID must be a number and 8 digits long.', 'woolab-ic-dic'));
+        }
+
         $url = 'https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/' . $ico;
         $response = wp_remote_get( $url );
 
@@ -30,14 +35,19 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             if ( $status_code == 200 && $data ) {
 
                 $return = array( 'error' => false );
-                $return['spolecnost'] = $data->obchodniJmeno;
-                $return['ico'] = $data->ico;
-                $return['dic'] = $data->dic;
+                $return['spolecnost'] = $data->obchodniJmeno ?? '';
+                $return['ico'] = $data->ico ?? '';
+                $return['dic'] = $data->dic ?? '';
 
-                $address = $data->sidlo;
-                $return['adresa'] = explode(',', $address->textovaAdresa)[0];
-                $return['psc'] = $address->psc;
-                $return['mesto'] = $address->nazevObce;
+                $cislo_orientacni = $data->sidlo->cisloOrientacni ?? '';
+                $cislo_domovni = $data->sidlo->cisloDomovni ?? '';
+                $pismeno_orientacni = $data->sidlo->cisloOrientacniPismeno ?? ''; // TEST
+                $cp = ($cislo_orientacni !== "" ? $cislo_domovni . "/".$cislo_orientacni . $pismeno_orientacni : $cislo_domovni);
+                $ulice  = $data->sidlo->nazevUlice ?? $data->sidlo->nazevObce;
+
+                $return['adresa'] = sprintf( '%s %s', $ulice, $cp );
+                $return['psc'] = $data->sidlo->psc;
+                $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce;
 
             } elseif ( $status_code == 404 ) {
                 $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
@@ -46,7 +56,7 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             }
 
         } else {
-            $return = array( 'error' => __('WP ERROR, can\'t connect.', 'woolab-ic-dic'));
+            $return = array( 'error' => __('An error occured while connecting to ARES, try it again later.', 'woolab-ic-dic'));
         }
 
         return $return;
