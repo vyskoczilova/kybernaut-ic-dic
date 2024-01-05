@@ -1,0 +1,38 @@
+name: Test plugin build.
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install composer
+        uses: php-actions/composer@v6
+        with:
+          php_extensions: json
+          version: 2
+          dev: no
+      - run: composer global config --no-plugins allow-plugins.wpify/scoper true
+      - run: composer global require wpify/scoper
+      - run: sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
+      - run: composer install --no-dev --optimize-autoloader
+      - run: ls -R vendor
+      - run: ls -R deps
+
+      - name: Archive plugin artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: plugin-build
+          path: |
+            /
+            !git/**/*
+            !github/**/*
+        
