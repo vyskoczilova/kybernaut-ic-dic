@@ -1,4 +1,4 @@
-name: Test plugin build.
+name: Create build
 on:
   workflow_dispatch:
 jobs:
@@ -24,15 +24,17 @@ jobs:
       - run: composer global require wpify/scoper
       - run: sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
       - run: composer install --no-dev --optimize-autoloader
-    #   - run: ls -R vendor
-    #   - run: ls -R deps
 
       - name: Archive plugin artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: plugin-build
+          name: woolab-ic-dic
           path: |
             ${{ github.workspace }}
             !git/**/*
             !github/**/*
+            !tests/**/*
+            !DOCKER_ENV
+            !docker_tag
+            !output.log
         
