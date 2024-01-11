@@ -81,6 +81,7 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
 		// Compatibility
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/superfaktura.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/fluidcheckout.php');
 
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);
