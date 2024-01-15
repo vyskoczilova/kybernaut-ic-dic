@@ -133,6 +133,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 = 1.8.2 (2024-01-09) =
 
 * Feature: added support for [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs (sponsored by [tuningmotocyklov.sk](https://www.tuningmotocyklov.sk))
+* Fixed compatibility with Fluid Checkout (using the JS they provided me)
 
 = 1.8.1 (2024-01-05) =
 
