@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,7 +37,8 @@ Supports both PHP 7.3+ & PHP 8.0+.
 === Compatibility ===
 * [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
 * [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
-* [WooCommerce PDF Invoices & Packing Slips](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/)
+* [WooCommerce PDF Invoices & Packing Slips for WooCommerce](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/) by WP Overnight
+* [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
 * [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/)
@@ -128,6 +129,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.8.2 (2024-01-09) =
+
+* Feature: added support for [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs (sponsored by [tuningmotocyklov.sk](https://www.tuningmotocyklov.sk))
 
 = 1.8.1 (2024-01-05) =
 
