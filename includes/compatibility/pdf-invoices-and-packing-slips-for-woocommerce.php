@@ -41,4 +41,6 @@ function woolab_icdic_apifw_ps_custom_billing_fields($html, $order_id) {
 
     return $html;
 }
-add_filter('apifw_ps_custom_billing_fields', 'woolab_icdic_apifw_ps_custom_billing_fields', 10, 2);
+// add_filter('apifw_ps_custom_billing_fields', 'woolab_icdic_apifw_ps_custom_billing_fields', 10, 2);
+add_filter('apifw_invoice_custom_billing_fields', 'woolab_icdic_apifw_ps_custom_billing_fields', 10, 2);
+
