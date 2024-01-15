@@ -41,7 +41,7 @@ Supports both PHP 7.3+ & PHP 8.0+.
 * [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
-* [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/)
+* [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/) - partial support
 * Toret - Woo iDoklad, Woo Doprava, Woo GoPay etc.
 
 === Requirements ===
