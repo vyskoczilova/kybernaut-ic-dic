@@ -38,7 +38,7 @@ Supports both PHP 7.3+ & PHP 8.0+.
 * [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
 * [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
 * [WooCommerce PDF Invoices & Packing Slips for WooCommerce](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/) by WP Overnight
-* [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs
+* WooCommerce PDF Invoices and Packing Slips for WooCommerce PRO by Acowebs
 * [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
 * [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
 * [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/) - partial support

@@ -408,7 +408,7 @@ function woolab_icdic_toggle_iscomp_field($value, $input) {
 }
 
 function woolab_icdic_set_vat_exempt_for_customer() {
-	if ( is_ajax() ) {
+	if ( wp_doing_ajax() ) {
 		return;
 	}
 
