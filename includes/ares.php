@@ -52,11 +52,17 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             } elseif ( $status_code == 404 ) {
                 $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
             } else {
-                $return = array( 'error' => __('ARES is not responding', 'woolab-ic-dic'));
+                $return = array(
+					'error'          => __('ARES is not responding.', 'woolab-ic-dic'),
+	                'internal_error' => true,
+                );
             }
 
         } else {
-            $return = array( 'error' => __('An error occured while connecting to ARES, try it again later.', 'woolab-ic-dic'));
+            $return = array(
+				'error'          => __('An error occured while connecting to ARES, try it again later.', 'woolab-ic-dic'),
+				'internal_error' => true,
+            );
         }
 
         return $return;

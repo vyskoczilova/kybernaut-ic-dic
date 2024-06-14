@@ -276,12 +276,18 @@
                                 }
 
                             } else {
+
                                 ares_error( ico_class );
                                 if ( $('.woolab-ic-dic-tip').length > 0 ) {
                                     $('.woolab-ic-dic-tip').remove();
                                 }
+
                                 ares_remove_disabled_from_input();
-                                ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' );
+
+                                if ( ! data.internal_error || ! woolab.ignore_check_fail ) {
+                                    ico_class.append('<span role="alert" class="woolab-ic-dic-tip error">' + data.error + '</span>');
+                                }
+
                             }
 
                         } else {
@@ -318,13 +324,17 @@
     function ares_error ( ico_class ) {
 
         if ( woolab.ares_fill ) {
-            $('#billing_company').val('');
-            $('#billing_dic').val('');
-            $('#billing_postcode').val('');
-            $('#billing_city').val('');
-            $('#billing_address_1').val('');
+            if ( ! woolab.ignore_check_fail ) {
+                $('#billing_company').val('');
+                $('#billing_dic').val('');
+                $('#billing_postcode').val('');
+                $('#billing_city').val('');
+                $('#billing_address_1').val('');
+            }
+
             ares_remove_disabled_from_input();
         }
+
         woolab_add_class_wrong( ico_class );
     }
 

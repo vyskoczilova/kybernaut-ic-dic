@@ -97,6 +97,9 @@ function woolab_icdic_init() {
 		add_filter( 'default_checkout_billing_iscomp', 'woolab_icdic_toggle_iscomp_field', 10, 2 );
 		add_action( 'init', 'woolab_icdic_set_vat_exempt_for_customer', 10, 1 );
 		add_action( 'woocommerce_checkout_update_order_review', 'woolab_icdic_validate_vat_exempt_for_company', 10, 1 );
+		add_action( 'woocommerce_checkout_update_order_meta', 'woolab_icdic_save_order_metadata' );
+		add_action( 'woocommerce_admin_order_data_after_billing_address', 'woolab_icdic_show_check_failed_notice_on_order_edit' );
+		add_action( 'woocommerce_email_customer_address_section', 'woolab_icdic_show_check_failed_notice_on_admin_email', 10, 4 );
 
 		if ( version_compare( WC_VERSION, '2.7', '<' )) {
 			add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_ajax_get_customer_details_old_woo', 10, 1 );
@@ -132,6 +135,7 @@ function woolab_icdic_enqueue_scripts() {
 			'l18n_validating' => __('Validating data in ARES.', 'woolab-ic-dic'),
 			'ares_check' => woolab_icdic_ares_check(),
 			'ares_fill' => woolab_icdic_ares_fill(),
+			'ignore_check_fail' => woolab_icdic_ignore_check_fail(),
 		));
 		if ( apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') ) === 'yes') {
 			wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
@@ -158,6 +162,11 @@ function woolab_icdic_vies_check() {
 	$option = woolab_icdic_get_option( 'woolab_icdic_vies_check', 'yes' );
 	return apply_filters( 'woolab_icdic_vies_check', $option );
 
+}
+
+function woolab_icdic_ignore_check_fail() {
+	$option = woolab_icdic_get_option( 'woolab_icdic_ignore_check_fail', 'no' );
+	return apply_filters( 'woolab_icdic_ignore_check_fail', $option );
 }
 
 function woolab_icdic_get_option( $name, $default = 'yes' ) {
