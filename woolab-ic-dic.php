@@ -13,8 +13,8 @@
  Donate link:			https://paypal.me/KarolinaVyskocilova/
  Requires Plugins: 		woocommerce
  WC requires at least:	3.5.0
- WC tested up to:		8.8.3
- Copyright:				© 2016-2023 Karolína Vyskočilová.
+ WC tested up to:		9.0.2
+ Copyright:				© 2016-2024 Karolína Vyskočilová.
  License:				GNU General Public License v3.0
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */
