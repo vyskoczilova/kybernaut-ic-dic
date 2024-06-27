@@ -733,7 +733,7 @@ function woolab_icdic_show_check_failed_notice_on_orders_table( $column, $post_i
 
     <br>
     <strong style="color: #dba617;">
-        <?= esc_html__( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+        <?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
     </strong>
 
     <?php
@@ -755,9 +755,9 @@ function woolab_icdic_show_check_failed_notice_on_order_edit( $order ) {
 
 	<div class="notice notice-warning inline">
 		<p>
-			<strong><?= esc_html__( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
-			<?= esc_html__( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
-			<?= esc_html__( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
+			<strong><?php esc_html_e( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
+			<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+			<?php esc_html_e( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
 		</p>
 	</div>
 
@@ -792,9 +792,9 @@ function woolab_icdic_show_check_failed_notice_on_admin_email(
 	?>
 
 	<p>
-		<strong><?= esc_html__( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
-		<?= esc_html__( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
-		<?= esc_html__( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
+		<strong><?php esc_html_e( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
+		<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+		<?php esc_html_e( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
 	</p>
 
 	<?php
