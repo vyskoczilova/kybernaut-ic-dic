@@ -32,7 +32,7 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             $body = wp_remote_retrieve_body($response);
             $data = json_decode($body);
 
-            if ( $status_code == 200 && $data ) {
+            if ( $status_code === 200 && $data ) {
 
                 $return = array( 'error' => false );
                 $return['spolecnost'] = $data->obchodniJmeno ?? '';
@@ -49,7 +49,7 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 $return['psc'] = $data->sidlo->psc;
                 $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce;
 
-            } elseif ( $status_code == 404 ) {
+            } elseif ( $status_code === 404 ) {
                 $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
             } else {
                 $return = array(
