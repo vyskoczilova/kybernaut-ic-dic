@@ -712,6 +712,35 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 
 /**
  * Show notice about Business ID or VAT number check error
+ * below order number on orders table view.
+ * @param string $column
+ */
+function woolab_icdic_show_check_failed_notice_on_orders_table( $column, $post_id ) {
+    if ( $column !== 'order_number' ) {
+        return;
+    }
+
+    $order        = wc_get_order( $post_id );
+	$check_failed = ( $order instanceof WC_Order )
+        ? ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' )
+        : false;
+
+    if ( ! $check_failed ) {
+        return;
+    }
+
+    ?>
+
+    <br>
+    <strong style="color: #dba617;">
+        <?= esc_html__( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+    </strong>
+
+    <?php
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
  * below billing number fields on order edit screen.
  * @param WC_Order $order
  */
@@ -744,16 +773,11 @@ function woolab_icdic_show_check_failed_notice_on_order_edit( $order ) {
  * @param bool $plain_text
  */
 function woolab_icdic_show_check_failed_notice_on_admin_email(
-	$address_type,
 	$order,
 	$sent_to_admin,
 	$plain_text
 ) {
-	if (
-		$address_type !== 'billing'
-		|| ! $order instanceof WC_Order
-		|| ! $sent_to_admin
-	) {
+	if ( ! $order instanceof WC_Order || ! $sent_to_admin ) {
 		return;
 	}
 
@@ -768,7 +792,6 @@ function woolab_icdic_show_check_failed_notice_on_admin_email(
 	?>
 
 	<p>
-        <br>
 		<strong><?= esc_html__( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
 		<?= esc_html__( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
 		<?= esc_html__( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>

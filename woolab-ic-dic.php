@@ -98,8 +98,9 @@ function woolab_icdic_init() {
 		add_action( 'init', 'woolab_icdic_set_vat_exempt_for_customer', 10, 1 );
 		add_action( 'woocommerce_checkout_update_order_review', 'woolab_icdic_validate_vat_exempt_for_company', 10, 1 );
 		add_action( 'woocommerce_checkout_update_order_meta', 'woolab_icdic_save_order_metadata' );
+		add_action( 'manage_shop_order_posts_custom_column', 'woolab_icdic_show_check_failed_notice_on_orders_table', 20, 2 );
 		add_action( 'woocommerce_admin_order_data_after_billing_address', 'woolab_icdic_show_check_failed_notice_on_order_edit' );
-		add_action( 'woocommerce_email_customer_address_section', 'woolab_icdic_show_check_failed_notice_on_admin_email', 10, 4 );
+		add_action( 'woocommerce_email_order_details', 'woolab_icdic_show_check_failed_notice_on_admin_email', 5, 3 );
 
 		if ( version_compare( WC_VERSION, '2.7', '<' )) {
 			add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_ajax_get_customer_details_old_woo', 10, 1 );
