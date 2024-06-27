@@ -713,7 +713,8 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 /**
  * Show notice about Business ID or VAT number check error
  * below order number on orders table view.
- * @param string $column
+ * @param string $column Column ID.
+ * @param int $post_id	Post ID.
  */
 function woolab_icdic_show_check_failed_notice_on_orders_table( $column, $post_id ) {
     if ( $column !== 'order_number' ) {
@@ -735,6 +736,35 @@ function woolab_icdic_show_check_failed_notice_on_orders_table( $column, $post_i
     <strong style="color: #dba617;">
         <?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
     </strong>
+
+    <?php
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
+ * below order number on orders table view.
+ * @param string $column
+ * @param WC_Order $order
+ */
+function woolab_icdic_show_check_failed_notice_on_orders_table_hpos( $column, $order ) {
+    if ( $column !== 'order_number' ) {
+        return;
+    }
+
+	$check_failed = ( $order instanceof WC_Order )
+        ? ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' )
+        : false;
+
+    if ( ! $check_failed ) {
+        return;
+    }
+
+    ?>
+
+	<strong style="color: #dba617;">
+		<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+	</strong>
+	<br>
 
     <?php
 }
