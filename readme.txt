@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
 Requires at least: 4.6
 Tested up to: 6.4
-Stable tag: 1.8.2
+Stable tag: 1.9.0
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,7 +15,7 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathematics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
-Supports both PHP 7.3+ & PHP 8.0+.
+Supports both PHP 7.3+ (soon to be abandoned) & PHP 8.0+.
 
 === Main functionality ===
 
@@ -33,16 +33,17 @@ Supports both PHP 7.3+ & PHP 8.0+.
   * `E-shop-WooCommerce -> Orders-> Order (show(edit)) -> Billing Information (edit)`
 * Enable toggle switch to show/hide input fields ("Buying as a company?")
 * Move Country field above the "Buying as a company?" toggle
+* Option to ignore when ARES or VIES check fails for technical reasons
 
 === Compatibility ===
-* [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/)
-* [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/)
+* [Kybernaut Mailstep](https://kybernaut.cz/pluginy/kybernaut-mailstep/) by Karolína Vyskočilová
+* [WooCommerce SuperFaktura](https://wordpress.org/plugins/woocommerce-superfaktura/) by 2day.sk & Webikon
 * [WooCommerce PDF Invoices & Packing Slips for WooCommerce](https://cs.wordpress.org/plugins/woocommerce-pdf-invoices-packing-slips/) by WP Overnight
 * WooCommerce PDF Invoices and Packing Slips for WooCommerce PRO by Acowebs
-* [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/)
-* [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/)
-* [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/) - partial support
-* Toret - Woo iDoklad, Woo Doprava, Woo GoPay etc.
+* [WooCommerce Sequential Order Numbers](https://cs.wordpress.org/plugins/woocommerce-sequential-order-numbers/) by SkyVerge
+* [Woo Checkout Field Editor Pro](https://cs.wordpress.org/plugins/woo-checkout-field-editor-pro/) by ThemeHigh
+* [Fluid Checkout for WooCommerce - Lite](https://wordpress.org/plugins/fluid-checkout/) by Fluid Checkout - only partial support
+* Woo iDoklad, Woo Doprava, Woo GoPay etc. by [Toret](https://toret.cz/obchod/ref/106/) (affiliate link)
 
 === Requirements ===
 * SoapClient PHP library for VIES validation (ask your hosting)
@@ -130,7 +131,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.8.3 () =
+= 1.9.0 () =
 
 * Feature: New checkbox "Ignore when ARES or VIES check fails for technical reasons" in plugin settings. If this option is enabled and validation of business ID or VAT number fails for technical reason (not because it is invalid), an order is placed. For orders at which validation fails, there is an alert at admin edit screen and in admin e-mails. Big thanks to [@PavelVybiral](https://github.com/PavelVybiral) [#72](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/72)
 
