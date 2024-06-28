@@ -44,6 +44,8 @@ If you need to set it up in your theme or plugin, you can use following filters 
 
     add_filter( 'woolab_icdic_vies_check', '__return_true' );
 
+    add_filter( 'woolab_icdic_ignore_check_fail', '__return_true' );
+
     add_filter( 'woolab_icdic_vat_exempt_enabled', function(){
       return "no"; // or "yes"
     } );

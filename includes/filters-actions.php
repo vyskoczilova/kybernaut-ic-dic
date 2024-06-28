@@ -4,6 +4,7 @@
 
 use KybernautIcDicDeps\Ibericode\Vat\Countries;
 use KybernautIcDicDeps\Ibericode\Vat\Validator;
+use KybernautIcDicDeps\Ibericode\Vat\Vies\ViesException;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -155,7 +156,12 @@ function woolab_icdic_checkout_field_process() {
 		return false;
 	}
 
-	$country = $_POST['billing_country'];
+	$country               = $_POST['billing_country'];
+	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
+
+	// Flag to check if VAT check fail was ignored.
+	// The information will be saved in the order meta in woocommerce_new_order hook.
+	$vat_check_fail_ignored = false;
 
 	// BUSINESS ID
 	if ( isset( $_POST['billing_ic'] ) && $_POST['billing_ic'] ) {
@@ -175,7 +181,13 @@ function woolab_icdic_checkout_field_process() {
 				$ares = woolab_icdic_ares( $ico  );
 				if ( $ares ) {
 					if ( $ares['error'] ) {
-						wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ) . ' ' . $ares['error'], 'error' );
+						$is_internal_error = ( ! empty( $ares['internal_error'] ) );
+
+						if ( $is_internal_error && $ignore_vat_check_fail ) {
+							$vat_check_fail_ignored = true;
+						} else {
+							wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic' ) . ' ' . $ares['error'], 'error' );
+						}
 					} elseif ( woolab_icdic_ares_fill() ) {
 						if ( isset( $_POST['billing_dic'] ) && wc_clean( wp_unslash($_POST['billing_dic'])) != $ares['dic'] ) {
 							$missing_fields[] = __( 'Business ID', 'woocommerce' );
@@ -197,7 +209,11 @@ function woolab_icdic_checkout_field_process() {
 						}
 					}
 				} else {
-					wc_add_notice( __( 'Unexpected error occurred. Try it again.', 'woolab-ic-dic'  ), 'error' );
+					if ( $ignore_vat_check_fail ) {
+						$vat_check_fail_ignored = true;
+					} else {
+						wc_add_notice( __( 'Unexpected error occurred. Try it again.', 'woolab-ic-dic' ), 'error' );
+					}
 				}
 
 			// ARES Check Disabled
@@ -247,8 +263,18 @@ function woolab_icdic_checkout_field_process() {
 					wc_add_notice( __( 'VAT number has not correct format', 'woolab-ic-dic' ), 'error' );
 				}
 
-				if ( ! $validator->validateVatNumber( $dic )) {
-					wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+				try {
+					$vat_number_valid = $validator->validateVatNumber( $dic );
+
+					if ( ! $vat_number_valid ) {
+						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
+					}
+				} catch ( ViesException $exception ) {
+					if ( $ignore_vat_check_fail ) {
+						$vat_check_fail_ignored = true;
+					} else {
+						wc_add_notice( __( 'Could not validate VAT number.', 'woolab-ic-dic' ), 'error' );
+					}
 				}
 
 			// Validate CZ and SK mathematicaly
@@ -299,8 +325,18 @@ function woolab_icdic_checkout_field_process() {
 
 			$validator = new Validator();
 
-			if ( ! $validator->validateVatNumber( $dic_dph )) {
-				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
+			try {
+				$vat_number_valid = $validator->validateVatNumber( $dic_dph );
+
+				if ( ! $vat_number_valid ) {
+					wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
+				}
+			} catch ( ViesException $exception ) {
+				if ( $ignore_vat_check_fail ) {
+					$vat_check_fail_ignored = true;
+				} else {
+					wc_add_notice( __( 'Could not validate VAT number.', 'woolab-ic-dic' ), 'error' );
+				}
 			}
 
 		} else {
@@ -319,6 +355,9 @@ function woolab_icdic_checkout_field_process() {
 
 		}
 	}
+
+	// Set flag about Business ID or VAT number check fails.
+	WC()->session->set( 'woolab_icdic_vat_check_fail_ignored', $vat_check_fail_ignored );
 
 }
 
@@ -419,20 +458,29 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 		return;
 	}
 
-	$vat_num       = null;
-	$wc_countries  = new WC_Countries();
-	$base_country  = $wc_countries->get_base_country();
-	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
-	$is_vat_exempt = false;
+	$vat_num               = null;
+	$wc_countries          = new WC_Countries();
+	$base_country          = $wc_countries->get_base_country();
+	$base_country          = apply_filters( 'woolab_icdic_base_country', $base_country );
+	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
+	$is_vat_exempt         = false;
 
 	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $base_country) {
 		$vat_num = $customer->get_meta('billing_country') == 'SK' ? $customer->get_meta('billing_dic_dph') : $customer->get_meta('billing_dic');
 	}
 
 	if (!empty($vat_num)) {
-		$validator     = new Validator();
+		$validator = new Validator();
 		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
-			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+			try {
+				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+			} catch ( ViesException $exception ) {
+				if ( $ignore_vat_check_fail ) {
+					$is_vat_exempt = true;
+				} else {
+					throw $exception;
+				}
+			}
 		}
 	}
 
@@ -450,12 +498,13 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 
 	$data          = array();
 	wp_parse_str($post_data, $data);
-	$wc_countries  = new WC_Countries();
-	$base_country  = $wc_countries->get_base_country();
-	$base_country  = apply_filters( 'woolab_icdic_base_country', $base_country );
-	$country       = $data['billing_country'];
-	$vat_countries = $wc_countries->get_european_union_countries('eu_vat');
-	$is_eu_country = in_array($country, $vat_countries);
+	$wc_countries          = new WC_Countries();
+	$base_country          = $wc_countries->get_base_country();
+	$base_country          = apply_filters( 'woolab_icdic_base_country', $base_country );
+	$country               = $data['billing_country'];
+	$vat_countries         = $wc_countries->get_european_union_countries('eu_vat');
+	$is_eu_country         = in_array($country, $vat_countries);
+	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
 
 	if ($country === $base_country || !$is_eu_country) {
 		// Skip check if company's billing country is the same as store's country or if company's billing country is not EU VAT country.
@@ -469,7 +518,15 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 		$is_vat_exempt = false;
 
 		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
-			$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+			try {
+				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
+			} catch ( ViesException $exception ) {
+				if ( $ignore_vat_check_fail ) {
+					$is_vat_exempt = true;
+				} else {
+					throw $exception;
+				}
+			}
 		}
 
 		$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_company', $is_vat_exempt, $data );
@@ -478,6 +535,27 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 	} else {
 		WC()->customer->set_is_vat_exempt( false );
 	}
+}
+
+/**
+ * Saves order metadata on WooCommerce checkout.
+ * @param int $order_id
+ */
+function woolab_icdic_save_order_metadata( $order_id ) {
+	$order = wc_get_order( $order_id );
+
+	if ( ! $order instanceof WC_Order ) {
+		return;
+	}
+
+	$vat_check_fail_ignored = WC()->session->get( 'woolab_icdic_vat_check_fail_ignored' );
+
+	$order->update_meta_data(
+		'woolab_icdic_vat_check_fail_ignored',
+		$vat_check_fail_ignored ? 'yes' : 'no'
+	);
+
+	$order->save_meta_data();
 }
 
 // admin
@@ -630,6 +708,132 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 		$order->save();
 	}
 
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
+ * below order number on orders table view.
+ * @param string $column Column ID.
+ * @param int $post_id	Post ID.
+ */
+function woolab_icdic_show_check_failed_notice_on_orders_table( $column, $post_id ) {
+    if ( $column !== 'order_number' ) {
+        return;
+    }
+
+    $order        = wc_get_order( $post_id );
+	$check_failed = ( $order instanceof WC_Order )
+        ? ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' )
+        : false;
+
+    if ( ! $check_failed ) {
+        return;
+    }
+
+    ?>
+
+    <br>
+    <strong style="color: #dba617;">
+        <?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+    </strong>
+
+    <?php
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
+ * below order number on orders table view.
+ * @param string $column
+ * @param WC_Order $order
+ */
+function woolab_icdic_show_check_failed_notice_on_orders_table_hpos( $column, $order ) {
+    if ( $column !== 'order_number' ) {
+        return;
+    }
+
+	$check_failed = ( $order instanceof WC_Order )
+        ? ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' )
+        : false;
+
+    if ( ! $check_failed ) {
+        return;
+    }
+
+    ?>
+
+	<strong style="color: #dba617;">
+		<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+	</strong>
+	<br>
+
+    <?php
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
+ * below billing number fields on order edit screen.
+ * @param WC_Order $order
+ */
+function woolab_icdic_show_check_failed_notice_on_order_edit( $order ) {
+	$check_failed = ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' );
+
+	if ( ! $check_failed ) {
+		return;
+	}
+
+	?>
+
+	<div class="notice notice-warning inline">
+		<p>
+			<strong><?php esc_html_e( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
+			<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+			<?php esc_html_e( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
+		</p>
+	</div>
+
+	<?php
+}
+
+/**
+ * Show notice about Business ID or VAT number check error
+ * below billing number fields on order edit screen.
+ * @param string $address_type 'billing' or 'shipping'.
+ * @param WC_Order $order
+ * @param bool $sent_to_admin
+ * @param bool $plain_text
+ */
+function woolab_icdic_show_check_failed_notice_on_admin_email(
+	$order,
+	$sent_to_admin,
+	$plain_text
+) {
+	if ( ! $order instanceof WC_Order || ! $sent_to_admin ) {
+		return;
+	}
+
+	$check_failed = ( $order->get_meta( 'woolab_icdic_vat_check_fail_ignored' ) === 'yes' );
+
+	if ( ! $check_failed ) {
+		return;
+	}
+
+	ob_start();
+
+	?>
+
+	<p>
+		<strong><?php esc_html_e( 'Caution!', 'woolab-ic-dic' ) ?></strong><br>
+		<?php esc_html_e( 'Verification of VAT number has failed.', 'woolab-ic-dic' ) ?>
+		<?php esc_html_e( 'Please, make sure the VAT number is valid before processing the order.', 'woolab-ic-dic' ) ?>
+	</p>
+
+	<?php
+
+	$content = ob_get_clean();
+
+	echo ( $plain_text )
+		? strip_tags( $content )
+		: $content;
 }
 
 // Add settings link

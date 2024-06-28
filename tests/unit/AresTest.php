@@ -68,7 +68,7 @@ class AresTest extends TestCase {
         ]);
 
         $this->assertEquals(
-            array( 'error' => __('An error occured while connecting to ARES, try it again later.', 'kybernaut-messenger')),
+            array( 'error' => __('An error occured while connecting to ARES, try it again later.', 'kybernaut-messenger'), 'internal_error' => true),
             woolab_icdic_ares(88922961)
         );
 
@@ -128,8 +128,13 @@ class AresTest extends TestCase {
             'return' => 500
         ]);
 
+        WP_Mock::userFunction('wp_remote_retrieve_body', [
+            'times' => 1,
+            'return_arg' => 0,
+        ]);
+
         $this->assertEquals(
-            array( 'error' => __('ARES is not responding', 'kybernaut-messenger')),
+            array( 'error' => __('ARES is not responding.', 'kybernaut-messenger'), 'internal_error' => true),
             woolab_icdic_ares(88922961)
         );
     }

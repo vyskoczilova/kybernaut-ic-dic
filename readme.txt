@@ -130,6 +130,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.8.3 () =
+
+* Feature: New checkbox "Ignore when ARES or VIES check fails for technical reasons" in plugin settings. If this option is enabled and validation of business ID or VAT number fails for technical reason (not because it is invalid), an order is placed. For orders at which validation fails, there is an alert at admin edit screen and in admin e-mails. Big thanks to [@PavelVybiral](https://github.com/PavelVybiral) [#72](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/72)
+
 = 1.8.2 (2024-01-09) =
 
 * Feature: added support for [WooCommerce PDF Invoices and Packing Slips for WooCommerce](https://wordpress.org/plugins/pdf-invoices-and-packing-slips-for-woocommerce/) by Acowebs (sponsored by [tuningmotocyklov.sk](https://www.tuningmotocyklov.sk))

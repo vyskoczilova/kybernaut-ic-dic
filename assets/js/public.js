@@ -233,6 +233,7 @@
 
                 if (woolab.ares_fill) {
                   // Compatibility with Fluid Checkout for WooCommerce – Lite
+                  // https://wordpress.org/support/topic/compatibility-with-kybernaut-ico-dic-plugin/
                   if ($('#billing_same_as_shipping') && $('#billing_same_as_shipping').is(':checked')) {
                     // Check whether the CollapsibleBlock library is available
                     if (window.CollapsibleBlock) {
@@ -290,7 +291,10 @@
                 }
 
                 ares_remove_disabled_from_input();
-                ico_class.append('<span role="alert" class="woolab-ic-dic-tip error">' + data.error + '</span>');
+
+                if (!data.internal_error || !woolab.ignore_check_fail) {
+                  ico_class.append('<span role="alert" class="woolab-ic-dic-tip error">' + data.error + '</span>');
+                }
               }
             } else {
               ares_error(ico_class);
@@ -325,11 +329,14 @@
 
   function ares_error(ico_class) {
     if (woolab.ares_fill) {
-      $('#billing_company').val('');
-      $('#billing_dic').val('');
-      $('#billing_postcode').val('');
-      $('#billing_city').val('');
-      $('#billing_address_1').val('');
+      if (!woolab.ignore_check_fail) {
+        $('#billing_company').val('');
+        $('#billing_dic').val('');
+        $('#billing_postcode').val('');
+        $('#billing_city').val('');
+        $('#billing_address_1').val('');
+      }
+
       ares_remove_disabled_from_input();
     }
 

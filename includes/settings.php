@@ -69,6 +69,13 @@ function woolab_icdic_icdic_general_settings($settings) {
         'type'    => 'checkbox',
         'disabled' => $vat_check_disabled,
     );
+	$settings[] = array(
+		'title'   => __( 'Ignore when ARES or VIES check fails for technical reasons', 'woolab-ic-dic' ),
+		'desc'    => __( 'Allow the creation of an order if the verification of the Business ID in ARES or the VAT number in the European VIES database fails for technical reasons.', 'woolab-ic-dic' ),
+		'id'      => 'woolab_icdic_ignore_check_fail',
+		'default' => 'no',
+		'type'    => 'checkbox',
+	);
     $settings[] = array(
         'title'   => __( 'Toggle fields visibility', 'woolab-ic-dic' ),
         'desc'    => __( 'Enable toggle switch to show/hide input fields', 'woolab-ic-dic' ) . ( class_exists("FluidCheckout") ? ' <br><span style="color:#ca4a1f">' . __("This feature is not compatible with Fluid Checkout for WooCommerce.", 'woolab-ic-dic') . '</span>': ""),
