@@ -2,7 +2,7 @@
 Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
-Tested up to: 6.4
+Tested up to: 6.6
 Stable tag: 1.9.0
 Requires PHP: 7.3
 License: GPLv3
