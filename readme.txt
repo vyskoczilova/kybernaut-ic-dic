@@ -131,7 +131,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
-= 1.9.0 () =
+= 1.9.0 (2024-06-28) =
 
 * Feature: New checkbox "Ignore when ARES or VIES check fails for technical reasons" in plugin settings. If this option is enabled and validation of business ID or VAT number fails for technical reason (not because it is invalid), an order is placed. For orders at which validation fails, there is an alert at admin edit screen and in admin e-mails. Big thanks to [@PavelVybiral](https://github.com/PavelVybiral) [#72](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/72)
 
