@@ -7,9 +7,20 @@
         var vies_check = $('#woolab_icdic_vies_check');
 
         if ( ares_check.length ) {
-            enableActive( ares_check );
+            enableAresActive( ares_check );
+            enableIgnoreCheckFailActive( ares_check, vies_check );
+
             ares_check.change( function(){
-                enableActive( ares_check );
+                enableAresActive( ares_check );
+                enableIgnoreCheckFailActive( ares_check, vies_check );
+            });
+        }
+
+        if ( vies_check.length ) {
+            enableIgnoreCheckFailActive( ares_check, vies_check );
+
+            vies_check.change( function(){
+                enableIgnoreCheckFailActive( ares_check, vies_check );
             });
         }
 
@@ -32,13 +43,27 @@
 
     });
 
-    function enableActive( ares_check ) {
+    function enableAresActive( ares_check ) {
         
         var active = $('#woolab_icdic_ares_fill');
         if ( ares_check.prop( "checked" ) == true) {
             active.prop("disabled", false);
         } else {
             active.prop("disabled", true).prop( "checked", false );
+        }
+
+    }
+
+    function enableIgnoreCheckFailActive( ares_check, vies_check ) {
+
+        var checkbox = $( '#woolab_icdic_ignore_check_fail' );
+
+        if ( ares_check.prop( 'checked' ) || vies_check.prop( 'checked' ) ) {
+            checkbox.prop('disabled', false);
+        } else {
+            checkbox
+                .prop( 'disabled', true )
+                .prop( 'checked', false );
         }
 
     }

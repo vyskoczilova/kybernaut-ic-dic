@@ -2,3 +2,7 @@ node_modules
 working_data
 .vscode
 .DS_Store
+vendor
+.phpunit.cache
+deps
+.phpunit.result.cache

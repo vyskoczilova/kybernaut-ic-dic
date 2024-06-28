@@ -1,0 +1,27 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    ## todo later - run deploy.
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: /tmp/composer-cache
+        key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+    
+    - uses: php-actions/composer@v6
+
+    - uses: php-actions/phpunit@v3
+      with:
+        version: 7.5.20
+        php_version: 7.3
+        bootstrap: tests/bootstrap.php
+        configuration: phpunit.xml

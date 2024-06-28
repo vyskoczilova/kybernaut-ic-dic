@@ -1,11 +1,9 @@
 # Kybernaut IC DIC (WordPress plugin)
 
-[![plugin version](https://img.shields.io/wordpress/plugin/v/woolab-ic-dic.svg)](https://wordpress.org/plugins/woolab-ic-dic)
+[![plugin version](https://img.shields.io/wordpress/plugin/v/woolab-ic-dic.svg)](https://wordpress.org/plugins/woolab-ic-dic) [![CI](https://github.com/vyskoczilova/kybernaut-ic-dic/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/vyskoczilova/kybernaut-ic-dic/actions/workflows/phpunit.yml)
 
 Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
 Download here: https://wordpress.org/plugins/woolab-ic-dic/
-
-**Note:** `vendor` folder is tracked because off PHP 7.1 compatibility which is unoficially still working on ibericode/vat package, but the minimum requirement was bumped in December 2020. Plan to bump accordingly soon.
 
 ## Unreleased changes
 
@@ -46,6 +44,8 @@ If you need to set it up in your theme or plugin, you can use following filters 
 
     add_filter( 'woolab_icdic_vies_check', '__return_true' );
 
+    add_filter( 'woolab_icdic_ignore_check_fail', '__return_true' );
+
     add_filter( 'woolab_icdic_vat_exempt_enabled', function(){
       return "no"; // or "yes"
     } );
@@ -69,3 +69,4 @@ By default, if you edit order details, user profile is not touched. If you want 
 ## Credits
 
 * 10up and their [WordPress.org Plugin Deploy](https://github.com/10up/action-wordpress-plugin-deploy) and [WordPress.org Plugin Readme/Assets Update](https://github.com/10up/action-wordpress-plugin-asset-update) Github Actions
+* [ibericode/vat](https://github.com/ibericode/vat)

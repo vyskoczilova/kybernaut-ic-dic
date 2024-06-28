@@ -226,9 +226,40 @@
                                 if ( woolab.ares_fill ) {
 
                                     // Compatibility with Fluid Checkout for WooCommerce – Lite
+                                    // https://wordpress.org/support/topic/compatibility-with-kybernaut-ico-dic-plugin/
                                     if ($('#billing_same_as_shipping') && $('#billing_same_as_shipping').is(':checked')) {
-                                        $('#billing_same_as_shipping').click();
-                                        $('#fc-expansible-form-section__toggle-plus--billing_company').click();
+
+                                        // Check whether the CollapsibleBlock library is available
+                                        if ( window.CollapsibleBlock ) {
+
+                                            // Set billing address as different from shipping address
+                                            var fc_billing_same_as_shipping_field = document.querySelector( '#billing_same_as_shipping' );
+                                            fc_billing_same_as_shipping_field.checked = false;
+
+                                            // Expand the billing address fields
+                                            var fc_billing_address_fields_wrapper = document.querySelector( '#woocommerce-billing-fields__field-wrapper' );
+                                            if ( fc_billing_address_fields_wrapper ) {
+                                                CollapsibleBlock.expand( fc_billing_address_fields_wrapper );
+                                            }
+
+                                            // Get company field toggle and content elements
+                                            var fc_billing_company_toggle = document.querySelector( '#fc-expansible-form-section__toggle-plus--billing_company' );
+                                            var fc_billing_company_content = document.querySelector( '#fc-expansible-form-section__content--billing_company' );
+
+                                            // Expand the billing company field
+                                            if ( fc_billing_company_toggle ) { CollapsibleBlock.collapse( fc_billing_company_toggle ); }
+                                            if ( fc_billing_company_content ) { CollapsibleBlock.expand( fc_billing_company_content ); }
+
+                                            // Get dic field toggle and content elements
+                                            var fc_billing_dic_toggle = document.querySelector( '#fc-expansible-form-section__toggle-plus--billing_dic' );
+                                            var fc_billing_dic_content = document.querySelector( '#fc-expansible-form-section__content--billing_dic' );
+
+                                            // Expand the billing dic field
+                                            if ( fc_billing_dic_toggle ) { CollapsibleBlock.collapse( fc_billing_dic_toggle ); }
+                                            if ( fc_billing_dic_content ) { CollapsibleBlock.expand( fc_billing_dic_content ); }
+
+                                        }
+
                                     }
 
                                     // Update values
@@ -245,12 +276,18 @@
                                 }
 
                             } else {
+
                                 ares_error( ico_class );
                                 if ( $('.woolab-ic-dic-tip').length > 0 ) {
                                     $('.woolab-ic-dic-tip').remove();
                                 }
+
                                 ares_remove_disabled_from_input();
-                                ico_class.append( '<span role="alert" class="woolab-ic-dic-tip error">'+data.error+'</span>' );
+
+                                if ( ! data.internal_error || ! woolab.ignore_check_fail ) {
+                                    ico_class.append('<span role="alert" class="woolab-ic-dic-tip error">' + data.error + '</span>');
+                                }
+
                             }
 
                         } else {
@@ -287,13 +324,17 @@
     function ares_error ( ico_class ) {
 
         if ( woolab.ares_fill ) {
-            $('#billing_company').val('');
-            $('#billing_dic').val('');
-            $('#billing_postcode').val('');
-            $('#billing_city').val('');
-            $('#billing_address_1').val('');
+            if ( ! woolab.ignore_check_fail ) {
+                $('#billing_company').val('');
+                $('#billing_dic').val('');
+                $('#billing_postcode').val('');
+                $('#billing_city').val('');
+                $('#billing_address_1').val('');
+            }
+
             ares_remove_disabled_from_input();
         }
+
         woolab_add_class_wrong( ico_class );
     }
 

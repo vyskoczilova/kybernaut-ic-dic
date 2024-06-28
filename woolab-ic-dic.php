@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.7.5
+ Version:				1.9.0
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -11,9 +11,10 @@
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  Domain Path:			/languages
  Donate link:			https://paypal.me/KarolinaVyskocilova/
+ Requires Plugins: 		woocommerce
  WC requires at least:	3.5.0
- WC tested up to:		8.4.0
- Copyright:				© 2016-2023 Karolína Vyskočilová.
+ WC tested up to:		9.0.2
+ Copyright:				© 2016-2024 Karolína Vyskočilová.
  License:				GNU General Public License v3.0
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -23,13 +24,17 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Load Composer dependencies.
-require_once(__DIR__ . '/vendor/autoload.php');
+/**
+ * Loads Composer dependencies.
+ */
+require 'deps/scoper-autoload.php';
+require 'deps/autoload.php';
+require 'vendor/autoload.php';
 
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.7.5' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.9.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -77,6 +82,8 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
 		// Compatibility
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/superfaktura.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/pdf-invoices-and-packing-slips-for-woocommerce.php');
+		// include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/compatibility/fluidcheckout.php'); don't apply globally.
 
 		add_filter( 'woocommerce_billing_fields' , 'woolab_icdic_billing_fields', 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', 'woolab_icdic_checkout_fields', 10, 2);
@@ -91,6 +98,11 @@ function woolab_icdic_init() {
 		add_filter( 'default_checkout_billing_iscomp', 'woolab_icdic_toggle_iscomp_field', 10, 2 );
 		add_action( 'init', 'woolab_icdic_set_vat_exempt_for_customer', 10, 1 );
 		add_action( 'woocommerce_checkout_update_order_review', 'woolab_icdic_validate_vat_exempt_for_company', 10, 1 );
+		add_action( 'woocommerce_checkout_update_order_meta', 'woolab_icdic_save_order_metadata' );
+		add_action( 'manage_shop_order_posts_custom_column', 'woolab_icdic_show_check_failed_notice_on_orders_table', 20, 2 ); // HPOS not enabled.
+		add_action( 'woocommerce_shop_order_list_table_custom_column', 'woolab_icdic_show_check_failed_notice_on_orders_table_hpos', 10, 2 ); // HPOS alternative of "manage_shop_order_posts_custom_column" above.
+		add_action( 'woocommerce_admin_order_data_after_billing_address', 'woolab_icdic_show_check_failed_notice_on_order_edit' );
+		add_action( 'woocommerce_email_order_details', 'woolab_icdic_show_check_failed_notice_on_admin_email', 5, 3 );
 
 		if ( version_compare( WC_VERSION, '2.7', '<' )) {
 			add_filter( 'woocommerce_found_customer_details', 'woolab_icdic_ajax_get_customer_details_old_woo', 10, 1 );
@@ -126,6 +138,7 @@ function woolab_icdic_enqueue_scripts() {
 			'l18n_validating' => __('Validating data in ARES.', 'woolab-ic-dic'),
 			'ares_check' => woolab_icdic_ares_check(),
 			'ares_fill' => woolab_icdic_ares_fill(),
+			'ignore_check_fail' => woolab_icdic_ignore_check_fail(),
 		));
 		if ( apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') ) === 'yes') {
 			wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
@@ -152,6 +165,11 @@ function woolab_icdic_vies_check() {
 	$option = woolab_icdic_get_option( 'woolab_icdic_vies_check', 'yes' );
 	return apply_filters( 'woolab_icdic_vies_check', $option );
 
+}
+
+function woolab_icdic_ignore_check_fail() {
+	$option = woolab_icdic_get_option( 'woolab_icdic_ignore_check_fail', 'no' );
+	return apply_filters( 'woolab_icdic_ignore_check_fail', $option );
 }
 
 function woolab_icdic_get_option( $name, $default = 'yes' ) {
