@@ -1,6 +1,6 @@
 ﻿=== Kybernaut IČO DIČ ===
 Contributors: vyskoczilova
-Tags: woocommerce, DIČ, IČO, IČ, IČ DPH, česky, česká, české, cz, Czech, zobrazení, úprava, VAT, number, Company, identification, tax, eshop, e-shop, ecommerce, e-commerce, commerce, woothemes, wordpress woocommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, additional, fields, variable, download, downloadable, digital, inventory, fakturační, billing, shipping, adresa, address, woo commerce, order, objednávka, admin, backend
+Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 6.4
 Stable tag: 1.9.0
