@@ -104,17 +104,10 @@ You can use this snippet to update customers data when you edit an order, just a
 
 `add_filter( 'woolab_icdic_update_user_meta', '__return_true' );`
 
-= I want to use the latest files. How can I do this? =
+= How can I report security bugs? =
 
-Use the GitHub Repo rather than the WordPress Plugin. Do as follows:
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/woolab-ic-dic)
 
-1. If you haven't already done: [Install git](https://help.github.com/articles/set-up-git)
-
-2. in the console cd into Your 'wp-content/plugins´ directory
-
-3. type `git clone https://github.com/vyskoczilova/kybernaut-ic-dic` or better type `git fork https://github.com/vyskoczilova/kybernaut-ic-dic`
-
-4. If you want to update to the latest files (be careful, might be untested on Your WP-Version) type `git pull´.
 
 = I found a bug. Where should I post it? =
 
