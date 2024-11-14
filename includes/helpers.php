@@ -236,3 +236,17 @@ function woolab_icdic_add_after_company( $fields, $additional, $type = 'both' )
 
     return $fields_new;
 }
+
+/**
+ * Get VAT number country code from VAT number and match it to WooCommerce countr field code.
+ * 
+ * @param string $vat_number VAT number
+ * @return string
+ */
+function woolab_icdic_get_vat_number_country_code($vat_number) {
+    $country_code = substr( $vat_number, 0, 2);
+    if ($country_code === 'EL') {
+        return 'GR';
+    }
+    return $country_code;
+}
