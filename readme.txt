@@ -15,6 +15,8 @@ Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields
 
 Adds Company & VAT numbers (IČO & DIČ & IČ DPH) to WooCommerce billing fields and verifies if data are correct. Verification is based either on ARES and VIES database or only on mathematics. When billing to Czech republic, you can autofill fields Company, VAT number, Address, City, and Postcode based on IČO.
 
+The plugin doesn't support block checkout. [Use shortcode checkout instead.] (https://kybernaut.cz/clanky/jak-vratit-starou-woocommerce-pokladnu-misto-noveho-bloku/)
+
 Supports both PHP 7.3+ (soon to be abandoned) & PHP 8.0+.
 
 === Main functionality ===
