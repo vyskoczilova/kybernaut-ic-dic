@@ -64,7 +64,7 @@ class Logger
 		$this->source = 'kybernaut-ic-dic';
 
 		// Log all events, or just errors.
-		$this->log_all = apply_filters('woolab_icdic_logger_log_all', true);
+		$this->log_all = apply_filters('woolab_icdic_logger_log_all', false);
 	}
 
 	/**
