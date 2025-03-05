@@ -14,3 +14,4 @@ WP_Mock::setUsePatchwork(false);
 WP_Mock::bootstrap();
 
 require_once dirname(__DIR__) . '/includes/ares.php';
+require_once dirname(__DIR__) . '/includes/logger.php';
