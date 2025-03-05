@@ -24,13 +24,6 @@ class Logger
      */
     protected static $instance = null;
 
-    /**
-     * Log source
-     *
-     * @var string
-     */
-    protected string $source;
-
 	/**
 	 * Log all
 	 *
@@ -60,8 +53,6 @@ class Logger
 	 */
 	private function __construct()
 	{
-		// Load plugin name.
-		$this->source = 'kybernaut-ic-dic';
 
 		// Log all events, or just errors.
 		$this->log_all = apply_filters('woolab_icdic_logger_log_all', false);
@@ -92,7 +83,7 @@ class Logger
 		// Log message.
 		$wc_logger->{$level}(
 			strip_tags($message_to_log), // No HTML in logs.
-			['source' => $this->source]
+			['source' => 'kybernaut-ic-dic']
 		);
 
 	}
