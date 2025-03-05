@@ -257,6 +257,13 @@ function woolab_icdic_checkout_field_process() {
 					wc_add_notice( __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
 				}
 
+
+				// Match VAT country prefix and shipping country code.
+				// @since 1.9.2.
+				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && woolab_icdic_get_vat_number_country_code($dic) !== $_POST['shipping_country'] ) {
+					wc_add_notice( __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
+				}
+
 				$validator = new Validator();
 
 				if ( ! $validator->validateVatNumberFormat( $dic )) {

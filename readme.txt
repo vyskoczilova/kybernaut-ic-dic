@@ -128,6 +128,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.9.2 () = 
+
+* Fix: Shipping country and VAT country prefix must match (paid by a supporter) (before only billing & VAT number matched).
+
 = 1.9.1 (2024-11-14) =
 
 * Fix: Greek VAT number validation - VAT country prefix (EL) doesn't match WooCommerce coutry code (GR).
