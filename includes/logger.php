@@ -29,7 +29,7 @@ class Logger
 	 *
 	 * @var bool
 	 */
-	protected bool $log_all;
+	protected $log_all;
 
     /**
      * Main Logger Instance.
