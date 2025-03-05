@@ -128,9 +128,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
-= 1.9.2 () = 
+= 1.10.0 () = 
 
 * Fix: Shipping country and VAT country prefix must match (paid by a supporter) (before only billing & VAT number matched).
+* Feature: Add basic logger.
 
 = 1.9.1 (2024-11-14) =
 

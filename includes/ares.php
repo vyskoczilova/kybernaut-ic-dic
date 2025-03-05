@@ -10,6 +10,8 @@
  * http://www.garth.cz/ostatni/ares-ziskani-dat-pomoci-php/
  */
 
+use KybernautIcDic\Logger;
+
 if ( ! function_exists( 'woolab_icdic_ares') ) {
 
     function woolab_icdic_ares( $ico = '' ) {
@@ -25,6 +27,7 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
 
         $url = 'https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/' . $ico;
         $response = wp_remote_get( $url );
+        $logger = Logger::getInstance();
 
         if ( ! is_wp_error( $response ) ) {
 
@@ -49,9 +52,16 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 $return['psc'] = $data->sidlo->psc;
                 $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce;
 
-            } elseif ( $status_code === 404 ) {
+                $logger->logInfo('Ares response:');
+                $logger->logInfo($body);
+
+            } elseif ( $status_code === 404 ) {                
+                $logger->log(sprintf('Entity doesn\'t exist in ARES: %s', $ico));
+                $logger->log($response);
                 $return = array( 'error' => __('Entity doesn\'t exist in ARES.', 'woolab-ic-dic'));
             } else {
+                $logger->log(sprintf('Ares is not responding, used IČO: %s', $ico));
+                $logger->log($response);
                 $return = array(
 					'error'          => __('ARES is not responding.', 'woolab-ic-dic'),
 	                'internal_error' => true,
@@ -59,6 +69,8 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
             }
 
         } else {
+            $logger->log(sprintf('An error occured while connecting to ARES: %s', $ico));
+            $logger->log($response);
             $return = array(
 				'error'          => __('An error occured while connecting to ARES, try it again later.', 'woolab-ic-dic'),
 				'internal_error' => true,

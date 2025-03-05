@@ -2,6 +2,7 @@
 
 // If this file is called directly, abort.
 
+use KybernautIcDic\Logger;
 use KybernautIcDicDeps\Ibericode\Vat\Countries;
 use KybernautIcDicDeps\Ibericode\Vat\Validator;
 use KybernautIcDicDeps\Ibericode\Vat\Vies\ViesException;
@@ -257,9 +258,8 @@ function woolab_icdic_checkout_field_process() {
 					wc_add_notice( __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
 				}
 
-
 				// Match VAT country prefix and shipping country code.
-				// @since 1.9.2.
+				// @since 1.10.0.
 				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && woolab_icdic_get_vat_number_country_code($dic) !== $_POST['shipping_country'] && $_POST['ship_to_different_address'] === '1' ) {
 					wc_add_notice( __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
 				}
@@ -277,6 +277,9 @@ function woolab_icdic_checkout_field_process() {
 						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
 					}
 				} catch ( ViesException $exception ) {
+					$logger = Logger::getInstance();
+					$logger->log(sprintf('Could not validate VAT number: %s, returned the following exception:', $dic));
+					$logger->log($exception);
 					if ( $ignore_vat_check_fail ) {
 						$vat_check_fail_ignored = true;
 					} else {
@@ -339,6 +342,9 @@ function woolab_icdic_checkout_field_process() {
 					wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
 				}
 			} catch ( ViesException $exception ) {
+				$logger = Logger::getInstance();
+				$logger->log(sprintf('Could not validate VAT number: %s, returned the following exception:', $dic_dph));
+				$logger->log($exception);
 				if ( $ignore_vat_check_fail ) {
 					$vat_check_fail_ignored = true;
 				} else {
@@ -482,6 +488,9 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 			try {
 				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
 			} catch ( ViesException $exception ) {
+				$logger = Logger::getInstance();
+				$logger->log(sprintf('Could not validate if VAT number is exempt: %s, returned the following exception:', $vat_num));
+				$logger->log($exception);
 				if ( $ignore_vat_check_fail ) {
 					$is_vat_exempt = true;
 				} else {
@@ -528,6 +537,9 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 			try {
 				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
 			} catch ( ViesException $exception ) {
+				$logger = Logger::getInstance();
+				$logger->log(sprintf('Could not validate if VAT number is exempt: %s, returned the following exception:', $vat_num));
+				$logger->log($exception);
 				if ( $ignore_vat_check_fail ) {
 					$is_vat_exempt = true;
 				} else {
