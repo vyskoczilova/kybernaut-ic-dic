@@ -2,8 +2,8 @@
 Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
-Tested up to: 6.7
-Stable tag: 1.9.1
+Tested up to: 6.8
+Stable tag: 1.10.0
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -128,8 +128,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.10.0 () = 
+= 1.10.0 (2025-04-24) = 
 
+* Performance improvement: function donetyping is replaced by debounce function by [@morvy](https://github.com/morvy), [#74](https://github.com/vyskoczilova/kybernaut-ic-dic/pull/74) fixing issue [#73](https://github.com/vyskoczilova/kybernaut-ic-dic/issues/73)
 * Fix: Shipping country and VAT country prefix must match (paid by a supporter) (before only billing & VAT number matched).
 * Feature: Add basic logger.
 
