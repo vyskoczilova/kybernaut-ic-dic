@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 6.8
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.10.1 (2025-05-13) =
+
+* Added a new filter `woolab_icdic_enable_dic_dicdph_match_check` to disable the DIČ and IČ DPH match validation. For more details, see the [support thread](https://wordpress.org/support/topic/ic-dph-validacia/#post-18440969).
 
 = 1.10.0 (2025-04-24) = 
 

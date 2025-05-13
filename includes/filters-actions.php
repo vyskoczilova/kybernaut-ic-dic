@@ -359,9 +359,9 @@ function woolab_icdic_checkout_field_process() {
 			}
 
 		}
+		
 		// IC DPH has to match to Tax ID number without SK
-		if ( $dic_dph && $dic ) {
-
+		if ( apply_filters('woolab_icdic_enable_dic_dicdph_match_check', true) && $dic_dph && $dic ) {
 			if ( $dic != substr( $dic_dph, 2) ) {
 				wc_add_notice( __( 'Tax ID or VAT number is not valid.', 'woolab-ic-dic' ), 'error' );
 			}
