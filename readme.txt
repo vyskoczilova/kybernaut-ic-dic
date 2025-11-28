@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 6.8
-Stable tag: 1.10.1
+Stable tag: 1.10.2
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.10.2 (2025-11-28) =
+
+* Fix: Don't autofill DIC (Tax ID) for companies with terminated VAT registration (`ZANIKLY`). The plugin now checks VAT registration status from ARES and only autofills DIC when the status is `AKTIVNI` (active). See [support forum](https://wordpress.org/support/topic/dic-v-pripade-zanikle-registrace-k-dph/).
 
 = 1.10.1 (2025-05-13) =
 
