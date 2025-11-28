@@ -14,3 +14,5 @@ phpunit.cache
 DOCKER_ENV
 docker_tag
 output.log
+.claude
+CLAUDE.md

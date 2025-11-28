@@ -40,7 +40,11 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 $return = array( 'error' => false );
                 $return['spolecnost'] = $data->obchodniJmeno ?? '';
                 $return['ico'] = $data->ico ?? '';
-                $return['dic'] = $data->dic ?? '';
+
+                // Check VAT registration status before including DIC
+                // Only autofill DIC if VAT registration is active
+                $stav_dph = $data->seznamRegistraci->stavZdrojeDph ?? null;
+                $return['dic'] = ($stav_dph === 'AKTIVNI') ? ($data->dic ?? '') : '';
 
                 $cislo_orientacni = $data->sidlo->cisloOrientacni ?? '';
                 $cislo_domovni = $data->sidlo->cisloDomovni ?? '';

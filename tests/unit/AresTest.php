@@ -214,6 +214,18 @@ class AresTest extends TestCase {
                     'mesto' => 'Brno',
                 ]
             ],
+            ['08911801 (terminated VAT - ZANIKLY)' =>
+                '08911801',
+                [
+                    'error' => false,
+                    'spolecnost' => 'Petra Malichová',
+                    'ico' => '08911801',
+                    'dic' => '', // DIC should be empty when ZANIKLY
+                    'adresa' => 'Žádovice 291',
+                    'psc' => 69649,
+                    'mesto' => 'Žádovice',
+                ]
+            ],
         ];
 
     }
