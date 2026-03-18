@@ -128,6 +128,11 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 
 == Changelog ==
 
+= 1.10.3 (2026-03-18) =
+
+* Fix: "Trying to access array offset on null" error on checkout when `shipping_country` or `ship_to_different_address` POST fields are not set (e.g. when shipping to billing address).
+* Fix: Added missing `isset()` checks in VAT exempt validation for parsed POST data.
+
 = 1.10.2 (2025-11-28) =
 
 * Fix: Don't autofill DIC (Tax ID) for companies with terminated VAT registration (`ZANIKLY`). The plugin now checks VAT registration status from ARES and only autofills DIC when the status is `AKTIVNI` (active). See [support forum](https://wordpress.org/support/topic/dic-v-pripade-zanikle-registrace-k-dph/).

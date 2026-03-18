@@ -260,7 +260,7 @@ function woolab_icdic_checkout_field_process() {
 
 				// Match VAT country prefix and shipping country code.
 				// @since 1.10.0.
-				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && woolab_icdic_get_vat_number_country_code($dic) !== $_POST['shipping_country'] && $_POST['ship_to_different_address'] === '1' ) {
+				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && ! empty( $_POST['ship_to_different_address'] ) && isset( $_POST['shipping_country'] ) && woolab_icdic_get_vat_number_country_code($dic) !== $_POST['shipping_country'] ) {
 					wc_add_notice( __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
 				}
 
@@ -517,17 +517,17 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 	$wc_countries          = new WC_Countries();
 	$base_country          = $wc_countries->get_base_country();
 	$base_country          = apply_filters( 'woolab_icdic_base_country', $base_country );
-	$country               = $data['billing_country'];
+	$country               = isset( $data['billing_country'] ) ? $data['billing_country'] : '';
 	$vat_countries         = $wc_countries->get_european_union_countries('eu_vat');
 	$is_eu_country         = in_array($country, $vat_countries);
 	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
 
-	if ($country === $base_country || !$is_eu_country) {
+	if ( empty( $country ) || $country === $base_country || !$is_eu_country) {
 		// Skip check if company's billing country is the same as store's country or if company's billing country is not EU VAT country.
 		return;
 	}
 
-	$vat_num = $country === 'SK' ? $data['billing_dic_dph'] : $data['billing_dic'];
+	$vat_num = $country === 'SK' ? ( isset( $data['billing_dic_dph'] ) ? $data['billing_dic_dph'] : '' ) : ( isset( $data['billing_dic'] ) ? $data['billing_dic'] : '' );
 
 	if ( !empty($vat_num) && isset($data['billing_iscomp']) && $data['billing_iscomp'] == 1 ) {
 		$validator     = new Validator();
