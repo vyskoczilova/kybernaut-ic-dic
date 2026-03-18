@@ -1,4 +1,4 @@
-.PHONY: build styles scripts translate version-bump install test
+.PHONY: build styles scripts translate version-bump install test release
 
 # Build all assets
 build:
@@ -26,3 +26,7 @@ test:
 # Bump version number
 version-bump:
 	@bash bin/version-bump.sh
+
+# Create a GitHub release from the current plugin version
+release:
+	@bash bin/release.sh
