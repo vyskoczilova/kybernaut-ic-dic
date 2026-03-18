@@ -16,3 +16,5 @@ docker_tag
 output.log
 .claude
 CLAUDE.md
+Makefile
+/bin
