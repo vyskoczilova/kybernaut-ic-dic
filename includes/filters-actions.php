@@ -529,7 +529,9 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 
 	$vat_num = $country === 'SK' ? ( isset( $data['billing_dic_dph'] ) ? $data['billing_dic_dph'] : '' ) : ( isset( $data['billing_dic'] ) ? $data['billing_dic'] : '' );
 
-	if ( !empty($vat_num) && isset($data['billing_iscomp']) && $data['billing_iscomp'] == 1 ) {
+	$is_company = ! isset($data['billing_iscomp']) || $data['billing_iscomp'] == 1;
+
+	if ( !empty($vat_num) && $is_company ) {
 		$validator     = new Validator();
 		$is_vat_exempt = false;
 
