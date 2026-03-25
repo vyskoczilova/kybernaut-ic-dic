@@ -77,6 +77,13 @@ function woolab_icdic_icdic_general_settings($settings) {
 		'type'    => 'checkbox',
 	);
     $settings[] = array(
+        'title'   => __( 'SK: Disable DIČ / IČ DPH match check', 'woolab-ic-dic' ),
+        'desc'    => __( 'Disable validation that IČ DPH must equal "SK" + DIČ. Some non-profit organizations have IČ DPH that does not match their DIČ.', 'woolab-ic-dic' ),
+        'id'      => 'woolab_icdic_disable_dic_dicdph_match',
+        'default' => 'no',
+        'type'    => 'checkbox',
+    );
+    $settings[] = array(
         'title'   => __( 'Toggle fields visibility', 'woolab-ic-dic' ),
         'desc'    => __( 'Enable toggle switch to show/hide input fields', 'woolab-ic-dic' ) . ( class_exists("FluidCheckout") ? ' <br><span style="color:#ca4a1f">' . __("This feature is not compatible with Fluid Checkout for WooCommerce.", 'woolab-ic-dic') . '</span>': ""),
         'id'      => 'woolab_icdic_toggle_switch',

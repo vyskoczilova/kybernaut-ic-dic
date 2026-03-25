@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 1.10.4
+Stable tag: 1.10.5
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.10.5 (2026-03-25) =
+
+* Feature: Added a setting to disable the DIČ / IČ DPH match validation for Slovakia. Useful for non-profit organizations where IČ DPH does not match "SK" + DIČ. Go to WooCommerce > Settings > General > Kybernaut IČO DIČ options.
 
 = 1.10.4 (2026-03-19) =
 

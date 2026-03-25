@@ -66,6 +66,12 @@ By default, if you edit order details, user profile is not touched. If you want 
 
     add_filter( 'woolab_icdic_sk_required_ic_and_dic', '__return_false' );
 
+### Disable DIČ / IČ DPH match check for Slovakia
+
+    add_filter( 'woolab_icdic_enable_dic_dicdph_match_check', '__return_false' );
+
+Or use the checkbox in WooCommerce > Settings > General > Kybernaut IČO DIČ options.
+
 ## Credits
 
 * 10up and their [WordPress.org Plugin Deploy](https://github.com/10up/action-wordpress-plugin-deploy) and [WordPress.org Plugin Readme/Assets Update](https://github.com/10up/action-wordpress-plugin-asset-update) Github Actions
