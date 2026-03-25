@@ -42,11 +42,16 @@ echo ""
 echo "New release: $plugin_version (previous: ${latest_tag:-none})"
 echo ""
 
-# --- 6. Extract changelog entry using Claude CLI ---
-echo "Extracting changelog entry with Claude..."
+# --- 6. Extract changelog entry from readme.txt ---
+echo "Extracting changelog entry..."
 echo ""
 
-changelog=$(claude --print -p "Read the file $README_FILE. Extract ONLY the changelog entry for version $plugin_version. Output the raw text content of that single version entry (the bullet points only, no heading, no version number). Do not add any commentary.")
+changelog=$(awk -v ver="$plugin_version" '
+    $0 ~ "^= " ver " " { found=1; next }
+    found && /^= [0-9]+\.[0-9]+/ { exit }
+    found && /^[[:space:]]*$/ { next }
+    found { print }
+' "$README_FILE")
 
 if [ -z "$changelog" ]; then
     echo "Error: Could not extract changelog entry for version $plugin_version"
