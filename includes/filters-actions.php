@@ -157,7 +157,7 @@ function woolab_icdic_checkout_field_process() {
 		return false;
 	}
 
-	$country               = $_POST['billing_country'];
+	$country               = wc_clean( wp_unslash( $_POST['billing_country'] ) );
 	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
 
 	// Flag to check if VAT check fail was ignored.
@@ -171,7 +171,7 @@ function woolab_icdic_checkout_field_process() {
 		 * Remove white spaces
 		 * @since 1.4.0
 		 */
-		$ico = preg_replace('/\s+/', '', $_POST['billing_ic']);
+		$ico = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_ic'] ) ) );
 
 		// CZ
 		if ( $country == "CZ" ) {
@@ -193,7 +193,7 @@ function woolab_icdic_checkout_field_process() {
 						if ( isset( $_POST['billing_dic'] ) && wc_clean( wp_unslash($_POST['billing_dic'])) != $ares['dic'] ) {
 							$missing_fields[] = __( 'Tax ID', 'woolab-ic-dic' );
 						}
-						if ( wc_clean( wp_unslash($_POST['billing_company'])) != $ares['spolecnost'] ) {
+						if ( wc_clean( wp_unslash( $_POST['billing_company'] ?? '' ) ) != $ares['spolecnost'] ) {
 							$missing_fields[] = __( 'Company', 'woocommerce' );
 						}
 						if ( wc_clean( wp_unslash($_POST['billing_postcode'])) != $ares['psc'] ) {
@@ -241,7 +241,7 @@ function woolab_icdic_checkout_field_process() {
 		 * @since 1.4.0
 		 */
 
-		$dic = preg_replace('/\s+/', '', $_POST['billing_dic']);
+		$dic = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic'] ) ) );
 		$countries = new Countries();
 
 
@@ -260,7 +260,7 @@ function woolab_icdic_checkout_field_process() {
 
 				// Match VAT country prefix and shipping country code.
 				// @since 1.10.0.
-				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && ! empty( $_POST['ship_to_different_address'] ) && isset( $_POST['shipping_country'] ) && woolab_icdic_get_vat_number_country_code($dic) !== $_POST['shipping_country'] ) {
+				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && ! empty( $_POST['ship_to_different_address'] ) && isset( $_POST['shipping_country'] ) && woolab_icdic_get_vat_number_country_code($dic) !== wc_clean( wp_unslash( $_POST['shipping_country'] ) ) ) {
 					wc_add_notice( __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
 				}
 
@@ -320,8 +320,8 @@ function woolab_icdic_checkout_field_process() {
 		 * Remove white spaces
 		 * @since 1.4.0
 		 */
-		$dic     = preg_replace('/\s+/', '', $_POST['billing_dic']);
-		$dic_dph = preg_replace('/\s+/', '', $_POST['billing_dic_dph']);
+		$dic     = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic'] ?? '' ) ) );
+		$dic_dph = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic_dph'] ) ) );
 
 		// Match VAT country prefix and country code.
 		// @since 1.7.4.
