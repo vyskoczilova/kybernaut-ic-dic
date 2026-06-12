@@ -191,7 +191,7 @@ function woolab_icdic_checkout_field_process() {
 						}
 					} elseif ( woolab_icdic_ares_fill() ) {
 						if ( isset( $_POST['billing_dic'] ) && wc_clean( wp_unslash($_POST['billing_dic'])) != $ares['dic'] ) {
-							$missing_fields[] = __( 'Business ID', 'woocommerce' );
+							$missing_fields[] = __( 'Tax ID', 'woolab-ic-dic' );
 						}
 						if ( wc_clean( wp_unslash($_POST['billing_company'])) != $ares['spolecnost'] ) {
 							$missing_fields[] = __( 'Company', 'woocommerce' );
