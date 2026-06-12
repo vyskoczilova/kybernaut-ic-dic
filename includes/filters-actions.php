@@ -495,7 +495,9 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 				if ( $ignore_vat_check_fail ) {
 					$is_vat_exempt = true;
 				} else {
-					throw $exception;
+					// Don't re-throw: an uncaught exception here would fatal the
+					// whole request (init / checkout AJAX) whenever VIES is down.
+					$is_vat_exempt = false;
 				}
 			}
 		}
@@ -546,7 +548,9 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 				if ( $ignore_vat_check_fail ) {
 					$is_vat_exempt = true;
 				} else {
-					throw $exception;
+					// Don't re-throw: an uncaught exception here would fatal the
+					// whole request (init / checkout AJAX) whenever VIES is down.
+					$is_vat_exempt = false;
 				}
 			}
 		}
