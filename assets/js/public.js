@@ -191,7 +191,8 @@
           url: woolab.ajaxurl,
           data: {
             action: "ajaxAres",
-            'ico': value
+            'ico': value,
+            'nonce': woolab.nonce
           },
           beforeSend: function beforeSend() {
             ico_class.addClass('kbnt-validating');
@@ -201,7 +202,11 @@
             ico_class.removeClass('kbnt-validating');
 
             if (data) {
-              var data = JSON.parse(data);
+              // The endpoint responds with a JSON content type, so
+              // jQuery may have parsed the payload already.
+              if (typeof data === 'string') {
+                data = JSON.parse(data);
+              }
 
               if (data.error == false) {
                 $('.woolab-ic-dic-tip').remove();

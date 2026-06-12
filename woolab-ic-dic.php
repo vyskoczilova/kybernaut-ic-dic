@@ -139,6 +139,7 @@ function woolab_icdic_enqueue_scripts() {
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . 'assets/js/public'.$suffix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_VERSION );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'woolab_icdic_ares' ),
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
 			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
 			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
@@ -206,17 +207,11 @@ function woolab_icdic_admin_scripts( $hook ) {
 }
 
 function woolab_icdic_ares_ajax(){
-	if ( isset($_REQUEST) ) {
+	check_ajax_referer( 'woolab_icdic_ares', 'nonce' );
 
-		$value = woolab_icdic_ares( $_REQUEST['ico'] );
-		if ( $value ) {
-			echo json_encode( $value );
-		} else {
-			echo null;
-		}
+	$ico = isset( $_REQUEST['ico'] ) ? wc_clean( wp_unslash( $_REQUEST['ico'] ) ) : '';
 
-	}
-	die();
+	wp_send_json( woolab_icdic_ares( $ico ) );
 };
 
 /**

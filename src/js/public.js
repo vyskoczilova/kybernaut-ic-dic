@@ -178,6 +178,7 @@
                     data: {
                         action: "ajaxAres",
                         'ico' : value,
+                        'nonce' : woolab.nonce,
                     },
                     beforeSend: function() {
                         ico_class.addClass( 'kbnt-validating' );
@@ -186,7 +187,11 @@
                     success: function ( data ) {
                         ico_class.removeClass( 'kbnt-validating' );
                         if ( data ) {
-                            var data = JSON.parse( data );
+                            // The endpoint responds with a JSON content type, so
+                            // jQuery may have parsed the payload already.
+                            if ( typeof data === 'string' ) {
+                                data = JSON.parse( data );
+                            }
 
                             if ( data.error == false ) {
 
