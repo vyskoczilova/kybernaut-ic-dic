@@ -40,7 +40,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.10.4' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.10.5' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
