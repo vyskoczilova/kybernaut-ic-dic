@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 1.10.5
+Stable tag: 1.10.6
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,18 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.10.6 (2026-06-12) =
+
+* Fix: Slovak DIČ DPH field was never shown on admin order edit screen due to an off-by-one country code comparison (`$country[0]` compared only the first character).
+* Fix: Fatal error on every page load for logged-in EU B2B customers when VIES was unavailable — `ViesException` was re-thrown from the `init` hook and the `update_order_review` AJAX call; the exception is now caught, logged, and treated as "not exempt" instead.
+* Fix: ARES mismatch notice for Tax ID field incorrectly reported the field as "Business ID".
+* Fix: Leftover debug `get_user_meta()` call appended stray text to the Settings link in the admin notice.
+* Fix: Admin script/style enqueue arguments — `wp_enqueue_style()` received the plugin URL as its dependencies parameter; `admin-edit.js` and `admin.js` shared the same handle so one silently failed to load; version parameter was missing from all admin enqueues.
+* Fix: ARES autofill checkbox setting default changed from the invalid `'false'` to the correct `'no'`.
+* Security: `ajaxAres` endpoint now verifies a nonce and sanitizes the `ico` request parameter.
+* Security: Notice-dismiss AJAX endpoint is restricted to authenticated users with the `manage_woocommerce` capability and now requires a nonce.
+* Security: Raw `$_POST` reads in checkout validation wrapped in `wc_clean( wp_unslash() )`, consistent with the rest of the codebase.
 
 = 1.10.5 (2026-03-25) =
 
