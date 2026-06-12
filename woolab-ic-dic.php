@@ -193,11 +193,11 @@ function woolab_icdic_get_option( $name, $default = 'yes' ) {
 function woolab_icdic_admin_scripts( $hook ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
-		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );
-		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery') );
+		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', array(), WOOLAB_IC_DIC_VERSION );
+		wp_enqueue_script( 'woolab-ic-dic-admin-edit', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery'), WOOLAB_IC_DIC_VERSION );
 	}
 	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
-		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery') );
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery'), WOOLAB_IC_DIC_VERSION );
 		wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'soap' => class_exists('SoapClient'),
