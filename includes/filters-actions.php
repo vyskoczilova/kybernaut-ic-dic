@@ -644,7 +644,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 		$fields['billing_dic_dph']['value'] = $order->get_meta( '_billing_dic_dph', true );
 
 		// Hide the VAT reg. no. field if not country SK.
-		if ( ! $country || ($country && $country[0] !== 'SK') ) {
+		if ( $country !== 'SK' ) {
 			$fields['billing_dic_dph']['show'] = false;
 		}
 
