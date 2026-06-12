@@ -202,6 +202,7 @@ function woolab_icdic_admin_scripts( $hook ) {
 		wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'soap' => class_exists('SoapClient'),
+			'dismiss_nonce' => wp_create_nonce( 'woolab_icdic_notice_dismiss' ),
 		));
 	}
 }

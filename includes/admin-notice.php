@@ -13,9 +13,14 @@ function woolab_icdic_update_notice_settings() {
 
 }
 
-add_action('wp_ajax_nopriv_woolab_icdic_notice_dismiss', 'woolab_icdic_notice_dismiss');
 add_action('wp_ajax_woolab_icdic_notice_dismiss', 'woolab_icdic_notice_dismiss');
 function woolab_icdic_notice_dismiss() {
+    check_ajax_referer( 'woolab_icdic_notice_dismiss', 'nonce' );
+
+    if ( ! current_user_can( 'manage_woocommerce' ) ) {
+        wp_send_json_error( null, 403 );
+    }
+
     update_option( 'woolab_icdic_notice_settings', false );
-    die();
+    wp_send_json_success();
 }
