@@ -128,7 +128,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.10.6 (2026-06-12) =
+= 1.10.6 (2026-06-16) =
 
 * Fix: Slovak DIČ DPH field was never shown on admin order edit screen due to an off-by-one country code comparison (`$country[0]` compared only the first character).
 * Fix: Fatal error on every page load for logged-in EU B2B customers when VIES was unavailable — `ViesException` was re-thrown from the `init` hook and the `update_order_review` AJAX call; the exception is now caught, logged, and treated as "not exempt" instead.
