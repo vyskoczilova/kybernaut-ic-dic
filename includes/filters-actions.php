@@ -387,15 +387,31 @@ function woolab_icdic_toggle_iscomp_field($value, $input) {
 	return $value;
 }
 
+/**
+ * Resolve whether a VAT number grants exemption, via the shared VIES seam.
+ *
+ * Wraps the verifier (which swallows VIES outages and returns 'unverifiable' —
+ * it must never re-throw, since an uncaught exception on init / checkout AJAX
+ * would fatal the whole request when VIES is down) and the pure exemption
+ * decision. Shared by both VAT-exempt hooks.
+ *
+ * @param string $vat_num
+ * @param bool   $ignore_check_fail
+ * @return bool
+ */
+function woolab_icdic_vat_number_exempt( $vat_num, $ignore_check_fail ) {
+	$verify_vat = woolab_icdic_make_vies_verifier( 'Could not validate if VAT number is exempt: %s, returned the following exception:' );
+	return woolab_icdic_vat_exempt_from_state( $verify_vat( $vat_num ), $ignore_check_fail );
+}
+
 function woolab_icdic_set_vat_exempt_for_customer() {
 	if ( wp_doing_ajax() ) {
 		return;
 	}
 
-	$customer      = WC()->customer;
-	$enabled       = woolab_icdic_vat_exempt_enabled();
+	$customer = WC()->customer;
 
-	if (empty($customer) || !$enabled) {
+	if ( empty( $customer ) || ! woolab_icdic_vat_exempt_enabled() ) {
 		return;
 	}
 
@@ -412,11 +428,7 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 	}
 
 	if (!empty($vat_num)) {
-		// VIES outage must never re-throw here: an uncaught exception on init /
-		// checkout AJAX would fatal the whole request whenever VIES is down. The
-		// verifier swallows it and returns 'unverifiable'.
-		$verify_vat    = woolab_icdic_make_vies_verifier( 'Could not validate if VAT number is exempt: %s, returned the following exception:' );
-		$is_vat_exempt = woolab_icdic_vat_exempt_from_state( $verify_vat( $vat_num ), $ignore_vat_check_fail );
+		$is_vat_exempt = woolab_icdic_vat_number_exempt( $vat_num, $ignore_vat_check_fail );
 	}
 
 	$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_customer', $is_vat_exempt, $vat_num, $customer );
@@ -425,9 +437,7 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 }
 
 function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
-	$enabled       = woolab_icdic_vat_exempt_enabled();
-
-	if ( !$enabled ) {
+	if ( ! woolab_icdic_vat_exempt_enabled() ) {
 		return;
 	}
 
@@ -451,11 +461,7 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 	$is_company = ! isset($data['billing_iscomp']) || $data['billing_iscomp'] == 1;
 
 	if ( !empty($vat_num) && $is_company ) {
-		// VIES outage must never re-throw here: an uncaught exception on
-		// checkout AJAX would fatal the whole request whenever VIES is down. The
-		// verifier swallows it and returns 'unverifiable'.
-		$verify_vat    = woolab_icdic_make_vies_verifier( 'Could not validate if VAT number is exempt: %s, returned the following exception:' );
-		$is_vat_exempt = woolab_icdic_vat_exempt_from_state( $verify_vat( $vat_num ), $ignore_vat_check_fail );
+		$is_vat_exempt = woolab_icdic_vat_number_exempt( $vat_num, $ignore_vat_check_fail );
 
 		$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_company', $is_vat_exempt, $data );
 

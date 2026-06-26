@@ -181,6 +181,15 @@ function woolab_icdic_ignore_check_fail() {
 	return apply_filters( 'woolab_icdic_ignore_check_fail', $option );
 }
 
+// NOTE: the four accessors below deliberately do NOT go through
+// woolab_icdic_get_option(). Each preserves its original public filter contract,
+// which differs from the helpers above: the vat_exempt/dic_dicdph filters receive
+// an already-computed bool (and vat_exempt ANDs in wc_tax_enabled / dic_dicdph is
+// an inverted "disable" option), while the toggle/country filters receive the raw
+// 'yes'/'no' string and are normalized with `!== 'no'` afterwards. Routing any of
+// these through woolab_icdic_get_option() would change what the filter sees or the
+// truthiness — do not "consolidate" them into it.
+
 /**
  * Whether automatic VAT exemption for valid intra-EU B2B is enabled.
  * Filter receives (and returns) a bool, matching the original call sites.
