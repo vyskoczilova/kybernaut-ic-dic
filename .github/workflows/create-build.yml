@@ -31,9 +31,10 @@ jobs:
           name: woolab-ic-dic
           path: |
             ${{ github.workspace }}
-            !git/**/*
-            !github/**/*
+            !.git/**/*
+            !.github/**/*
             !tests/**/*
+            !docs/**/*
             !DOCKER_ENV
             !docker_tag
             !output.log
