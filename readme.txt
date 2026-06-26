@@ -131,10 +131,6 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 = 1.11.0 (2026-06-26) =
 
 * Refactor: Internal architecture cleanup with no change to checkout behaviour, validation messages, or public filters. The checkout field validation was extracted into a pure, unit-tested orchestrator behind a thin hook adapter; the two duplicated VAT-exemption code paths were collapsed onto a single shared VIES verification routine; and all settings reads were consolidated behind named accessors.
-* Dev: Added substantial unit-test coverage for the checkout validation and VAT-exemption logic.
-
-= 1.10.6 (2026-06-26) =
-
 * Fix: The SK-only "VAT reg. no." (IČ DPH) field now shows only for Slovak orders on the admin order edit screen. Two issues were fixed: an off-by-one country comparison (`$country[0]` only checked the first character) in the field definition, and the country-based show/hide script not loading on HPOS order edit screens, which left the field visible on Czech orders.
 * Fix: Fatal error on every page load for logged-in EU B2B customers when VIES was unavailable — `ViesException` was re-thrown from the `init` hook and the `update_order_review` AJAX call; the exception is now caught, logged, and treated as "not exempt" instead.
 * Fix: ARES mismatch notice for Tax ID field incorrectly reported the field as "Business ID".
