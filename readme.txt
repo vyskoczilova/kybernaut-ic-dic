@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 1.10.6
+Stable tag: 1.11.0
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,11 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.11.0 (2026-06-26) =
+
+* Refactor: Internal architecture cleanup with no change to checkout behaviour, validation messages, or public filters. The checkout field validation was extracted into a pure, unit-tested orchestrator behind a thin hook adapter; the two duplicated VAT-exemption code paths were collapsed onto a single shared VIES verification routine; and all settings reads were consolidated behind named accessors.
+* Dev: Added substantial unit-test coverage for the checkout validation and VAT-exemption logic.
 
 = 1.10.6 (2026-06-26) =
 
