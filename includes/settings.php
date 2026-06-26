@@ -50,7 +50,7 @@ function woolab_icdic_icdic_general_settings($settings) {
         'title'   => __( 'CZ: Validate and autofill based on ARES', 'woolab-ic-dic' ),
         'desc'    => __( 'Enable autofill and validation for Company, VAT number, Address, City, and Postcode fields based on Czech database ARES. Requires checked the option above.', 'woolab-ic-dic' ),
         'id'      => 'woolab_icdic_ares_fill',
-        'default' => 'false',
+        'default' => 'no',
         'type'    => 'checkbox',
     );
     $settings[] = array(

@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.10.5
+ Version:				1.10.6
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -13,8 +13,8 @@
  Donate link:			https://paypal.me/KarolinaVyskocilova/
  Requires Plugins: 		woocommerce
  WC requires at least:	3.5.0
- WC tested up to:		10.3.5
- Copyright:				© 2016-2025 Karolína Vyskočilová.
+ WC tested up to:		10.9.1
+ Copyright:				© 2016-2026 Karolína Vyskočilová.
  License:				GNU General Public License v3.0
  License URI:			http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -40,7 +40,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.10.4' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.10.6' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -139,6 +139,7 @@ function woolab_icdic_enqueue_scripts() {
 		wp_enqueue_script( 'woolab-icdic-public-js', WOOLAB_IC_DIC_URL . 'assets/js/public'.$suffix.'.js', array( 'jquery' ), WOOLAB_IC_DIC_VERSION );
 		wp_localize_script( 'woolab-icdic-public-js', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'woolab_icdic_ares' ),
 			'l18n_not_valid' => __('Business ID is invalid.', 'woolab-ic-dic'),
 			'l18n_error' => __('Unexpected error occurred. Try it again.', 'woolab-ic-dic'),
 			'l18n_ok' => __('Information loaded succesfully from ARES.', 'woolab-ic-dic'),
@@ -192,31 +193,31 @@ function woolab_icdic_get_option( $name, $default = 'yes' ) {
 
 function woolab_icdic_admin_scripts( $hook ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
-	if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
-		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', WOOLAB_IC_DIC_URL );
-		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery') );
+
+	// Order edit screen: legacy CPT uses post(-new).php, HPOS uses the
+	// wc-orders admin page (hook 'woocommerce_page_wc-orders'). Without the
+	// HPOS hook the country-based show/hide JS never loads, so the SK-only
+	// "VAT reg. no." field stayed visible on CZ orders under HPOS.
+	if ( 'post.php' === $hook || 'post-new.php' === $hook || 'woocommerce_page_wc-orders' === $hook ) {
+		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', array(), WOOLAB_IC_DIC_VERSION );
+		wp_enqueue_script( 'woolab-ic-dic-admin-edit', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery'), WOOLAB_IC_DIC_VERSION );
 	}
 	if ( 'woocommerce_page_wc-settings' === $hook || current_user_can('manage_woocommerce') && get_option( 'woolab_icdic_notice_settings', true ) ) {
-		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery') );
+		wp_enqueue_script( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/js/admin'.$suffix.'.js', array('jquery'), WOOLAB_IC_DIC_VERSION );
 		wp_localize_script( 'woolab-ic-dic-admin', 'woolab', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'soap' => class_exists('SoapClient'),
+			'dismiss_nonce' => wp_create_nonce( 'woolab_icdic_notice_dismiss' ),
 		));
 	}
 }
 
 function woolab_icdic_ares_ajax(){
-	if ( isset($_REQUEST) ) {
+	check_ajax_referer( 'woolab_icdic_ares', 'nonce' );
 
-		$value = woolab_icdic_ares( $_REQUEST['ico'] );
-		if ( $value ) {
-			echo json_encode( $value );
-		} else {
-			echo null;
-		}
+	$ico = isset( $_REQUEST['ico'] ) ? wc_clean( wp_unslash( $_REQUEST['ico'] ) ) : '';
 
-	}
-	die();
+	wp_send_json( woolab_icdic_ares( $ico ) );
 };
 
 /**

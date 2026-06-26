@@ -36,6 +36,7 @@
                     url: ajaxurl,
                     data: {
                         action: "woolab_icdic_notice_dismiss",
+                        nonce: woolab.dismiss_nonce,
                     }
                 });	
             });
