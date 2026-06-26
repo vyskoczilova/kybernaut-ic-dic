@@ -149,6 +149,39 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 	return woolab_icdic_add_after_company( $fields, $additional_fields, 'billing' );
 }
 
+/**
+ * Build the VIES verification closure shared by the checkout-validation and
+ * VAT-exemption hooks. Keeps the ibericode Validator/ViesException behind a seam
+ * and collapses validation into the four-state string the pure modules consume
+ * ('valid'|'bad_format'|'invalid'|'unverifiable').
+ *
+ * $log_message is the sprintf format logged (with the VAT number) when VIES is
+ * unreachable. It differs per call site — the checkout path and the exemption
+ * path used distinct wording — so it stays parameterized to preserve the
+ * original log output verbatim.
+ *
+ * @param string $log_message sprintf format with a single %s for the VAT number.
+ * @return callable fn(string $vat): string
+ */
+function woolab_icdic_make_vies_verifier( $log_message ) {
+	return function ( $vat ) use ( $log_message ) {
+		$validator = new Validator();
+
+		if ( ! $validator->validateVatNumberFormat( $vat ) ) {
+			return 'bad_format';
+		}
+
+		try {
+			return $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+		} catch ( ViesException $exception ) {
+			$logger = Logger::getInstance();
+			$logger->log( sprintf( $log_message, $vat ) );
+			$logger->log( $exception );
+			return 'unverifiable';
+		}
+	};
+}
+
 // check field on checkout
 //
 // Thin adapter: cleans $_POST, resolves all settings/filters/options into plain
@@ -165,24 +198,7 @@ function woolab_icdic_checkout_field_process() {
 
 	$country = wc_clean( wp_unslash( $_POST['billing_country'] ) );
 
-	// VIES validation closure. Keeps the ibericode Validator/ViesException behind
-	// the seam and collapses validation into a four-state string for the pure module.
-	$verify_vat = function ( $vat ) {
-		$validator = new Validator();
-
-		if ( ! $validator->validateVatNumberFormat( $vat ) ) {
-			return 'bad_format';
-		}
-
-		try {
-			return $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
-		} catch ( ViesException $exception ) {
-			$logger = Logger::getInstance();
-			$logger->log( sprintf( 'Could not validate VAT number: %s, returned the following exception:', $vat ) );
-			$logger->log( $exception );
-			return 'unverifiable';
-		}
-	};
+	$verify_vat = woolab_icdic_make_vies_verifier( 'Could not validate VAT number: %s, returned the following exception:' );
 
 	$countries = new Countries();
 
@@ -391,29 +407,18 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 	$base_country          = apply_filters( 'woolab_icdic_base_country', $base_country );
 	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
 	$is_vat_exempt         = false;
+	$billing_country       = $customer->get_meta('billing_country');
 
-	if (!empty($customer->get_meta('billing_country')) && $customer->get_meta('billing_country') !== $base_country) {
-		$vat_num = $customer->get_meta('billing_country') == 'SK' ? $customer->get_meta('billing_dic_dph') : $customer->get_meta('billing_dic');
+	if (!empty($billing_country) && $billing_country !== $base_country) {
+		$vat_num = woolab_icdic_select_vat_number( $billing_country, $customer->get_meta('billing_dic'), $customer->get_meta('billing_dic_dph') );
 	}
 
 	if (!empty($vat_num)) {
-		$validator = new Validator();
-		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
-			try {
-				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
-			} catch ( ViesException $exception ) {
-				$logger = Logger::getInstance();
-				$logger->log(sprintf('Could not validate if VAT number is exempt: %s, returned the following exception:', $vat_num));
-				$logger->log($exception);
-				if ( $ignore_vat_check_fail ) {
-					$is_vat_exempt = true;
-				} else {
-					// Don't re-throw: an uncaught exception here would fatal the
-					// whole request (init / checkout AJAX) whenever VIES is down.
-					$is_vat_exempt = false;
-				}
-			}
-		}
+		// VIES outage must never re-throw here: an uncaught exception on init /
+		// checkout AJAX would fatal the whole request whenever VIES is down. The
+		// verifier swallows it and returns 'unverifiable'.
+		$verify_vat    = woolab_icdic_make_vies_verifier( 'Could not validate if VAT number is exempt: %s, returned the following exception:' );
+		$is_vat_exempt = woolab_icdic_vat_exempt_from_state( $verify_vat( $vat_num ), $ignore_vat_check_fail );
 	}
 
 	$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_customer', $is_vat_exempt, $vat_num, $customer );
@@ -443,30 +448,16 @@ function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
 		return;
 	}
 
-	$vat_num = $country === 'SK' ? ( isset( $data['billing_dic_dph'] ) ? $data['billing_dic_dph'] : '' ) : ( isset( $data['billing_dic'] ) ? $data['billing_dic'] : '' );
+	$vat_num = woolab_icdic_select_vat_number( $country, isset( $data['billing_dic'] ) ? $data['billing_dic'] : '', isset( $data['billing_dic_dph'] ) ? $data['billing_dic_dph'] : '' );
 
 	$is_company = ! isset($data['billing_iscomp']) || $data['billing_iscomp'] == 1;
 
 	if ( !empty($vat_num) && $is_company ) {
-		$validator     = new Validator();
-		$is_vat_exempt = false;
-
-		if ( $validator->validateVatNumberFormat( $vat_num ) ) {
-			try {
-				$is_vat_exempt = $validator->validateVatNumber( $vat_num );
-			} catch ( ViesException $exception ) {
-				$logger = Logger::getInstance();
-				$logger->log(sprintf('Could not validate if VAT number is exempt: %s, returned the following exception:', $vat_num));
-				$logger->log($exception);
-				if ( $ignore_vat_check_fail ) {
-					$is_vat_exempt = true;
-				} else {
-					// Don't re-throw: an uncaught exception here would fatal the
-					// whole request (init / checkout AJAX) whenever VIES is down.
-					$is_vat_exempt = false;
-				}
-			}
-		}
+		// VIES outage must never re-throw here: an uncaught exception on
+		// checkout AJAX would fatal the whole request whenever VIES is down. The
+		// verifier swallows it and returns 'unverifiable'.
+		$verify_vat    = woolab_icdic_make_vies_verifier( 'Could not validate if VAT number is exempt: %s, returned the following exception:' );
+		$is_vat_exempt = woolab_icdic_vat_exempt_from_state( $verify_vat( $vat_num ), $ignore_vat_check_fail );
 
 		$is_vat_exempt = apply_filters( 'woolab_icdic_vat_exempt_company', $is_vat_exempt, $data );
 

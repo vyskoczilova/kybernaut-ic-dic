@@ -434,4 +434,43 @@ class ValidationTest extends TestCase {
 		$this->assertSame( array(), $this->codes( $result ) );
 		$this->assertTrue( $result['check_fail_ignored'] );
 	}
+
+	// --- VAT-exemption helpers (candidate 3) -------------------------------
+
+	/**
+	 * @dataProvider providerVatExemptFromState
+	 */
+	public function testVatExemptFromState( $state, $ignore, $expected ) {
+		$this->assertSame( $expected, woolab_icdic_vat_exempt_from_state( $state, $ignore ) );
+	}
+
+	public static function providerVatExemptFromState() {
+		return array(
+			'valid is exempt (ignore off)'        => array( 'valid', false, true ),
+			'valid is exempt (ignore on)'         => array( 'valid', true, true ),
+			'invalid not exempt'                  => array( 'invalid', false, false ),
+			'invalid not exempt (ignore on)'      => array( 'invalid', true, false ),
+			'bad format not exempt'               => array( 'bad_format', false, false ),
+			'bad format not exempt (ignore on)'   => array( 'bad_format', true, false ),
+			'unverifiable follows ignore: off'    => array( 'unverifiable', false, false ),
+			'unverifiable follows ignore: on'     => array( 'unverifiable', true, true ),
+		);
+	}
+
+	/**
+	 * @dataProvider providerSelectVatNumber
+	 */
+	public function testSelectVatNumber( $country, $dic, $dic_dph, $expected ) {
+		$this->assertSame( $expected, woolab_icdic_select_vat_number( $country, $dic, $dic_dph ) );
+	}
+
+	public static function providerSelectVatNumber() {
+		return array(
+			'SK uses dic_dph'        => array( 'SK', '2020317057', 'SK2020317057', 'SK2020317057' ),
+			'CZ uses dic'            => array( 'CZ', 'CZ27082440', '', 'CZ27082440' ),
+			'other EU uses dic'      => array( 'DE', 'DE123456789', '', 'DE123456789' ),
+			'SK empty dic_dph'       => array( 'SK', '2020317057', '', '' ),
+			'CZ empty dic'           => array( 'CZ', '', '', '' ),
+		);
+	}
 }

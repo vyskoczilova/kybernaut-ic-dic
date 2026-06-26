@@ -226,3 +226,41 @@ function woolab_icdic_validate_checkout( array $input ) {
 		'check_fail_ignored' => $vat_check_fail_ignored,
 	);
 }
+
+/**
+ * Pure VAT-exemption decision from a four-state VIES result.
+ *
+ * Mirrors the original exemption body verbatim: a valid VAT number is exempt; a
+ * VIES outage (ViesException, surfaced as 'unverifiable') falls back to the
+ * ignore-check-fail setting; everything else (bad format, format-ok-but-invalid)
+ * is not exempt. Shared by both VAT-exempt hooks.
+ *
+ * @param string $state             'valid'|'bad_format'|'invalid'|'unverifiable' from verify_vat.
+ * @param bool   $ignore_check_fail Whether a VIES outage should still grant exemption.
+ * @return bool
+ */
+function woolab_icdic_vat_exempt_from_state( $state, $ignore_check_fail ) {
+	if ( $state === 'valid' ) {
+		return true;
+	}
+	if ( $state === 'unverifiable' ) {
+		return (bool) $ignore_check_fail;
+	}
+	return false;
+}
+
+/**
+ * Pure selection of which company field carries the VIES-checkable VAT number.
+ *
+ * Slovakia uses the separate DIČ DPH (VAT registration) field; every other
+ * country uses the DIČ field. This rule is shared by the checkout validation
+ * and both VAT-exempt hooks.
+ *
+ * @param string $country Billing country code.
+ * @param string $dic     DIČ value.
+ * @param string $dic_dph DIČ DPH value.
+ * @return string
+ */
+function woolab_icdic_select_vat_number( $country, $dic, $dic_dph ) {
+	return $country === 'SK' ? $dic_dph : $dic;
+}
