@@ -193,7 +193,12 @@ function woolab_icdic_get_option( $name, $default = 'yes' ) {
 
 function woolab_icdic_admin_scripts( $hook ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
-	if ( 'post.php' === $hook  || 'post-new.php' === $hook ) {
+
+	// Order edit screen: legacy CPT uses post(-new).php, HPOS uses the
+	// wc-orders admin page (hook 'woocommerce_page_wc-orders'). Without the
+	// HPOS hook the country-based show/hide JS never loads, so the SK-only
+	// "VAT reg. no." field stayed visible on CZ orders under HPOS.
+	if ( 'post.php' === $hook || 'post-new.php' === $hook || 'woocommerce_page_wc-orders' === $hook ) {
 		wp_enqueue_style( 'woolab-ic-dic-admin', WOOLAB_IC_DIC_URL . 'assets/css/admin.css', array(), WOOLAB_IC_DIC_VERSION );
 		wp_enqueue_script( 'woolab-ic-dic-admin-edit', WOOLAB_IC_DIC_URL . 'assets/js/admin-edit'.$suffix.'.js', array('jquery'), WOOLAB_IC_DIC_VERSION );
 	}
