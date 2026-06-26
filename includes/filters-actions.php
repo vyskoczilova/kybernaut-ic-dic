@@ -150,229 +150,142 @@ function woolab_icdic_billing_fields( $fields, $country ) {
 }
 
 // check field on checkout
+//
+// Thin adapter: cleans $_POST, resolves all settings/filters/options into plain
+// flags, builds the two network closures (ARES + VIES), delegates the decision
+// to the pure orchestrator woolab_icdic_validate_checkout() (includes/validation.php),
+// then maps the returned structured error codes back to the exact original notices.
 function woolab_icdic_checkout_field_process() {
 
 	// Bail if form not fully filled.
+	// NOTE: this early return also skips writing the session flag below — preserved on purpose.
 	if (!isset($_POST['billing_country'])) {
 		return false;
 	}
 
-	$country               = wc_clean( wp_unslash( $_POST['billing_country'] ) );
-	$ignore_vat_check_fail = woolab_icdic_ignore_check_fail();
+	$country = wc_clean( wp_unslash( $_POST['billing_country'] ) );
 
-	// Flag to check if VAT check fail was ignored.
-	// The information will be saved in the order meta in woocommerce_new_order hook.
-	$vat_check_fail_ignored = false;
+	// VIES validation closure. Keeps the ibericode Validator/ViesException behind
+	// the seam and collapses validation into a four-state string for the pure module.
+	$verify_vat = function ( $vat ) {
+		$validator = new Validator();
 
-	// BUSINESS ID
-	if ( isset( $_POST['billing_ic'] ) && $_POST['billing_ic'] ) {
-
-		/**
-		 * Remove white spaces
-		 * @since 1.4.0
-		 */
-		$ico = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_ic'] ) ) );
-
-		// CZ
-		if ( $country == "CZ" ) {
-
-			// ARES Check Enabled
-			if ( woolab_icdic_ares_check() ) {
-
-				$ares = woolab_icdic_ares( $ico  );
-				if ( $ares ) {
-					if ( $ares['error'] ) {
-						$is_internal_error = ( ! empty( $ares['internal_error'] ) );
-
-						if ( $is_internal_error && $ignore_vat_check_fail ) {
-							$vat_check_fail_ignored = true;
-						} else {
-							wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic' ) . ' ' . $ares['error'], 'error' );
-						}
-					} elseif ( woolab_icdic_ares_fill() ) {
-						if ( isset( $_POST['billing_dic'] ) && wc_clean( wp_unslash($_POST['billing_dic'])) != $ares['dic'] ) {
-							$missing_fields[] = __( 'Tax ID', 'woolab-ic-dic' );
-						}
-						if ( wc_clean( wp_unslash( $_POST['billing_company'] ?? '' ) ) != $ares['spolecnost'] ) {
-							$missing_fields[] = __( 'Company', 'woocommerce' );
-						}
-						if ( wc_clean( wp_unslash($_POST['billing_postcode'])) != $ares['psc'] ) {
-							$missing_fields[] = __( 'Postcode / ZIP', 'woocommerce' );
-						}
-						if ( wc_clean( wp_unslash($_POST['billing_city'])) != $ares['mesto'] ) {
-							$missing_fields[] = __( 'Town / City', 'woocommerce' );
-						}
-						if ( wc_clean( wp_unslash($_POST['billing_address_1'])) != $ares['adresa'] ) {
-							$missing_fields[] = __( 'Address', 'woocommerce' );
-						}
-						if ( isset( $missing_fields ) ) {
-							wc_add_notice( sprintf( _n( '%s is not corresponding to ARES.', '%s are not corresponding to ARES.', count( $missing_fields ), 'woolab-ic-dic' ), wc_format_list_of_items( $missing_fields ) ), 'error' );
-						}
-					}
-				} else {
-					if ( $ignore_vat_check_fail ) {
-						$vat_check_fail_ignored = true;
-					} else {
-						wc_add_notice( __( 'Unexpected error occurred. Try it again.', 'woolab-ic-dic' ), 'error' );
-					}
-				}
-
-			// ARES Check Disabled
-			} elseif ( ! woolab_icdic_verify_ic( $ico )) {
-					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
-			}
-
-		// SK
-		} elseif ( $country == "SK" ) {
-			if ( $ico ) {
-				if ( ! woolab_icdic_verify_ic( $ico )) {
-					wc_add_notice( __( 'Enter a valid Business ID', 'woolab-ic-dic'  ), 'error' );
-				}
-			}
+		if ( ! $validator->validateVatNumberFormat( $vat ) ) {
+			return 'bad_format';
 		}
 
-	}
-
-	// VAT / DIC
-	if ( isset( $_POST['billing_dic'] ) && $_POST['billing_dic'] ) {
-
-		/**
-		 * Remove white spaces
-		 * @since 1.4.0
-		 */
-
-		$dic = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic'] ) ) );
-		$countries = new Countries();
-
-
-		// Check if in EU
-		if ( $countries->isCountryCodeInEU( $country ) ) {
-
-			// If Validate in VIES
-			// Slovak DIC cannot (and shouldn't) be validated in VIES
-			if ( woolab_icdic_vies_check() && $country != 'SK' ) {
-
-				// Match VAT country prefix and country code.
-				// @since 1.7.3.
-				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && woolab_icdic_get_vat_number_country_code($dic) !== $country ) {
-					wc_add_notice( __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
-				}
-
-				// Match VAT country prefix and shipping country code.
-				// @since 1.10.0.
-				if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && ! empty( $_POST['ship_to_different_address'] ) && isset( $_POST['shipping_country'] ) && woolab_icdic_get_vat_number_country_code($dic) !== wc_clean( wp_unslash( $_POST['shipping_country'] ) ) ) {
-					wc_add_notice( __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
-				}
-
-				$validator = new Validator();
-
-				if ( ! $validator->validateVatNumberFormat( $dic )) {
-					wc_add_notice( __( 'VAT number has not correct format', 'woolab-ic-dic' ), 'error' );
-				}
-
-				try {
-					$vat_number_valid = $validator->validateVatNumber( $dic );
-
-					if ( ! $vat_number_valid ) {
-						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
-					}
-				} catch ( ViesException $exception ) {
-					$logger = Logger::getInstance();
-					$logger->log(sprintf('Could not validate VAT number: %s, returned the following exception:', $dic));
-					$logger->log($exception);
-					if ( $ignore_vat_check_fail ) {
-						$vat_check_fail_ignored = true;
-					} else {
-						wc_add_notice( __( 'Could not validate VAT number.', 'woolab-ic-dic' ), 'error' );
-					}
-				}
-
-			// Validate CZ and SK mathematicaly
-			} else {
-				if ( $country == "CZ" ) {
-					if ( ! ( woolab_icdic_verify_rc( substr( $dic, 2 )) || woolab_icdic_verify_dic( substr( $dic, 2 ) ) ) || substr( $dic, 0, 2) != "CZ") {
-						wc_add_notice( __( 'Enter a valid VAT number', 'woolab-ic-dic' ), 'error' );
-					}
-				} elseif ( $country == "SK" ) {
-
-					if ( ! woolab_icdic_verify_dic_sk( $dic ) ) {
-						wc_add_notice( __( 'Enter a valid Tax ID', 'woolab-ic-dic' ), 'error' );
-					}
-				}
-			}
-
+		try {
+			return $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+		} catch ( ViesException $exception ) {
+			$logger = Logger::getInstance();
+			$logger->log( sprintf( 'Could not validate VAT number: %s, returned the following exception:', $vat ) );
+			$logger->log( $exception );
+			return 'unverifiable';
 		}
+	};
 
-	}
-	// DIC is mandatory in Slovakia, this is not a VAT number
-	else {
-		// if IC is set, DIC must be set as well in Slovakia
-		$required_ic_and_dic = apply_filters( 'woolab_icdic_sk_required_ic_and_dic', true );
-		if( $required_ic_and_dic && !empty( $_POST['billing_ic'] ) && empty( $_POST['billing_dic'] ) && $country == 'SK' ) {
-			wc_add_notice( __( 'Enter a valid Tax ID', 'woolab-ic-dic' ), 'error' );
-		}
-	}
+	$countries = new Countries();
 
-	// IC DPH / DIC DPH
-	if ( isset( $_POST['billing_dic_dph'] ) && $_POST['billing_dic_dph'] && $country == 'SK' ) {
+	$input = array(
+		'country'               => $country,
+		'ic'                    => isset( $_POST['billing_ic'] ) ? wc_clean( wp_unslash( $_POST['billing_ic'] ) ) : '',
+		'dic'                   => isset( $_POST['billing_dic'] ) ? wc_clean( wp_unslash( $_POST['billing_dic'] ) ) : '',
+		'dic_present'           => isset( $_POST['billing_dic'] ),
+		'dic_dph'               => isset( $_POST['billing_dic_dph'] ) ? wc_clean( wp_unslash( $_POST['billing_dic_dph'] ) ) : '',
+		'company'               => wc_clean( wp_unslash( $_POST['billing_company'] ?? '' ) ),
+		'postcode'              => wc_clean( wp_unslash( $_POST['billing_postcode'] ?? '' ) ),
+		'city'                  => wc_clean( wp_unslash( $_POST['billing_city'] ?? '' ) ),
+		'address_1'             => wc_clean( wp_unslash( $_POST['billing_address_1'] ?? '' ) ),
+		'ship_to_different'     => ! empty( $_POST['ship_to_different_address'] ),
+		'shipping_country'      => isset( $_POST['shipping_country'] ) ? wc_clean( wp_unslash( $_POST['shipping_country'] ) ) : null,
+		'ares_check'            => (bool) woolab_icdic_ares_check(),
+		'ares_fill'             => (bool) woolab_icdic_ares_fill(),
+		'vies_check'            => (bool) woolab_icdic_vies_check(),
+		'ignore_check_fail'     => (bool) woolab_icdic_ignore_check_fail(),
+		'check_country_match'   => (bool) apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ),
+		'require_sk_ic_and_dic' => (bool) apply_filters( 'woolab_icdic_sk_required_ic_and_dic', true ),
+		'check_dic_dph_match'   => (bool) apply_filters( 'woolab_icdic_enable_dic_dicdph_match_check', get_option( 'woolab_icdic_disable_dic_dicdph_match', 'no' ) !== 'yes' ),
+		'country_in_eu'         => $countries->isCountryCodeInEU( $country ),
+		'verify_vat'            => $verify_vat,
+		// Raw woolab_icdic_ares() result (or falsy) — passed as a callable directly.
+		'lookup_ares'           => 'woolab_icdic_ares',
+	);
 
-		/**
-		 * Remove white spaces
-		 * @since 1.4.0
-		 */
-		$dic     = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic'] ?? '' ) ) );
-		$dic_dph = preg_replace('/\s+/', '', wc_clean( wp_unslash( $_POST['billing_dic_dph'] ) ) );
+	$result = woolab_icdic_validate_checkout( $input );
 
-		// Match VAT country prefix and country code.
-		// @since 1.7.4.
-		if ( apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ) && woolab_icdic_get_vat_number_country_code($dic_dph) !== $country ) {
-			wc_add_notice( __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' ), 'error' );
-		}
-
-		// Verify IC DPH
-		// If Validate in VIES
-		if ( woolab_icdic_vies_check() ) {
-
-			$validator = new Validator();
-
-			try {
-				$vat_number_valid = $validator->validateVatNumber( $dic_dph );
-
-				if ( ! $vat_number_valid ) {
-					wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
-				}
-			} catch ( ViesException $exception ) {
-				$logger = Logger::getInstance();
-				$logger->log(sprintf('Could not validate VAT number: %s, returned the following exception:', $dic_dph));
-				$logger->log($exception);
-				if ( $ignore_vat_check_fail ) {
-					$vat_check_fail_ignored = true;
-				} else {
-					wc_add_notice( __( 'Could not validate VAT number.', 'woolab-ic-dic' ), 'error' );
-				}
-			}
-
-		} else {
-
-			if ( ! woolab_icdic_verify_dic_dph_sk( $dic_dph ) ) {
-				wc_add_notice( _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' ), 'error' );
-			}
-
-		}
-		
-		// IC DPH has to match to Tax ID number without SK
-		$dic_dicdph_match_enabled = get_option( 'woolab_icdic_disable_dic_dicdph_match', 'no' ) !== 'yes';
-		if ( apply_filters('woolab_icdic_enable_dic_dicdph_match_check', $dic_dicdph_match_enabled) && $dic_dph && $dic ) {
-			if ( $dic != substr( $dic_dph, 2) ) {
-				wc_add_notice( __( 'Tax ID or VAT number is not valid.', 'woolab-ic-dic' ), 'error' );
-			}
-
-		}
+	// Map each structured error code back to its exact original notice.
+	foreach ( $result['errors'] as $error ) {
+		wc_add_notice( woolab_icdic_checkout_error_message( $error ), 'error' );
 	}
 
 	// Set flag about Business ID or VAT number check fails.
-	WC()->session->set( 'woolab_icdic_vat_check_fail_ignored', $vat_check_fail_ignored );
+	// The information will be saved in the order meta in woocommerce_new_order hook.
+	WC()->session->set( 'woolab_icdic_vat_check_fail_ignored', $result['check_fail_ignored'] );
 
+}
+
+/**
+ * Render a structured validation error to its original, translated notice string.
+ *
+ * One-to-one with the codes emitted by woolab_icdic_validate_checkout(); the text,
+ * text domain, and context match the strings the monolithic hook used to emit.
+ *
+ * @param array $error ['code' => string, 'data' => array]
+ * @return string
+ */
+function woolab_icdic_checkout_error_message( array $error ) {
+	switch ( $error['code'] ) {
+		case 'invalid_business_id':
+			$message = __( 'Enter a valid Business ID', 'woolab-ic-dic' );
+			if ( isset( $error['data']['ares_message'] ) ) {
+				$message .= ' ' . $error['data']['ares_message'];
+			}
+			return $message;
+
+		case 'ares_unexpected':
+			return __( 'Unexpected error occurred. Try it again.', 'woolab-ic-dic' );
+
+		case 'ares_mismatch':
+			$labels = array(
+				'tax_id'   => __( 'Tax ID', 'woolab-ic-dic' ),
+				'company'  => __( 'Company', 'woocommerce' ),
+				'postcode' => __( 'Postcode / ZIP', 'woocommerce' ),
+				'city'     => __( 'Town / City', 'woocommerce' ),
+				'address'  => __( 'Address', 'woocommerce' ),
+			);
+			$missing_fields = array();
+			foreach ( $error['data']['fields'] as $field ) {
+				$missing_fields[] = $labels[ $field ];
+			}
+			return sprintf( _n( '%s is not corresponding to ARES.', '%s are not corresponding to ARES.', count( $missing_fields ), 'woolab-ic-dic' ), wc_format_list_of_items( $missing_fields ) );
+
+		case 'vat_country_mismatch_billing':
+			return __( 'The billing country does not correspond to the country of the VAT number.', 'woolab-ic-dic' );
+
+		case 'vat_country_mismatch_shipping':
+			return __( 'The shipping country does not correspond to the country of the VAT number.', 'woolab-ic-dic' );
+
+		case 'vat_format':
+			return __( 'VAT number has not correct format', 'woolab-ic-dic' );
+
+		case 'invalid_vat':
+		case 'invalid_dic_cz':
+			return __( 'Enter a valid VAT number', 'woolab-ic-dic' );
+
+		case 'vat_unverifiable':
+			return __( 'Could not validate VAT number.', 'woolab-ic-dic' );
+
+		case 'invalid_tax_id_sk':
+			return __( 'Enter a valid Tax ID', 'woolab-ic-dic' );
+
+		case 'invalid_vat_dph':
+			return _x( 'Enter a valid VAT number', 'IC DPH', 'woolab-ic-dic' );
+
+		case 'dic_dph_mismatch':
+			return __( 'Tax ID or VAT number is not valid.', 'woolab-ic-dic' );
+	}
+
+	return '';
 }
 
 // My address formatted

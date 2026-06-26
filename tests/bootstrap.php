@@ -15,4 +15,5 @@ WP_Mock::bootstrap();
 
 require_once dirname(__DIR__) . '/includes/ares.php';
 require_once dirname(__DIR__) . '/includes/helpers.php';
+require_once dirname(__DIR__) . '/includes/validation.php';
 require_once dirname(__DIR__) . '/includes/logger.php';

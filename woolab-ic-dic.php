@@ -84,6 +84,7 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/admin-notice.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/validation.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/logger.php');
