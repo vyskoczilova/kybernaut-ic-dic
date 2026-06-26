@@ -59,8 +59,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 	 * Enable/Disable fields toggle
 	 * @since 1.5.0
 	 */
-	$woolabToggle = apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') );
-	if($woolabToggle !== 'no') {
+	if( woolab_icdic_toggle_enabled() ) {
 		$fields['billing']['billing_iscomp'] = array(
 			'type'        => 'checkbox',
 			'label_class' => apply_filters( 'woolab_icdic_label_class_billing_iscomp', array('woocommerce-form__label', 'woocommerce-form__label-for-checkbox', 'checkbox') ),
@@ -85,8 +84,7 @@ function woolab_icdic_checkout_fields( $fields ) {
 	 * Move Country above the toggle, makes more sense when filling in VAT / TAX ID
 	 * @since 1.5.0
 	 */
-	$countryFirst = apply_filters( 'woolab_icdic_country_ontop', get_option('woolab_icdic_country_switch', 'no') );
-	if($countryFirst !== 'no') {
+	if( woolab_icdic_country_ontop_enabled() ) {
 		$fields['billing']['billing_country']['priority'] = 28;
 	}
 
@@ -220,7 +218,7 @@ function woolab_icdic_checkout_field_process() {
 		'ignore_check_fail'     => (bool) woolab_icdic_ignore_check_fail(),
 		'check_country_match'   => (bool) apply_filters( 'woolab_icdic_check_billing_country_and_dic', true ),
 		'require_sk_ic_and_dic' => (bool) apply_filters( 'woolab_icdic_sk_required_ic_and_dic', true ),
-		'check_dic_dph_match'   => (bool) apply_filters( 'woolab_icdic_enable_dic_dicdph_match_check', get_option( 'woolab_icdic_disable_dic_dicdph_match', 'no' ) !== 'yes' ),
+		'check_dic_dph_match'   => (bool) woolab_icdic_dic_dicdph_match_enabled(),
 		'country_in_eu'         => $countries->isCountryCodeInEU( $country ),
 		'verify_vat'            => $verify_vat,
 		// Raw woolab_icdic_ares() result (or falsy) — passed as a callable directly.
@@ -395,7 +393,7 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 	}
 
 	$customer      = WC()->customer;
-	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
+	$enabled       = woolab_icdic_vat_exempt_enabled();
 
 	if (empty($customer) || !$enabled) {
 		return;
@@ -427,7 +425,7 @@ function woolab_icdic_set_vat_exempt_for_customer() {
 }
 
 function woolab_icdic_validate_vat_exempt_for_company( $post_data ) {
-	$enabled       = apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option('woolab_icdic_vat_exempt_switch', 'no') !== 'no' && wc_tax_enabled() ) );
+	$enabled       = woolab_icdic_vat_exempt_enabled();
 
 	if ( !$enabled ) {
 		return;

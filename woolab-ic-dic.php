@@ -149,7 +149,7 @@ function woolab_icdic_enqueue_scripts() {
 			'ares_fill' => woolab_icdic_ares_fill(),
 			'ignore_check_fail' => woolab_icdic_ignore_check_fail(),
 		));
-		if ( apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') ) === 'yes') {
+		if ( woolab_icdic_toggle_enabled() ) {
 			wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
 		}
 	}
@@ -179,6 +179,40 @@ function woolab_icdic_vies_check() {
 function woolab_icdic_ignore_check_fail() {
 	$option = woolab_icdic_get_option( 'woolab_icdic_ignore_check_fail', 'no' );
 	return apply_filters( 'woolab_icdic_ignore_check_fail', $option );
+}
+
+/**
+ * Whether automatic VAT exemption for valid intra-EU B2B is enabled.
+ * Filter receives (and returns) a bool, matching the original call sites.
+ */
+function woolab_icdic_vat_exempt_enabled() {
+	return apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option( 'woolab_icdic_vat_exempt_switch', 'no' ) !== 'no' && wc_tax_enabled() ) );
+}
+
+/**
+ * Whether the SK DIČ ↔ IČ DPH match check is enabled. Stored as an inverted
+ * "disable" option. Filter receives (and returns) a bool.
+ */
+function woolab_icdic_dic_dicdph_match_enabled() {
+	return apply_filters( 'woolab_icdic_enable_dic_dicdph_match_check', get_option( 'woolab_icdic_disable_dic_dicdph_match', 'no' ) !== 'yes' );
+}
+
+/**
+ * Whether the "buying as a company" fields toggle is enabled.
+ * Filter receives (and returns) the raw 'yes'/'no' string; normalization to bool
+ * happens here.
+ */
+function woolab_icdic_toggle_enabled() {
+	return apply_filters( 'woolab_icdic_toggle', get_option( 'woolab_icdic_toggle_switch', 'no' ) ) !== 'no';
+}
+
+/**
+ * Whether the country field is moved above the toggle.
+ * Filter receives (and returns) the raw 'yes'/'no' string; normalization to bool
+ * happens here.
+ */
+function woolab_icdic_country_ontop_enabled() {
+	return apply_filters( 'woolab_icdic_country_ontop', get_option( 'woolab_icdic_country_switch', 'no' ) ) !== 'no';
 }
 
 function woolab_icdic_get_option( $name, $default = 'yes' ) {
