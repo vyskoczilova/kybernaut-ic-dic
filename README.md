@@ -7,7 +7,7 @@ Download here: https://wordpress.org/plugins/woolab-ic-dic/
 
 ## Unreleased changes
 
-* none
+* Refactor (1.11.0): internal architecture cleanup, behaviour-preserving — no change to checkout behaviour, validation messages, or public filters. The checkout field validation was extracted into a pure, unit-tested orchestrator behind a thin hook adapter; the two duplicated VAT-exemption code paths were collapsed onto a single shared VIES verification seam; and all settings reads were consolidated behind named accessors. Adds substantial unit-test coverage.
 
 ## Filters
 

@@ -10,7 +10,11 @@
 /gulpfile.js
 .DS_Store
 phpunit.cache
+.phpunit.result.cache
+phpunit.xml
 /tests
+/docs
+/.vscode
 DOCKER_ENV
 docker_tag
 output.log

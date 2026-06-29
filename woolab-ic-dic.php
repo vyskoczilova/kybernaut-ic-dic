@@ -3,7 +3,7 @@
  Plugin Name:			Kybernaut IC DIC
  Plugin URI:			https://kybernaut.cz/pluginy/kybernaut-ic-dic
  Description:			Adds Czech Company & VAT numbers (IČO & DIČ) to WooCommerce billing fields and verifies if data are correct.
- Version:				1.10.6
+ Version:				1.11.0
  Author:				Karolína Vyskočilová
  Author URI:			https://kybernaut.cz
  Text Domain:			woolab-ic-dic
@@ -40,7 +40,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 define( 'WOOLAB_IC_DIC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'WOOLAB_IC_DIC_ABSPATH', dirname( __FILE__ ) . '/' );
 define( 'WOOLAB_IC_DIC_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOLAB_IC_DIC_VERSION', '1.10.6' );
+define( 'WOOLAB_IC_DIC_VERSION', '1.11.0' );
 
 // Check if WooCommerce active
 function woolab_icdic_init() {
@@ -84,6 +84,7 @@ function woolab_icdic_init() {
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/admin-notice.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/ares.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/helpers.php');
+		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/validation.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/filters-actions.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/settings.php');
 		include_once( WOOLAB_IC_DIC_ABSPATH . 'includes/logger.php');
@@ -148,7 +149,7 @@ function woolab_icdic_enqueue_scripts() {
 			'ares_fill' => woolab_icdic_ares_fill(),
 			'ignore_check_fail' => woolab_icdic_ignore_check_fail(),
 		));
-		if ( apply_filters( 'woolab_icdic_toggle', get_option('woolab_icdic_toggle_switch', 'no') ) === 'yes') {
+		if ( woolab_icdic_toggle_enabled() ) {
 			wp_enqueue_style( 'woolab-icdic-public-css', WOOLAB_IC_DIC_URL . 'assets/css/style.css', null, WOOLAB_IC_DIC_VERSION );
 		}
 	}
@@ -178,6 +179,49 @@ function woolab_icdic_vies_check() {
 function woolab_icdic_ignore_check_fail() {
 	$option = woolab_icdic_get_option( 'woolab_icdic_ignore_check_fail', 'no' );
 	return apply_filters( 'woolab_icdic_ignore_check_fail', $option );
+}
+
+// NOTE: the four accessors below deliberately do NOT go through
+// woolab_icdic_get_option(). Each preserves its original public filter contract,
+// which differs from the helpers above: the vat_exempt/dic_dicdph filters receive
+// an already-computed bool (and vat_exempt ANDs in wc_tax_enabled / dic_dicdph is
+// an inverted "disable" option), while the toggle/country filters receive the raw
+// 'yes'/'no' string and are normalized with `!== 'no'` afterwards. Routing any of
+// these through woolab_icdic_get_option() would change what the filter sees or the
+// truthiness — do not "consolidate" them into it.
+
+/**
+ * Whether automatic VAT exemption for valid intra-EU B2B is enabled.
+ * Filter receives (and returns) a bool, matching the original call sites.
+ */
+function woolab_icdic_vat_exempt_enabled() {
+	return apply_filters( 'woolab_icdic_vat_exempt_enabled', ( get_option( 'woolab_icdic_vat_exempt_switch', 'no' ) !== 'no' && wc_tax_enabled() ) );
+}
+
+/**
+ * Whether the SK DIČ ↔ IČ DPH match check is enabled. Stored as an inverted
+ * "disable" option. Filter receives (and returns) a bool.
+ */
+function woolab_icdic_dic_dicdph_match_enabled() {
+	return apply_filters( 'woolab_icdic_enable_dic_dicdph_match_check', get_option( 'woolab_icdic_disable_dic_dicdph_match', 'no' ) !== 'yes' );
+}
+
+/**
+ * Whether the "buying as a company" fields toggle is enabled.
+ * Filter receives (and returns) the raw 'yes'/'no' string; normalization to bool
+ * happens here.
+ */
+function woolab_icdic_toggle_enabled() {
+	return apply_filters( 'woolab_icdic_toggle', get_option( 'woolab_icdic_toggle_switch', 'no' ) ) !== 'no';
+}
+
+/**
+ * Whether the country field is moved above the toggle.
+ * Filter receives (and returns) the raw 'yes'/'no' string; normalization to bool
+ * happens here.
+ */
+function woolab_icdic_country_ontop_enabled() {
+	return apply_filters( 'woolab_icdic_country_ontop', get_option( 'woolab_icdic_country_switch', 'no' ) ) !== 'no';
 }
 
 function woolab_icdic_get_option( $name, $default = 'yes' ) {
