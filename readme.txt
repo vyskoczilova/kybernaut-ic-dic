@@ -28,7 +28,7 @@ Supports both PHP 7.3+ (soon to be abandoned) & PHP 8.0+.
     * VIES DIČ validation (or just validate the format of values)
 * for EU countries as billing country
     * VIES DIČ validation
-* VAT extempt feature
+* VAT exempt feature
 * adds fields to IČO & DIČ & IČ DPH WooCommerce frontend: Checkout and My Account page
 * allows edits from administration (backend):
   * `Users -> Joe Doe (Edit) -> Billing address of the customer`
@@ -61,7 +61,7 @@ If you want to help, join the [Github](https://github.com/vyskoczilova/kybernaut
 
 == Installation ==
 
-1. Just follow the standard [WordPress plugin installation procedere](http://codex.wordpress.org/Managing_Plugins).
+1. Just follow the standard [WordPress plugin installation procedure](http://codex.wordpress.org/Managing_Plugins).
 1. Go to `WooCommerce->Settings->General` and scroll down for `Kybernaut IČO DIČ options`.
 
 
@@ -128,9 +128,9 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.11.0 (2026-06-26) =
+= 1.11.0 (2026-06-29) =
 
-* Refactor: Internal architecture cleanup with no change to checkout behaviour, validation messages, or public filters. The checkout field validation was extracted into a pure, unit-tested orchestrator behind a thin hook adapter; the two duplicated VAT-exemption code paths were collapsed onto a single shared VIES verification routine; and all settings reads were consolidated behind named accessors.
+* Maintenance: Internal code refactoring and added automated tests. No change to checkout behaviour, validation messages, or settings.
 * Fix: The SK-only "VAT reg. no." (IČ DPH) field now shows only for Slovak orders on the admin order edit screen. Two issues were fixed: an off-by-one country comparison (`$country[0]` only checked the first character) in the field definition, and the country-based show/hide script not loading on HPOS order edit screens, which left the field visible on Czech orders.
 * Fix: Fatal error on every page load for logged-in EU B2B customers when VIES was unavailable — `ViesException` was re-thrown from the `init` hook and the `update_order_review` AJAX call; the exception is now caught, logged, and treated as "not exempt" instead.
 * Fix: ARES mismatch notice for Tax ID field incorrectly reported the field as "Business ID".
@@ -140,7 +140,6 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 * Security: `ajaxAres` endpoint now verifies a nonce and sanitizes the `ico` request parameter.
 * Security: Notice-dismiss AJAX endpoint is restricted to authenticated users with the `manage_woocommerce` capability and now requires a nonce.
 * Security: Raw `$_POST` reads in checkout validation wrapped in `wc_clean( wp_unslash() )`, consistent with the rest of the codebase.
-* Dev: The distributed plugin no longer bundles development-only files — the `docs/` directory, `phpunit.xml`, and editor config are excluded from the build (tests were already excluded).
 
 = 1.10.5 (2026-03-25) =
 
