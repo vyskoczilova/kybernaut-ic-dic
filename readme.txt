@@ -140,6 +140,7 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) orâ
 * Security: `ajaxAres` endpoint now verifies a nonce and sanitizes the `ico` request parameter.
 * Security: Notice-dismiss AJAX endpoint is restricted to authenticated users with the `manage_woocommerce` capability and now requires a nonce.
 * Security: Raw `$_POST` reads in checkout validation wrapped in `wc_clean( wp_unslash() )`, consistent with the rest of the codebase.
+* Dev: The distributed plugin no longer bundles development-only files â€” the `docs/` directory, `phpunit.xml`, and editor config are excluded from the build (tests were already excluded).
 
 = 1.10.5 (2026-03-25) =
 
