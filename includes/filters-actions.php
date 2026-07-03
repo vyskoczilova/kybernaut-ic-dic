@@ -570,7 +570,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 // https://www.jnorton.co.uk/woocommerce-custom-fields
 function woolab_icdic_ajax_get_customer_details_old_woo ( $customer_data ){
 
-	$user_id = $_POST['user_id'];
+	$user_id = isset( $_POST['user_id'] ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
 	$country = get_user_meta( $user_id, 'billing_country', true );
 
 	$customer_data['billing_ic']  = get_user_meta( $user_id, 'billing_ic', true );
