@@ -614,27 +614,38 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 		return;
 	}
 
+	// The nonce is only rendered on the gated order-edit screen, but verify the
+	// capability explicitly so this handler can never write order/user meta for
+	// a user who cannot edit shop orders.
+	if ( ! current_user_can( 'edit_shop_orders' ) ) {
+		return;
+	}
+
 	$order = wc_get_order( $post_id );
+
+	if ( ! $order instanceof WC_Order ) {
+		return;
+	}
 
 	$update_user_meta = apply_filters( 'woolab_icdic_update_user_meta', false );
 	$user_id          = $order->get_user_id();
 
 	if ( isset($_POST['_billing_billing_ic']) ) {
-		$order->update_meta_data( '_billing_ic', wc_clean( $_POST['_billing_billing_ic'] ) );
+		$order->update_meta_data( '_billing_ic', wc_clean( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) );
+			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic']) ) {
-		$order->update_meta_data( '_billing_dic', wc_clean( $_POST['_billing_billing_dic'] ) );
+		$order->update_meta_data( '_billing_dic', wc_clean( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
+			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic_dph']) ) {
-		$order->update_meta_data( '_billing_dic_dph', wc_clean( $_POST['_billing_billing_dic_dph'] ) );
+		$order->update_meta_data( '_billing_dic_dph', wc_clean( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( $_POST['_billing_billing_dic_dph'] ) );
+			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
 		}
 	}
 
