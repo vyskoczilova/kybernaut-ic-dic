@@ -169,8 +169,24 @@ function woolab_icdic_make_vies_verifier( $log_message ) {
 			return 'bad_format';
 		}
 
+		// A definitive VIES result (valid/invalid) is stable, so cache it. This
+		// matters most for woolab_icdic_set_vat_exempt_for_customer(), which runs
+		// on init on every front-end page load and would otherwise issue a fresh
+		// synchronous SOAP request each time. Outages ('unverifiable') are never
+		// cached so the next request can retry.
+		$cache_key = 'woolab_icdic_vies_' . md5( $vat );
+		$cached    = get_transient( $cache_key );
+		if ( 'valid' === $cached || 'invalid' === $cached ) {
+			return $cached;
+		}
+
 		try {
-			return $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+			$state = $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+			$ttl   = apply_filters( 'woolab_icdic_vies_cache_ttl', DAY_IN_SECONDS, $vat, $state );
+			if ( $ttl > 0 ) {
+				set_transient( $cache_key, $state, $ttl );
+			}
+			return $state;
 		} catch ( ViesException $exception ) {
 			$logger = Logger::getInstance();
 			$logger->log( sprintf( $log_message, $vat ) );
@@ -342,12 +358,12 @@ function woolab_icdic_localisation_address_formats($address_formats) {
 // Formatting
 function woolab_icdic_formatted_address_replacements( $replace, $args) {
 	return $replace += array(
-		'{billing_ic}'            => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('Business ID: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
-		'{billing_dic}'           => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('Tax ID: ', 'woolab-ic-dic') . $args['billing_dic'] : '',
-		'{billing_dic_dph}'       => (isset($args['billing_dic_dph']) && $args['billing_dic_dph'] != '') ?  __('VAT reg. no.: ', 'woolab-ic-dic') . $args['billing_dic_dph'] : '',
-		'{billing_ic_upper}'      => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('Business ID: ', 'woolab-ic-dic') . $args['billing_ic_upper'] : '' ),
-		'{billing_dic_upper}'     => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('Tax ID: ', 'woolab-ic-dic') . $args['billing_dic_upper'] : ''),
-		'{billing_dic_dph_upper}' => strtoupper((isset($args['billing_dic_dph_upper']) && $args['billing_dic_dph_upper'] != '') ? __('VAT reg. no.: ', 'woolab-ic-dic') . $args['billing_dic_dph_upper'] : ''),
+		'{billing_ic}'            => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('Business ID: ', 'woolab-ic-dic') . esc_html( $args['billing_ic'] ) : '',
+		'{billing_dic}'           => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('Tax ID: ', 'woolab-ic-dic') . esc_html( $args['billing_dic'] ) : '',
+		'{billing_dic_dph}'       => (isset($args['billing_dic_dph']) && $args['billing_dic_dph'] != '') ?  __('VAT reg. no.: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_dph'] ) : '',
+		'{billing_ic_upper}'      => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('Business ID: ', 'woolab-ic-dic') . esc_html( $args['billing_ic_upper'] ) : '' ),
+		'{billing_dic_upper}'     => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('Tax ID: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_upper'] ) : ''),
+		'{billing_dic_dph_upper}' => strtoupper((isset($args['billing_dic_dph_upper']) && $args['billing_dic_dph_upper'] != '') ? __('VAT reg. no.: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_dph_upper'] ) : ''),
 	);
 }
 
@@ -570,7 +586,7 @@ function woolab_icdic_admin_billing_fields ( $fields ) {
 // https://www.jnorton.co.uk/woocommerce-custom-fields
 function woolab_icdic_ajax_get_customer_details_old_woo ( $customer_data ){
 
-	$user_id = $_POST['user_id'];
+	$user_id = isset( $_POST['user_id'] ) ? absint( wp_unslash( $_POST['user_id'] ) ) : 0;
 	$country = get_user_meta( $user_id, 'billing_country', true );
 
 	$customer_data['billing_ic']  = get_user_meta( $user_id, 'billing_ic', true );
@@ -614,27 +630,38 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 		return;
 	}
 
+	// The nonce is only rendered on the gated order-edit screen, but verify the
+	// capability explicitly so this handler can never write order/user meta for
+	// a user who cannot edit shop orders.
+	if ( ! current_user_can( 'edit_shop_orders' ) ) {
+		return;
+	}
+
 	$order = wc_get_order( $post_id );
+
+	if ( ! $order instanceof WC_Order ) {
+		return;
+	}
 
 	$update_user_meta = apply_filters( 'woolab_icdic_update_user_meta', false );
 	$user_id          = $order->get_user_id();
 
 	if ( isset($_POST['_billing_billing_ic']) ) {
-		$order->update_meta_data( '_billing_ic', wc_clean( $_POST['_billing_billing_ic'] ) );
+		$order->update_meta_data( '_billing_ic', wc_clean( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( $_POST['_billing_billing_ic'] ) );
+			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic']) ) {
-		$order->update_meta_data( '_billing_dic', wc_clean( $_POST['_billing_billing_dic'] ) );
+		$order->update_meta_data( '_billing_dic', wc_clean( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( $_POST['_billing_billing_dic'] ) );
+			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
 		}
 	}
 	if ( isset($_POST['_billing_billing_dic_dph']) ) {
-		$order->update_meta_data( '_billing_dic_dph', wc_clean( $_POST['_billing_billing_dic_dph'] ) );
+		$order->update_meta_data( '_billing_dic_dph', wc_clean( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( $_POST['_billing_billing_dic_dph'] ) );
+			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
 		}
 	}
 

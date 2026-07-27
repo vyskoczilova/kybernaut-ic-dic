@@ -123,6 +123,25 @@ if (!function_exists('wp_parse_args')) {
     }
 }
 
+if (!function_exists('get_transient')) {
+    // Always report a cache miss so tests exercise the live lookup path.
+    function get_transient($key)
+    {
+        return false;
+    }
+}
+
+if (!function_exists('set_transient')) {
+    function set_transient($key, $value, $expiration = 0)
+    {
+        return true;
+    }
+}
+
+if (!defined('DAY_IN_SECONDS')) {
+    define('DAY_IN_SECONDS', 86400);
+}
+
 if(!function_exists('wp_json_encode')) {
     function wp_json_encode( $data, $options = 0, $depth = 512 ) {
         return json_encode($data, $options, $depth );
