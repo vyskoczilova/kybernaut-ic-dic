@@ -3,7 +3,7 @@
 function woolab_icdic_superfaktura_client_data( $client_data, $order ) {
     $client_data['dic'] = $order->get_meta('_billing_dic');
     $client_data['ico'] = $order->get_meta('_billing_ic');
-    $client_data['ic_dph'] = $order->get_meta('_billing_dic_dph');
+    $client_data['ic_dph'] = ( 'SK' === $country )    ? $order->get_meta('_billing_dic_dph')    : $order->get_meta('_billing_dic');
 
     return $client_data;
 }
