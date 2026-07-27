@@ -169,8 +169,24 @@ function woolab_icdic_make_vies_verifier( $log_message ) {
 			return 'bad_format';
 		}
 
+		// A definitive VIES result (valid/invalid) is stable, so cache it. This
+		// matters most for woolab_icdic_set_vat_exempt_for_customer(), which runs
+		// on init on every front-end page load and would otherwise issue a fresh
+		// synchronous SOAP request each time. Outages ('unverifiable') are never
+		// cached so the next request can retry.
+		$cache_key = 'woolab_icdic_vies_' . md5( $vat );
+		$cached    = get_transient( $cache_key );
+		if ( 'valid' === $cached || 'invalid' === $cached ) {
+			return $cached;
+		}
+
 		try {
-			return $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+			$state = $validator->validateVatNumber( $vat ) ? 'valid' : 'invalid';
+			$ttl   = apply_filters( 'woolab_icdic_vies_cache_ttl', DAY_IN_SECONDS, $vat, $state );
+			if ( $ttl > 0 ) {
+				set_transient( $cache_key, $state, $ttl );
+			}
+			return $state;
 		} catch ( ViesException $exception ) {
 			$logger = Logger::getInstance();
 			$logger->log( sprintf( $log_message, $vat ) );
