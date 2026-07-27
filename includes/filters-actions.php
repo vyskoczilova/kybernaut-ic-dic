@@ -358,12 +358,12 @@ function woolab_icdic_localisation_address_formats($address_formats) {
 // Formatting
 function woolab_icdic_formatted_address_replacements( $replace, $args) {
 	return $replace += array(
-		'{billing_ic}'            => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('Business ID: ', 'woolab-ic-dic') .$args['billing_ic'] : '',
-		'{billing_dic}'           => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('Tax ID: ', 'woolab-ic-dic') . $args['billing_dic'] : '',
-		'{billing_dic_dph}'       => (isset($args['billing_dic_dph']) && $args['billing_dic_dph'] != '') ?  __('VAT reg. no.: ', 'woolab-ic-dic') . $args['billing_dic_dph'] : '',
-		'{billing_ic_upper}'      => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('Business ID: ', 'woolab-ic-dic') . $args['billing_ic_upper'] : '' ),
-		'{billing_dic_upper}'     => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('Tax ID: ', 'woolab-ic-dic') . $args['billing_dic_upper'] : ''),
-		'{billing_dic_dph_upper}' => strtoupper((isset($args['billing_dic_dph_upper']) && $args['billing_dic_dph_upper'] != '') ? __('VAT reg. no.: ', 'woolab-ic-dic') . $args['billing_dic_dph_upper'] : ''),
+		'{billing_ic}'            => (isset($args['billing_ic']) && $args['billing_ic'] != '' ) ?  __('Business ID: ', 'woolab-ic-dic') . esc_html( $args['billing_ic'] ) : '',
+		'{billing_dic}'           => (isset($args['billing_dic']) && $args['billing_dic'] != '') ?  __('Tax ID: ', 'woolab-ic-dic') . esc_html( $args['billing_dic'] ) : '',
+		'{billing_dic_dph}'       => (isset($args['billing_dic_dph']) && $args['billing_dic_dph'] != '') ?  __('VAT reg. no.: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_dph'] ) : '',
+		'{billing_ic_upper}'      => strtoupper((isset($args['billing_ic_upper']) && $args['billing_ic_upper'] != '') ?__('Business ID: ', 'woolab-ic-dic') . esc_html( $args['billing_ic_upper'] ) : '' ),
+		'{billing_dic_upper}'     => strtoupper((isset($args['billing_dic_upper']) && $args['billing_dic_upper'] != '') ? __('Tax ID: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_upper'] ) : ''),
+		'{billing_dic_dph_upper}' => strtoupper((isset($args['billing_dic_dph_upper']) && $args['billing_dic_dph_upper'] != '') ? __('VAT reg. no.: ', 'woolab-ic-dic') . esc_html( $args['billing_dic_dph_upper'] ) : ''),
 	);
 }
 

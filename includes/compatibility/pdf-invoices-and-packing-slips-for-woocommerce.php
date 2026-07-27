@@ -27,13 +27,13 @@ function woolab_icdic_apifw_ps_custom_billing_fields($html, $order_id) {
     }
 
     if ($ic) {
-        $html .= __('Business ID', 'woolab-ic-dic') . ': ' . $ic . '<br/>';
+        $html .= __('Business ID', 'woolab-ic-dic') . ': ' . esc_html( $ic ) . '<br/>';
     }
     if ($dic) {
-        $html .= __('Tax ID', 'woolab-ic-dic') . ': ' . $dic . '<br/>';
+        $html .= __('Tax ID', 'woolab-ic-dic') . ': ' . esc_html( $dic ) . '<br/>';
     }
     if ($ic_dph) {
-        $html .= __('VAT reg. no.', 'woolab-ic-dic') . ': ' . $ic_dph . '<br/>';
+        $html .= __('VAT reg. no.', 'woolab-ic-dic') . ': ' . esc_html( $ic_dph ) . '<br/>';
     }
 
     // Remove the last <br/> to keep the same look.
