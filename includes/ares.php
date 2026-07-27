@@ -59,11 +59,11 @@ if ( ! function_exists( 'woolab_icdic_ares') ) {
                 $cislo_domovni = $data->sidlo->cisloDomovni ?? '';
                 $pismeno_orientacni = $data->sidlo->cisloOrientacniPismeno ?? ''; // TEST
                 $cp = ($cislo_orientacni !== "" ? $cislo_domovni . "/".$cislo_orientacni . $pismeno_orientacni : $cislo_domovni);
-                $ulice  = $data->sidlo->nazevUlice ?? $data->sidlo->nazevObce;
+                $ulice  = $data->sidlo->nazevUlice ?? $data->sidlo->nazevObce ?? '';
 
                 $return['adresa'] = sprintf( '%s %s', $ulice, $cp );
-                $return['psc'] = $data->sidlo->psc;
-                $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce;
+                $return['psc'] = $data->sidlo->psc ?? '';
+                $return['mesto'] = $data->sidlo->nazevMestskehoObvodu ?? $data->sidlo->nazevObce ?? '';
 
                 $logger->logInfo('Ares response:');
                 $logger->logInfo($body);

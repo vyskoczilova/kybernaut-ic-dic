@@ -174,7 +174,9 @@ function woolab_icdic_verify_dic_sk( $dic )
 
     // TODO check the sum for Slovak DIC
 
-    return (int) $dic;
+    // Format is valid at this point; return a real bool. Casting to int here
+    // wrongly treated an all-zero DIČ ("0000000000") as invalid (0 == false).
+    return true;
 }
 
 /**
