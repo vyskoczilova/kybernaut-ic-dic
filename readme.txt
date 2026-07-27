@@ -3,7 +3,7 @@ Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 1.11.0
+Stable tag: 1.11.1
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.11.1 () =
+
+* Fix superfaktura compatibility (thanks @lukasprelovsky)
 
 = 1.11.0 (2026-06-29) =
 
