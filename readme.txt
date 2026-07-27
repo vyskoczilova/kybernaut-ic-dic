@@ -128,9 +128,15 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
-= 1.11.1 () =
+= 1.11.1 (2026-07-27) =
 
-* Fix superfaktura compatibility (thanks @lukasprelovsky)
+* Performance: ARES and VIES lookup results are now cached for 24 hours, so a checkout no longer queries ARES twice for the same IČO and logged-in EU B2B customers no longer trigger a VIES request on every page load. Only definitive answers are cached — registry outages are retried on the next request. Cache duration is filterable via `woolab_icdic_ares_cache_ttl` and `woolab_icdic_vies_cache_ttl`.
+* Security: The admin order-save handler now requires the `edit_shop_orders` capability and properly unslashes submitted values before saving order/user meta.
+* Security: Company identifiers (IČO, DIČ, IČ DPH) are now HTML-escaped in formatted addresses and PDF invoice output.
+* Fix: Slovak DIČ validation now returns a proper boolean — previously an all-zero DIČ passing the format check was wrongly treated as invalid.
+* Fix: ARES address parsing no longer causes errors when address fields (street, postcode, city) are missing in the registry response.
+* Fix: The legacy WooCommerce < 2.7 AJAX customer-details handler now sanitizes the `user_id` parameter.
+* Fix: SuperFaktura compatibility (thanks @lukasprelovsky)
 
 = 1.11.0 (2026-06-29) =
 
