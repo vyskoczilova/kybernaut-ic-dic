@@ -20,7 +20,7 @@ var lastTranslator          = 'Karolína Vyskočilová <karolina@kybernaut.cz>';
 var team                    = 'Kybernaut <karolina@kybernaut.cz>'; // Team's Email ID.
 
 // Watch files paths.
-var projectPHPWatchFiles    = './**/*.php'; // Path to all PHP files.
+var projectPHPWatchFiles    = ['./**/*.php', '!./vendor/**', '!./deps/**', '!./node_modules/**', '!./tests/**']; // Path to the plugin's own PHP files.
 
 // Handle JS
 gulp.task("scripts", function (done) {
