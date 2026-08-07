@@ -128,6 +128,10 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 == Changelog ==
 
+= 1.11.2 =
+
+* Fix: The admin order-save handler no longer performs a full `$order->save()` on every order save. IČO/DIČ/IČ DPH meta is now written only when the submitted values actually changed, and persisted via `save_meta_data()` instead of a full order save. This keeps the plugin out of the multi-plugin save cascade on `woocommerce_process_shop_order_meta` that — combined with other plugins calling `$order->save()` on the same hook — could inflate order totals recalculated by WooCommerce core.
+
 = 1.11.1 (2026-07-27) =
 
 * Performance: ARES and VIES lookup results are now cached for 24 hours, so a checkout no longer queries ARES twice for the same IČO and logged-in EU B2B customers no longer trigger a VIES request on every page load. Only definitive answers are cached — registry outages are retried on the next request. Cache duration is filterable via `woolab_icdic_ares_cache_ttl` and `woolab_icdic_vies_cache_ttl`.

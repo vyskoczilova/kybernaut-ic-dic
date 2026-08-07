@@ -13,7 +13,12 @@ require_once __DIR__ . '/WPMock/wp-functions-mock.php';
 WP_Mock::setUsePatchwork(false);
 WP_Mock::bootstrap();
 
+if (!defined('WPINC')) {
+    define('WPINC', 'wp-includes');
+}
+
 require_once dirname(__DIR__) . '/includes/ares.php';
 require_once dirname(__DIR__) . '/includes/helpers.php';
 require_once dirname(__DIR__) . '/includes/validation.php';
 require_once dirname(__DIR__) . '/includes/logger.php';
+require_once dirname(__DIR__) . '/includes/filters-actions.php';
