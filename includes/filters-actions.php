@@ -646,27 +646,44 @@ function woolab_icdic_process_shop_order ( $post_id, $post ) {
 	$update_user_meta = apply_filters( 'woolab_icdic_update_user_meta', false );
 	$user_id          = $order->get_user_id();
 
-	if ( isset($_POST['_billing_billing_ic']) ) {
-		$order->update_meta_data( '_billing_ic', wc_clean( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
-		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_ic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_ic'] ) ) );
+	$fields = array(
+		'_billing_billing_ic'      => array( '_billing_ic', 'billing_ic' ),
+		'_billing_billing_dic'     => array( '_billing_dic', 'billing_dic' ),
+		'_billing_billing_dic_dph' => array( '_billing_dic_dph', 'billing_dic_dph' ),
+	);
+
+	$changed = false;
+
+	foreach ( $fields as $post_key => $keys ) {
+		list( $meta_key, $user_meta_key ) = $keys;
+
+		if ( ! isset( $_POST[ $post_key ] ) ) {
+			continue;
 		}
-	}
-	if ( isset($_POST['_billing_billing_dic']) ) {
-		$order->update_meta_data( '_billing_dic', wc_clean( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
-		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic'] ) ) );
+
+		$value = wc_clean( wp_unslash( $_POST[ $post_key ] ) );
+
+		// On a full admin order save these inputs are always posted, and other
+		// plugins hooked to woocommerce_process_shop_order_meta save the order
+		// too — skip untouched values so we don't add another save to that
+		// cascade (it can corrupt totals recalculated by WooCommerce core).
+		if ( (string) $value === (string) $order->get_meta( $meta_key, true ) ) {
+			continue;
 		}
-	}
-	if ( isset($_POST['_billing_billing_dic_dph']) ) {
-		$order->update_meta_data( '_billing_dic_dph', wc_clean( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
+
+		$order->update_meta_data( $meta_key, $value );
+		$changed = true;
+
 		if ( $update_user_meta && $user_id !== 0 ) { // Update if not guest.
-			update_user_meta( $user_id, 'billing_dic_dph', sanitize_text_field( wp_unslash( $_POST['_billing_billing_dic_dph'] ) ) );
+			update_user_meta( $user_id, $user_meta_key, sanitize_text_field( wp_unslash( $_POST[ $post_key ] ) ) );
 		}
 	}
 
-	if ( isset($_POST['_billing_billing_ic']) || isset($_POST['_billing_billing_dic']) || isset($_POST['_billing_billing_dic_dph']) ) {
-		$order->save();
+	if ( $changed ) {
+		// Persist only the meta rows — a full $order->save() here would run the
+		// whole order-save pipeline once more in the middle of WooCommerce's own
+		// meta-box save sequence.
+		$order->save_meta_data();
 	}
 
 }

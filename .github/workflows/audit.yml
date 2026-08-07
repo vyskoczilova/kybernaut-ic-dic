@@ -1,0 +1,26 @@
+name: Dependency audit
+
+on:
+  push:
+    paths:
+      - 'composer-deps.json'
+      - 'composer-deps.lock'
+      - '.github/workflows/audit.yml'
+  schedule:
+    # Advisories appear without commits — check the shipped deps weekly.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  audit-runtime-deps:
+    name: Audit shipped composer dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # composer-deps.lock pins the only third-party code that ships in the
+      # plugin (scoped into deps/ at build time). Dependabot only scans
+      # standard lockfile names and never sees this file, so audit it here.
+      - name: Audit composer-deps.lock
+        run: COMPOSER=composer-deps.json composer audit --locked --no-interaction

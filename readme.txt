@@ -2,8 +2,8 @@
 Contributors: vyskoczilova
 Tags: DIČ, IČO, IČ, IČ DPH, VAT number
 Requires at least: 4.6
-Tested up to: 7.0
-Stable tag: 1.11.1
+Tested up to: 7.0.3
+Stable tag: 1.11.2
 Requires PHP: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -127,6 +127,11 @@ Either post it on [GitHub](https://github.com/vyskoczilova/kybernaut-ic-dic) or�
 
 
 == Changelog ==
+
+= 1.11.2 (2026-08-07) =
+
+* Compatibility: Declared compatibility with WordPress 7.0.3 and WooCommerce 11.0.0.
+* Fix: The admin order-save handler no longer performs a full `$order->save()` on every order save. IČO/DIČ/IČ DPH meta is now written only when the submitted values actually changed, and persisted via `save_meta_data()` instead of a full order save. This keeps the plugin out of the multi-plugin save cascade on `woocommerce_process_shop_order_meta` that — combined with other plugins calling `$order->save()` on the same hook — could inflate order totals recalculated by WooCommerce core.
 
 = 1.11.1 (2026-07-27) =
 
